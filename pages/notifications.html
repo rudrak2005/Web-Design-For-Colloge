@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Notifications | BitCampus</title>
+
+  <link rel="stylesheet" href="../css/pages.css" />
+
+  <style>
+    .notification-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .notification-stat {
+      padding: 18px;
+      border: 2px solid #28231f;
+      background: #fff4d6;
+      box-shadow: 5px 5px 0 #28231f;
+    }
+
+    .notification-stat:nth-child(2) {
+      background: #e7a7b7;
+    }
+
+    .notification-stat:nth-child(3) {
+      background: #9fd6b5;
+    }
+
+    .notification-stat:nth-child(4) {
+      background: #b7a9d6;
+    }
+
+    .notification-stat-label {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+    }
+
+    .notification-stat-value {
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 4px;
+    }
+
+    .notification-toolbar {
+      display: grid;
+      grid-template-columns: 1fr 200px 180px;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .notification-search,
+    .notification-filter {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid #28231f;
+      background: #fff4d6;
+      color: #28231f;
+      font: inherit;
+      outline: none;
+      box-shadow: 4px 4px 0 #28231f;
+    }
+
+    .notification-action {
+      border: 2px solid #28231f;
+      background: #28231f;
+      color: #fff4d6;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #4b3625;
+    }
+
+    .notification-action:hover {
+      background: #4b3625;
+    }
+
+    .notification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .notification-item {
+      position: relative;
+      padding: 18px;
+      border: 2px solid #28231f;
+      background: #fff4d6;
+      box-shadow: 4px 4px 0 #28231f;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .notification-item:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #28231f;
+    }
+
+    .notification-item.unread {
+      border-left: 8px solid #d76b61;
+    }
+
+    .notification-item.warning {
+      background: #fff5df;
+    }
+
+    .notification-item.danger {
+      background: #fff0ed;
+    }
+
+    .notification-item.success {
+      background: #effff3;
+    }
+
+    .notification-item.info {
+      background: #f2ecff;
+    }
+
+    .notification-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-right: 30px;
+    }
+
+    .notification-type {
+      display: inline-block;
+      padding: 5px 9px;
+      border: 1px solid #28231f;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: #e2b84b;
+    }
+
+    .notification-type.danger {
+      background: #e7a7b7;
+    }
+
+    .notification-type.success {
+      background: #9fd6b5;
+    }
+
+    .notification-type.info {
+      background: #b7a9d6;
+    }
+
+    .notification-time {
+      font-size: 11px;
+      opacity: 0.6;
+      font-weight: 700;
+    }
+
+    .notification-title {
+      font-size: 18px;
+      font-weight: 900;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    .notification-message {
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.82;
+    }
+
+    .notification-footer {
+      margin-top: 13px;
+      padding-top: 10px;
+      border-top: 1px dashed #28231f;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .notification-source {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 900;
+      opacity: 0.6;
+    }
+
+    .notification-status {
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .notification-empty {
+      padding: 50px 20px;
+      border: 2px dashed #28231f;
+      background: #f2e4c4;
+      text-align: center;
+    }
+
+    .smart-engine {
+      margin-top: 25px;
+      padding: 20px;
+      border: 2px solid #28231f;
+      background: #28231f;
+      color: #fff4d6;
+      box-shadow: 6px 6px 0 #4b3625;
+    }
+
+    .smart-engine-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .smart-engine-head h2 {
+      margin: 4px 0 0;
+    }
+
+    .engine-status {
+      padding: 7px 10px;
+      border: 1px solid #fff4d6;
+      color: #9fd6b5;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .engine-rule {
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 14px;
+    }
+
+    .engine-rule strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .engine-rule span {
+      font-size: 11px;
+      opacity: 0.7;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1000px) {
+      .notification-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .notification-toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .notification-toolbar button {
+        min-height: 46px;
+      }
+
+      .engine-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .notification-summary {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .notification-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .engine-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .smart-engine-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Checking your campus signals...</div>
+  </div>
+
+  <div class="dashboard-shell">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">BC</div>
+
+        <div>
+          <div class="brand-name">BitCampus</div>
+          <div class="brand-tagline">Campus OS</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a href="./dashboard.html" class="page-nav-link">
+          <span class="page-nav-icon">⌂</span>
+          Dashboard
+        </a>
+
+       <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+        <a href="./academics.html" class="page-nav-link">
+          <span class="page-nav-icon">◈</span>
+          Academics
+        </a>
+
+        <a href="./courses.html" class="page-nav-link">
+          <span class="page-nav-icon">▦</span>
+          Courses
+        </a>
+
+        <a href="./attendance.html" class="page-nav-link">
+          <span class="page-nav-icon">◉</span>
+          Attendance
+        </a>
+
+        <a href="./assignments.html" class="page-nav-link">
+          <span class="page-nav-icon">☷</span>
+          Assignments
+        </a>
+
+        <a href="./timetable.html" class="page-nav-link">
+          <span class="page-nav-icon">▤</span>
+          Timetable
+        </a>
+
+        <a href="./results.html" class="page-nav-link">
+          <span class="page-nav-icon">🏆</span>
+          Results
+        </a>
+
+        <a href="./fees.html" class="page-nav-link">
+          <span class="page-nav-icon">₹</span>
+          Fees
+        </a>
+
+        <a href="./registration.html" class="page-nav-link">
+          <span class="page-nav-icon">◫</span>
+          Registration
+        </a>
+
+        <a href="./library.html" class="page-nav-link">
+          <span class="page-nav-icon">📚</span>
+          Library
+        </a>
+
+        <a href="./notices.html" class="page-nav-link">
+          <span class="page-nav-icon">▣</span>
+          Notices & News
+        </a>
+
+        <a href="./notifications.html"
+           class="page-nav-link active">
+          <span class="page-nav-icon">🔔</span>
+          Notifications
+        </a>
+
+       <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+<a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+      
+
+       <a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+       <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+
+        <button id="logoutBtn"
+                class="page-nav-link logout-link">
+          <span class="page-nav-icon">↪</span>
+          Logout
+        </button>
+
+      </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+      <header class="page-header">
+
+        <div>
+          <div class="eyebrow">
+            BITCAMPUS / SMART SIGNALS
+          </div>
+
+          <h1>Notifications</h1>
+
+          <p class="page-subtitle">
+            Important things that need your attention.
+          </p>
+        </div>
+
+        <div class="student-mini-card">
+          <div class="student-mini-avatar">RK</div>
+
+          <div>
+            <strong data-student-name>Student</strong>
+            <small>B.Tech CSE</small>
+          </div>
+        </div>
+
+      </header>
+
+      <section class="notification-summary">
+
+        <div class="notification-stat">
+          <div class="notification-stat-label">
+            Total
+          </div>
+
+          <div class="notification-stat-value"
+               id="totalCount">
+            0
+          </div>
+        </div>
+
+        <div class="notification-stat">
+          <div class="notification-stat-label">
+            Unread
+          </div>
+
+          <div class="notification-stat-value"
+               id="unreadCount">
+            0
+          </div>
+        </div>
+
+        <div class="notification-stat">
+          <div class="notification-stat-label">
+            Urgent
+          </div>
+
+          <div class="notification-stat-value"
+               id="urgentCount">
+            0
+          </div>
+        </div>
+
+        <div class="notification-stat">
+          <div class="notification-stat-label">
+            Today
+          </div>
+
+          <div class="notification-stat-value"
+               id="todayCount">
+            0
+          </div>
+        </div>
+
+      </section>
+
+      <section class="panel">
+
+        <div class="section-heading">
+
+          <div>
+            <div class="eyebrow">
+              NOTIFICATION DESK
+            </div>
+
+            <h2>Attention Center</h2>
+          </div>
+
+        </div>
+
+        <div class="notification-toolbar">
+
+          <input
+            type="text"
+            id="notificationSearch"
+            class="notification-search"
+            placeholder="Search notifications..."
+          />
+
+          <select
+            id="notificationFilter"
+            class="notification-filter"
+          >
+            <option value="all">All Notifications</option>
+            <option value="academic">Academic</option>
+            <option value="assignment">Assignments</option>
+            <option value="attendance">Attendance</option>
+            <option value="fee">Fees</option>
+            <option value="exam">Exams</option>
+            <option value="library">Library</option>
+            <option value="notice">Notices</option>
+          </select>
+
+          <button
+            id="markAllReadBtn"
+            class="notification-action"
+          >
+            Mark All Read
+          </button>
+
+        </div>
+
+        <div
+          class="notification-list"
+          id="notificationList"
+        ></div>
+
+      </section>
+
+      <section class="smart-engine">
+
+        <div class="smart-engine-head">
+
+          <div>
+            <div class="eyebrow">
+              AUTOMATION CORE
+            </div>
+
+            <h2>Smart Notification Engine</h2>
+          </div>
+
+          <span class="engine-status">
+            ● ACTIVE
+          </span>
+
+        </div>
+
+        <div class="engine-grid">
+
+          <div class="engine-rule">
+            <strong>Attendance Monitor</strong>
+            <span>
+              Creates an alert when attendance falls
+              below the safe threshold.
+            </span>
+          </div>
+
+          <div class="engine-rule">
+            <strong>Assignment Monitor</strong>
+            <span>
+              Detects upcoming and overdue assignments
+              from your assignment data.
+            </span>
+          </div>
+
+          <div class="engine-rule">
+            <strong>Fee Monitor</strong>
+            <span>
+              Checks pending fee deadlines and generates
+              payment reminders.
+            </span>
+          </div>
+
+          <div class="engine-rule">
+            <strong>Exam Monitor</strong>
+            <span>
+              Generates reminders when exams are
+              approaching.
+            </span>
+          </div>
+
+          <div class="engine-rule">
+            <strong>Library Monitor</strong>
+            <span>
+              Checks borrowed books and warns about
+              approaching due dates.
+            </span>
+          </div>
+
+          <div class="engine-rule">
+            <strong>Campus Monitor</strong>
+            <span>
+              Converts important campus notices into
+              attention-worthy notifications.
+            </span>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+ 
+
+  <script>
+
+    const READ_NOTIFICATION_KEY =
+      "bitCampusReadNotifications";
+
+    const GENERATED_NOTIFICATION_KEY =
+      "bitCampusGeneratedNotifications";
+
+    let notifications = [];
+
+    let readNotifications =
+      JSON.parse(
+        localStorage.getItem(
+          READ_NOTIFICATION_KEY
+        ) || "[]"
+      );
+
+    function saveReadNotifications() {
+
+      localStorage.setItem(
+        READ_NOTIFICATION_KEY,
+        JSON.stringify(readNotifications)
+      );
+
+    }
+
+    function todayISO() {
+
+      return new Date()
+        .toISOString()
+        .split("T")[0];
+
+    }
+
+    function formatDate(dateString) {
+
+      const date = new Date(dateString);
+
+      return date.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+
+    }
+
+    function daysBetween(date1, date2) {
+
+      const first = new Date(date1);
+      const second = new Date(date2);
+
+      return Math.ceil(
+        (second - first) /
+        (1000 * 60 * 60 * 24)
+      );
+
+    }
+
+    function getBaseNotifications() {
+
+      return [
+
+        {
+          id: "welcome-1",
+          type: "academic",
+          title: "Welcome to your Smart Notification Center",
+          message:
+            "BitCampus is now monitoring important academic and campus events for you.",
+          source: "BitCampus System",
+          priority: "normal",
+          date: todayISO()
+        },
+
+        {
+          id: "exam-1",
+          type: "exam",
+          title: "Mid-Semester Exams Approaching",
+          message:
+            "Your Semester 3 examinations are approaching. Check the timetable and prepare your subjects.",
+          source: "Examination Cell",
+          priority: "urgent",
+          date: todayISO()
+        }
+
+      ];
+
+    }
+
+    function generateSmartNotifications() {
+
+      const generated = [];
+
+      /*
+       * 1. ATTENDANCE
+       */
+
+      const attendanceData = [
+        {
+          subject: "DSA",
+          percentage: 84
+        },
+        {
+          subject: "DBMS",
+          percentage: 78
+        },
+        {
+          subject: "Operating Systems",
+          percentage: 91
+        },
+        {
+          subject: "Computer Networks",
+          percentage: 73
+        },
+        {
+          subject: "Mathematics III",
+          percentage: 69
+        }
+      ];
+
+      attendanceData.forEach(item => {
+
+        if (item.percentage < 75) {
+
+          generated.push({
+
+            id:
+              `attendance-${item.subject}`,
+
+            type: "attendance",
+
+            title:
+              `${item.subject} attendance is below 75%`,
+
+            message:
+              `Your current attendance is ${item.percentage}%. You should attend upcoming classes to move back into the safe zone.`,
+
+            source:
+              "Attendance Monitor",
+
+            priority:
+              item.percentage < 70
+                ? "urgent"
+                : "high",
+
+            date:
+              todayISO()
+
+          });
+
+        }
+
+      });
+
+      /*
+       * 2. ASSIGNMENTS
+       */
+
+      const assignments =
+        JSON.parse(
+          localStorage.getItem(
+            "bitCampusAssignments"
+          ) || "[]"
+        );
+
+      const now =
+        new Date();
+
+      assignments.forEach(item => {
+
+        if (
+          item.status === "Completed"
+        ) {
+          return;
+        }
+
+        const due =
+          new Date(item.dueDate);
+
+        const daysLeft =
+          Math.ceil(
+            (due - now) /
+            (1000 * 60 * 60 * 24)
+          );
+
+        if (daysLeft < 0) {
+
+          generated.push({
+
+            id:
+              `assignment-overdue-${item.id}`,
+
+            type:
+              "assignment",
+
+            title:
+              `${item.title} is overdue`,
+
+            message:
+              `The deadline for ${item.title} has passed. Update your assignment status as soon as possible.`,
+
+            source:
+              "Assignment Monitor",
+
+            priority:
+              "urgent",
+
+            date:
+              todayISO()
+
+          });
+
+        } else if (
+          daysLeft <= 3
+        ) {
+
+          generated.push({
+
+            id:
+              `assignment-due-${item.id}`,
+
+            type:
+              "assignment",
+
+            title:
+              `${item.title} is due soon`,
+
+            message:
+              `${item.title} is due on ${formatDate(item.dueDate)}.`,
+
+            source:
+              "Assignment Monitor",
+
+            priority:
+              "high",
+
+            date:
+              todayISO()
+
+          });
+
+        }
+
+      });
+
+      /*
+       * 3. FEES
+       */
+
+      const feeDueDate =
+        "2026-09-30";
+
+      const feeDaysLeft =
+        daysBetween(
+          todayISO(),
+          feeDueDate
+        );
+
+      if (
+        feeDaysLeft <= 10 &&
+        feeDaysLeft >= 0
+      ) {
+
+        generated.push({
+
+          id:
+            "fee-due-2026-09-30",
+
+          type:
+            "fee",
+
+          title:
+            "Fee payment deadline approaching",
+
+          message:
+            `Your next payment of ₹20,000 is due on ${formatDate(feeDueDate)}.`,
+
+          source:
+            "Fee Monitor",
+
+          priority:
+            feeDaysLeft <= 3
+              ? "urgent"
+              : "high",
+
+          date:
+            todayISO()
+
+        });
+
+      }
+
+      /*
+       * 4. LIBRARY
+       */
+
+      const issuedBooks =
+        JSON.parse(
+          localStorage.getItem(
+            "bitCampusIssuedBooks"
+          ) || "[]"
+        );
+
+      issuedBooks.forEach(book => {
+
+        const bookDaysLeft =
+          daysBetween(
+            todayISO(),
+            book.dueDate
+          );
+
+        if (
+          bookDaysLeft < 0
+        ) {
+
+          generated.push({
+
+            id:
+              `library-overdue-${book.bookId}`,
+
+            type:
+              "library",
+
+            title:
+              `${book.title} is overdue`,
+
+            message:
+              "Please return the book to avoid additional late charges.",
+
+            source:
+              "Library Monitor",
+
+            priority:
+              "urgent",
+
+            date:
+              todayISO()
+
+          });
+
+        } else if (
+          bookDaysLeft <= 3
+        ) {
+
+          generated.push({
+
+            id:
+              `library-due-${book.bookId}`,
+
+            type:
+              "library",
+
+            title:
+              `${book.title} is due soon`,
+
+            message:
+              `Your library book is due on ${formatDate(book.dueDate)}.`,
+
+            source:
+              "Library Monitor",
+
+            priority:
+              "high",
+
+            date:
+              todayISO()
+
+          });
+
+        }
+
+      });
+
+      /*
+       * 5. CAMPUS NOTICE
+       */
+
+      generated.push({
+
+        id:
+          "notice-registration",
+
+        type:
+          "notice",
+
+        title:
+          "Semester registration window is open",
+
+        message:
+          "Complete your Semester 3 registration before the registration window closes.",
+
+        source:
+          "Campus Notice Monitor",
+
+        priority:
+          "high",
+
+        date:
+          todayISO()
+
+      });
+
+      return generated;
+
+    }
+
+    function buildNotifications() {
+
+      const base =
+        getBaseNotifications();
+
+      const smart =
+        generateSmartNotifications();
+
+      const savedGenerated =
+        JSON.parse(
+          localStorage.getItem(
+            GENERATED_NOTIFICATION_KEY
+          ) || "[]"
+        );
+
+      const combined =
+        [
+          ...base,
+          ...smart,
+          ...savedGenerated
+        ];
+
+      const map = new Map();
+
+      combined.forEach(item => {
+        map.set(item.id, item);
+      });
+
+      notifications =
+        Array.from(map.values());
+
+      localStorage.setItem(
+        GENERATED_NOTIFICATION_KEY,
+        JSON.stringify(smart)
+      );
+
+    }
+
+    function notificationTypeClass(type) {
+
+      if (
+        type === "attendance" ||
+        type === "fee"
+      ) {
+        return "danger";
+      }
+
+      if (
+        type === "assignment"
+      ) {
+        return "warning";
+      }
+
+      if (
+        type === "library"
+      ) {
+        return "success";
+      }
+
+      return "info";
+
+    }
+
+    function getTypeLabel(type) {
+
+      const labels = {
+
+        academic: "Academic",
+
+        assignment: "Assignment",
+
+        attendance: "Attendance",
+
+        fee: "Fees",
+
+        exam: "Exam",
+
+        library: "Library",
+
+        notice: "Notice"
+
+      };
+
+      return labels[type] || "General";
+
+    }
+
+    function renderSummary() {
+
+      document.getElementById(
+        "totalCount"
+      ).textContent =
+        notifications.length;
+
+      document.getElementById(
+        "unreadCount"
+      ).textContent =
+        notifications.filter(
+          item =>
+            !readNotifications.includes(
+              item.id
+            )
+        ).length;
+
+      document.getElementById(
+        "urgentCount"
+      ).textContent =
+        notifications.filter(
+          item =>
+            item.priority === "urgent"
+        ).length;
+
+      document.getElementById(
+        "todayCount"
+      ).textContent =
+        notifications.filter(
+          item =>
+            item.date === todayISO()
+        ).length;
+
+    }
+
+    function getFilteredNotifications() {
+
+      const search =
+        document.getElementById(
+          "notificationSearch"
+        ).value
+          .trim()
+          .toLowerCase();
+
+      const filter =
+        document.getElementById(
+          "notificationFilter"
+        ).value;
+
+      return notifications.filter(item => {
+
+        const matchesSearch =
+          item.title
+            .toLowerCase()
+            .includes(search) ||
+
+          item.message
+            .toLowerCase()
+            .includes(search);
+
+        const matchesFilter =
+          filter === "all" ||
+          item.type === filter;
+
+        return (
+          matchesSearch &&
+          matchesFilter
+        );
+
+      });
+
+    }
+
+    function renderNotifications() {
+
+      const container =
+        document.getElementById(
+          "notificationList"
+        );
+
+      const filtered =
+        getFilteredNotifications();
+
+      if (!filtered.length) {
+
+        container.innerHTML = `
+          <div class="notification-empty">
+            <h3>No notifications found</h3>
+            <p>
+              You are all caught up for this filter.
+            </p>
+          </div>
+        `;
+
+        return;
+
+      }
+
+      container.innerHTML =
+        filtered.map(item => {
+
+          const unread =
+            !readNotifications.includes(
+              item.id
+            );
+
+          const typeClass =
+            notificationTypeClass(
+              item.type
+            );
+
+          return `
+
+            <article
+              class="
+                notification-item
+                ${typeClass}
+                ${unread ? "unread" : ""}
+              "
+              onclick="
+                markNotificationRead('${item.id}')
+              "
+            >
+
+              <div class="notification-top">
+
+                <span
+                  class="
+                    notification-type
+                    ${typeClass}
+                  "
+                >
+                  ${getTypeLabel(item.type)}
+                </span>
+
+                <span class="notification-time">
+                  ${formatDate(item.date)}
+                </span>
+
+              </div>
+
+              <div class="notification-title">
+                ${item.title}
+              </div>
+
+              <div class="notification-message">
+                ${item.message}
+              </div>
+
+              <div class="notification-footer">
+
+                <span class="notification-source">
+                  ${item.source}
+                </span>
+
+                <span class="notification-status">
+
+                  ${
+                    unread
+                      ? "● UNREAD"
+                      : "✓ READ"
+                  }
+
+                </span>
+
+              </div>
+
+            </article>
+
+          `;
+
+        }).join("");
+
+    }
+
+    function markNotificationRead(id) {
+
+      if (
+        !readNotifications.includes(id)
+      ) {
+
+        readNotifications.push(id);
+
+        saveReadNotifications();
+
+        renderSummary();
+        renderNotifications();
+
+      }
+
+    }
+
+    document
+      .getElementById(
+        "notificationSearch"
+      )
+      .addEventListener(
+        "input",
+        renderNotifications
+      );
+
+    document
+      .getElementById(
+        "notificationFilter"
+      )
+      .addEventListener(
+        "change",
+        renderNotifications
+      );
+
+    document
+      .getElementById(
+        "markAllReadBtn"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          notifications.forEach(
+            item => {
+
+              if (
+                !readNotifications.includes(
+                  item.id
+                )
+              ) {
+
+                readNotifications.push(
+                  item.id
+                );
+
+              }
+
+            }
+          );
+
+          saveReadNotifications();
+
+          renderSummary();
+          renderNotifications();
+
+        }
+      );
+
+    buildNotifications();
+    renderSummary();
+    renderNotifications();
+
+  </script>
+
+  <script>
+window.addEventListener("load", function () {
+
+    const loader =
+        document.getElementById("pageLoader");
+
+    if (!loader) return;
+
+    setTimeout(function () {
+
+        loader.style.opacity = "0";
+        loader.style.visibility = "hidden";
+        loader.style.pointerEvents = "none";
+
+        setTimeout(function () {
+
+            loader.style.display = "none";
+
+        }, 350);
+
+    }, 500);
+
+});
+
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", function () {
+
+        localStorage.removeItem("bitCampusSession");
+        sessionStorage.removeItem("bitCampusSession");
+
+        window.location.href =
+            "../login.html";
+
+    });
+
+}
+</script>
+
+</body>
+</html>

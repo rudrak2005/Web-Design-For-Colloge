@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Placement | BitCampus</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =====================================
+           PLACEMENT PAGE
+        ===================================== */
+
+        .career-hero {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .career-hero-main {
+            background: #28231f;
+            color: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 7px 7px 0 #4b3625;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .career-hero-main::after {
+            content: "CAREER";
+            position: absolute;
+            right: -25px;
+            bottom: -20px;
+            font-size: 80px;
+            font-weight: 900;
+            opacity: 0.07;
+            transform: rotate(-8deg);
+        }
+
+        .career-hero-main .eyebrow {
+            color: #e2b84b;
+        }
+
+        .career-hero-main h2 {
+            font-size: 34px;
+            line-height: 1.15;
+            margin: 8px 0 12px;
+            max-width: 650px;
+        }
+
+        .career-hero-main p {
+            max-width: 650px;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
+        .career-hero-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .career-btn {
+            border: 2px solid #fff4d6;
+            background: #e2b84b;
+            color: #28231f;
+            padding: 11px 15px;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .career-btn.secondary {
+            background: transparent;
+            color: #fff4d6;
+        }
+
+        .career-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .career-score-card {
+            background: #e7a7b7;
+            border: 2px solid #28231f;
+            box-shadow: 6px 6px 0 #28231f;
+            padding: 24px;
+        }
+
+        .score-label {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .score-value {
+            font-size: 54px;
+            line-height: 1;
+            font-weight: 900;
+            margin: 8px 0;
+        }
+
+        .score-note {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .score-bar {
+            height: 12px;
+            border: 2px solid #28231f;
+            margin-top: 15px;
+            background: #fff4d6;
+        }
+
+        .score-bar span {
+            display: block;
+            width: 72%;
+            height: 100%;
+            background: #28231f;
+        }
+
+        /* STATS */
+
+        .career-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+
+        .career-stat {
+            background: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 5px 5px 0 #28231f;
+            padding: 18px;
+        }
+
+        .career-stat:nth-child(2) {
+            background: #9fd6b5;
+        }
+
+        .career-stat:nth-child(3) {
+            background: #b7a9d6;
+        }
+
+        .career-stat:nth-child(4) {
+            background: #e2b84b;
+        }
+
+        .career-stat-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .career-stat-value {
+            margin-top: 4px;
+            font-size: 30px;
+            font-weight: 900;
+        }
+
+        /* MAIN GRID */
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* JOBS */
+
+        .job-toolbar {
+            display: grid;
+            grid-template-columns: 1fr 180px;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .job-search,
+        .job-filter {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #28231f;
+            background: #fff4d6;
+            font: inherit;
+            outline: none;
+            box-shadow: 3px 3px 0 #28231f;
+        }
+
+        .job-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .job-card {
+            background: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 4px 4px 0 #28231f;
+            padding: 18px;
+        }
+
+        .job-card:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 6px 6px 0 #28231f;
+        }
+
+        .job-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .company-name {
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            opacity: 0.6;
+            letter-spacing: 0.8px;
+        }
+
+        .job-title {
+            font-size: 19px;
+            font-weight: 900;
+            margin-top: 4px;
+        }
+
+        .job-badge {
+            padding: 5px 8px;
+            border: 1px solid #28231f;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: #9fd6b5;
+        }
+
+        .job-badge.internship {
+            background: #b7a9d6;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+
+        .job-meta span {
+            padding: 5px 8px;
+            border: 1px dashed #28231f;
+            font-size: 11px;
+        }
+
+        .job-description {
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .job-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed #28231f;
+        }
+
+        .eligibility {
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .apply-btn {
+            border: 2px solid #28231f;
+            background: #28231f;
+            color: #fff4d6;
+            padding: 9px 12px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 900;
+        }
+
+        .apply-btn.applied {
+            background: #9fd6b5;
+            color: #28231f;
+        }
+
+        /* PREPARATION */
+
+        .prep-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .prep-card {
+            border: 2px solid #28231f;
+            background: #fff4d6;
+            padding: 16px;
+            box-shadow: 4px 4px 0 #28231f;
+        }
+
+        .prep-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .prep-head strong {
+            font-size: 14px;
+        }
+
+        .prep-percent {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .prep-progress {
+            height: 10px;
+            border: 1px solid #28231f;
+            background: #f2e4c4;
+        }
+
+        .prep-progress span {
+            display: block;
+            height: 100%;
+            background: #28231f;
+        }
+
+        .prep-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 11px;
+            font-weight: 900;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* APPLICATIONS */
+
+        .application-section {
+            margin-top: 26px;
+        }
+
+        .application-table-wrap {
+            overflow-x: auto;
+            border: 2px solid #28231f;
+            box-shadow: 5px 5px 0 #28231f;
+        }
+
+        .application-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+            background: #fff4d6;
+        }
+
+        .application-table th,
+        .application-table td {
+            padding: 12px;
+            border-bottom: 1px solid #28231f;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .application-table th {
+            background: #e2b84b;
+            font-weight: 900;
+        }
+
+        .status-chip {
+            display: inline-block;
+            padding: 5px 8px;
+            border: 1px solid #28231f;
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .status-applied {
+            background: #b7a9d6;
+        }
+
+        .status-test {
+            background: #e2b84b;
+        }
+
+        .status-interview {
+            background: #9fd6b5;
+        }
+
+        .status-rejected {
+            background: #e7a7b7;
+        }
+
+        /* RESUME */
+
+        .resume-box {
+            margin-top: 24px;
+            padding: 20px;
+            border: 2px dashed #28231f;
+            background: #f2e4c4;
+        }
+
+        .resume-box h3 {
+            margin-bottom: 6px;
+        }
+
+        .resume-box p {
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.75;
+        }
+
+        .resume-progress {
+            margin-top: 14px;
+            height: 11px;
+            border: 1px solid #28231f;
+            background: #fff4d6;
+        }
+
+        .resume-progress span {
+            display: block;
+            width: 68%;
+            height: 100%;
+            background: #28231f;
+        }
+
+        .empty-jobs {
+            text-align: center;
+            padding: 40px 20px;
+            border: 2px dashed #28231f;
+            background: #f2e4c4;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            .career-hero,
+            .career-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .career-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .career-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .job-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .job-top,
+            .job-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .career-hero-main h2 {
+                font-size: 27px;
+            }
+
+            .score-value {
+                font-size: 45px;
+            }
+
+        }
+
+        /* =====================================
+   FINAL BITCAMPUS PLACEMENT LAYOUT FIX
+===================================== */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    width: 100% !important;
+    min-height: 100% !important;
+
+    overflow-x: hidden !important;
+
+    background: #f2e4c4 !important;
+    color: #28231f !important;
+}
+
+
+/* =====================================
+   APP SHELL
+===================================== */
+
+.dashboard-shell {
+    display: flex !important;
+
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    position: relative !important;
+}
+
+
+/* =====================================
+   SIDEBAR
+===================================== */
+
+.sidebar {
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 250px !important;
+    min-width: 250px !important;
+
+    height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 18px 12px !important;
+
+    box-sizing: border-box !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    z-index: 500 !important;
+
+    background: #f2e4c4 !important;
+
+    border-right: 2px solid #28231f !important;
+}
+
+
+/* Sidebar internals */
+
+.sidebar *,
+.sidebar-nav,
+.brand {
+    box-sizing: border-box !important;
+}
+
+.sidebar-nav {
+    width: 100% !important;
+}
+
+.page-nav-link {
+    display: flex !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box !important;
+
+    white-space: nowrap !important;
+
+    margin: 4px 0 !important;
+}
+
+
+/* =====================================
+   MAIN CONTENT
+===================================== */
+
+.main-content {
+    display: block !important;
+
+    width: calc(100% - 250px) !important;
+    min-width: 0 !important;
+
+    margin-left: 250px !important;
+
+    padding: 30px 34px 50px !important;
+
+    box-sizing: border-box !important;
+
+    position: relative !important;
+
+    top: 0 !important;
+    left: 0 !important;
+}
+
+
+/* =====================================
+   PAGE HEADER
+===================================== */
+
+.page-header {
+    position: relative !important;
+
+    display: flex !important;
+
+    width: 100% !important;
+
+    min-height: auto !important;
+
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 20px !important;
+}
+
+.page-header h1 {
+    margin: 5px 0 8px !important;
+}
+
+
+/* =====================================
+   CAREER HERO
+===================================== */
+
+.career-hero {
+    width: 100% !important;
+
+    margin-top: 0 !important;
+}
+
+
+/* =====================================
+   STATS
+===================================== */
+
+.career-stats {
+    width: 100% !important;
+}
+
+
+/* =====================================
+   CAREER GRID
+===================================== */
+
+.career-grid {
+    width: 100% !important;
+}
+
+
+/* =====================================
+   JOBS
+===================================== */
+
+.job-list {
+    width: 100% !important;
+}
+
+.job-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================
+   PREPARATION
+===================================== */
+
+.prep-list {
+    width: 100% !important;
+}
+
+.prep-card {
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================
+   APPLICATIONS
+===================================== */
+
+.application-section {
+    width: 100% !important;
+}
+
+.application-table-wrap {
+    width: 100% !important;
+}
+
+
+/* =====================================
+   LOADER
+===================================== */
+
+#pageLoader {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    z-index: 999999 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+
+    background: rgba(40, 35, 31, 0.94) !important;
+
+    pointer-events: all !important;
+}
+
+#pageLoader[style*="opacity: 0"] {
+    pointer-events: none !important;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 900px) {
+
+    .dashboard-shell {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+
+        height: auto !important;
+
+        border-right: none !important;
+        border-bottom: 2px solid #28231f !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+
+        padding: 22px 16px 40px !important;
+    }
+
+    .page-header {
+        flex-direction: column !important;
+
+        align-items: flex-start !important;
+    }
+
+    .career-hero,
+    .career-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- LOADER -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-spinner"></div>
+
+        <div class="loader-text">
+            Opening Placement...
+        </div>
+
+    </div>
+
+
+    <!-- APP -->
+
+    <div class="dashboard-shell">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    BC
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        BitCampus
+                    </div>
+
+                    <div class="brand-tagline">
+                        Campus OS
+                    </div>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="./dashboard.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+                <a
+                    href="./academics.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◈</span>
+                    Academics
+                </a>
+
+                <a
+                    href="./courses.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+                <a
+                    href="./attendance.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+                <a
+                    href="./assignments.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+                <a
+                    href="./timetable.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Timetable
+                </a>
+
+                <a
+                    href="./results.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🏆</span>
+                    Results
+                </a>
+
+                <a
+                    href="./fees.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">₹</span>
+                    Fees
+                </a>
+
+                <a
+                    href="./registration.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◫</span>
+                    Registration
+                </a>
+
+                <a
+                    href="./library.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">📚</span>
+                    Library
+                </a>
+
+                <a
+                    href="./notices.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▣</span>
+                    Notices & News
+                </a>
+
+                <a
+                    href="./notifications.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🔔</span>
+                    Notifications
+                </a>
+
+                <a
+                    href="./placement.html"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">↗</span>
+                    Placement
+                </a>
+
+               <a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+<a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+                <a
+                    href="./support.html#links"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🔗</span>
+                    Important Links
+                </a>
+
+                <button
+                    id="logoutBtn"
+                    class="page-nav-link logout-link"
+                >
+                    <span class="page-nav-icon">↪</span>
+                    Logout
+                </button>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- MAIN -->
+
+        <main class="main-content">
+
+            <header class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        BITCAMPUS / CAREER DESK
+                    </div>
+
+                    <h1>
+                        Placement & Career
+                    </h1>
+
+                    <p class="page-subtitle">
+                        Build skills. Track opportunities.
+                        Prepare for your first big break.
+                    </p>
+
+                </div>
+
+
+                <div class="student-mini-card">
+
+                    <div class="student-mini-avatar">
+                        RK
+                    </div>
+
+                    <div>
+
+                        <strong
+                            data-student-name
+                        >
+                            Student
+                        </strong>
+
+                        <small>
+                            B.Tech CSE
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- HERO -->
+
+            <section class="career-hero">
+
+                <div class="career-hero-main">
+
+                    <div class="eyebrow">
+                        CAREER OS
+                    </div>
+
+                    <h2>
+                        Your placement journey
+                        starts here.
+                    </h2>
+
+                    <p>
+                        Discover internships, track
+                        applications and improve your
+                        interview readiness from one
+                        campus dashboard.
+                    </p>
+
+                    <div class="career-hero-actions">
+
+                        <button
+                            class="career-btn"
+                            id="resumeBtn"
+                        >
+                            Resume Builder
+                        </button>
+
+                        <button
+                            class="career-btn secondary"
+                            id="prepBtn"
+                        >
+                            Start Preparation
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="career-score-card">
+
+                    <div class="score-label">
+                        Placement Readiness
+                    </div>
+
+                    <div
+                        class="score-value"
+                        id="readinessScore"
+                    >
+                        72%
+                    </div>
+
+                    <div class="score-note">
+                        Good progress. Keep improving
+                        DSA, aptitude and interview skills.
+                    </div>
+
+                    <div class="score-bar">
+                        <span id="readinessBar"></span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- STATS -->
+
+            <section class="career-stats">
+
+                <div class="career-stat">
+
+                    <div class="career-stat-label">
+                        Open Opportunities
+                    </div>
+
+                    <div
+                        class="career-stat-value"
+                        id="opportunityCount"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="career-stat">
+
+                    <div class="career-stat-label">
+                        Applied
+                    </div>
+
+                    <div
+                        class="career-stat-value"
+                        id="appliedCount"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="career-stat">
+
+                    <div class="career-stat-label">
+                        Interviews
+                    </div>
+
+                    <div
+                        class="career-stat-value"
+                        id="interviewCount"
+                    >
+                        2
+                    </div>
+
+                </div>
+
+
+                <div class="career-stat">
+
+                    <div class="career-stat-label">
+                        Skills Ready
+                    </div>
+
+                    <div
+                        class="career-stat-value"
+                    >
+                        68%
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- MAIN GRID -->
+
+            <section class="career-grid">
+
+
+                <!-- JOBS -->
+
+                <div>
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <div class="eyebrow">
+                                OPPORTUNITIES
+                            </div>
+
+                            <h2>
+                                Jobs & Internships
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="job-toolbar">
+
+                        <input
+                            type="text"
+                            id="jobSearch"
+                            class="job-search"
+                            placeholder="Search company, role or skill..."
+                        >
+
+
+                        <select
+                            id="jobFilter"
+                            class="job-filter"
+                        >
+
+                            <option value="all">
+                                All
+                            </option>
+
+                            <option value="job">
+                                Jobs
+                            </option>
+
+                            <option value="internship">
+                                Internships
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        class="job-list"
+                        id="jobList"
+                    ></div>
+
+                </div>
+
+
+                <!-- PREPARATION -->
+
+                <aside>
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <div class="eyebrow">
+                                PREP ZONE
+                            </div>
+
+                            <h2>
+                                Placement Preparation
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="prep-list">
+
+
+                        <div class="prep-card">
+
+                            <div class="prep-head">
+
+                                <strong>
+                                    DSA
+                                </strong>
+
+                                <span class="prep-percent">
+                                    72%
+                                </span>
+
+                            </div>
+
+                            <div class="prep-progress">
+
+                                <span
+                                    style="width:72%"
+                                ></span>
+
+                            </div>
+
+                            <span class="prep-link">
+                                Continue Practice →
+                            </span>
+
+                        </div>
+
+
+                        <div class="prep-card">
+
+                            <div class="prep-head">
+
+                                <strong>
+                                    Aptitude
+                                </strong>
+
+                                <span class="prep-percent">
+                                    61%
+                                </span>
+
+                            </div>
+
+                            <div class="prep-progress">
+
+                                <span
+                                    style="width:61%"
+                                ></span>
+
+                            </div>
+
+                            <span class="prep-link">
+                                Solve Questions →
+                            </span>
+
+                        </div>
+
+
+                        <div class="prep-card">
+
+                            <div class="prep-head">
+
+                                <strong>
+                                    CS Core
+                                </strong>
+
+                                <span class="prep-percent">
+                                    76%
+                                </span>
+
+                            </div>
+
+                            <div class="prep-progress">
+
+                                <span
+                                    style="width:76%"
+                                ></span>
+
+                            </div>
+
+                            <span class="prep-link">
+                                Revise Topics →
+                            </span>
+
+                        </div>
+
+
+                        <div class="prep-card">
+
+                            <div class="prep-head">
+
+                                <strong>
+                                    Interview
+                                </strong>
+
+                                <span class="prep-percent">
+                                    58%
+                                </span>
+
+                            </div>
+
+                            <div class="prep-progress">
+
+                                <span
+                                    style="width:58%"
+                                ></span>
+
+                            </div>
+
+                            <span class="prep-link">
+                                Start Mock Interview →
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESUME -->
+
+                    <div class="resume-box">
+
+                        <h3>
+                            Resume Readiness
+                        </h3>
+
+                        <p>
+                            Your profile is 68% complete.
+                            Add projects, skills and
+                            achievements to improve your
+                            placement profile.
+                        </p>
+
+                        <div class="resume-progress">
+                            <span></span>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </section>
+
+
+            <!-- APPLICATIONS -->
+
+            <section class="application-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <div class="eyebrow">
+                            APPLICATION TRACKER
+                        </div>
+
+                        <h2>
+                            My Applications
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="application-table-wrap">
+
+                    <table class="application-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Company
+                                </th>
+
+                                <th>
+                                    Role
+                                </th>
+
+                                <th>
+                                    Applied
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Next Step
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="applicationTable"
+                        ></tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        /* =====================================
+           DATA
+        ===================================== */
+
+        const jobs = [
+
+            {
+                id: 1,
+                company: "TechNova",
+                role: "Frontend Developer",
+                type: "job",
+                location: "Noida",
+                salary: "₹6–8 LPA",
+                skills: "HTML CSS JavaScript React",
+                deadline: "20 Sep 2026",
+                description:
+                    "Build responsive frontend interfaces and work with modern web technologies.",
+                eligibility:
+                    "B.Tech CSE • 7+ CGPA"
+            },
+
+            {
+                id: 2,
+                company: "CodeCraft Labs",
+                role: "Software Engineer Intern",
+                type: "internship",
+                location: "Remote",
+                salary: "₹25K / month",
+                skills: "C++ DSA OOP",
+                deadline: "24 Sep 2026",
+                description:
+                    "Work with an engineering team on product features and competitive programming based tasks.",
+                eligibility:
+                    "CSE / IT • Strong DSA"
+            },
+
+            {
+                id: 3,
+                company: "DataSphere",
+                role: "Backend Developer Intern",
+                type: "internship",
+                location: "Gurugram",
+                salary: "₹30K / month",
+                skills: "Node.js Express MongoDB",
+                deadline: "28 Sep 2026",
+                description:
+                    "Build APIs and backend services for scalable student technology products.",
+                eligibility:
+                    "B.Tech • Node.js"
+            },
+
+            {
+                id: 4,
+                company: "PixelGrid",
+                role: "Full Stack Developer",
+                type: "job",
+                location: "Bengaluru",
+                salary: "₹8–10 LPA",
+                skills: "React Node.js SQL",
+                deadline: "30 Sep 2026",
+                description:
+                    "Join the product engineering team and build complete web applications.",
+                eligibility:
+                    "B.Tech CSE • 7.5+ CGPA"
+            },
+
+            {
+                id: 5,
+                company: "ByteWorks",
+                role: "Software Developer Intern",
+                type: "internship",
+                location: "Delhi NCR",
+                salary: "₹22K / month",
+                skills: "Python SQL Git",
+                deadline: "02 Oct 2026",
+                description:
+                    "Support application development and internal automation projects.",
+                eligibility:
+                    "B.Tech • Python / SQL"
+            }
+
+        ];
+
+
+        let applications =
+            JSON.parse(
+                localStorage.getItem(
+                    "bitCampusApplications"
+                ) || "[]"
+            );
+
+
+        /* =====================================
+           HELPERS
+        ===================================== */
+
+        function formatDate(date) {
+
+            return new Date(date).toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function saveApplications() {
+
+            localStorage.setItem(
+                "bitCampusApplications",
+                JSON.stringify(
+                    applications
+                )
+            );
+
+        }
+
+
+        /* =====================================
+           JOBS
+        ===================================== */
+
+        function getFilteredJobs() {
+
+            const search =
+                document
+                    .getElementById("jobSearch")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const type =
+                document
+                    .getElementById("jobFilter")
+                    .value;
+
+
+            return jobs.filter(job => {
+
+                const matchesSearch =
+                    job.company
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    job.role
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    job.skills
+                        .toLowerCase()
+                        .includes(search);
+
+
+                const matchesType =
+                    type === "all"
+                    ||
+                    job.type === type;
+
+
+                return (
+                    matchesSearch &&
+                    matchesType
+                );
+
+            });
+
+        }
+
+
+        function isApplied(jobId) {
+
+            return applications.some(
+                item =>
+                    item.jobId === jobId
+            );
+
+        }
+
+
+        function renderJobs() {
+
+            const list =
+                document.getElementById(
+                    "jobList"
+                );
+
+
+            const filtered =
+                getFilteredJobs();
+
+
+            if (!filtered.length) {
+
+                list.innerHTML = `
+                    <div class="empty-jobs">
+                        <h3>
+                            No opportunities found
+                        </h3>
+
+                        <p>
+                            Try another search or filter.
+                        </p>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            list.innerHTML =
+                filtered.map(job => {
+
+                    const applied =
+                        isApplied(job.id);
+
+
+                    return `
+
+                        <article class="job-card">
+
+                            <div class="job-top">
+
+                                <div>
+
+                                    <div class="company-name">
+                                        ${job.company}
+                                    </div>
+
+                                    <div class="job-title">
+                                        ${job.role}
+                                    </div>
+
+                                </div>
+
+
+                                <span
+                                    class="
+                                        job-badge
+                                        ${
+                                            job.type ===
+                                            "internship"
+                                                ? "internship"
+                                                : ""
+                                        }
+                                    "
+                                >
+                                    ${
+                                        job.type ===
+                                        "internship"
+                                            ? "Internship"
+                                            : "Full Time"
+                                    }
+                                </span>
+
+                            </div>
+
+
+                            <div class="job-meta">
+
+                                <span>
+                                    📍 ${job.location}
+                                </span>
+
+                                <span>
+                                    💰 ${job.salary}
+                                </span>
+
+                                <span>
+                                    ⏳ ${job.deadline}
+                                </span>
+
+                            </div>
+
+
+                            <div class="job-description">
+                                ${job.description}
+                            </div>
+
+
+                            <div class="job-bottom">
+
+                                <span class="eligibility">
+                                    ${job.eligibility}
+                                </span>
+
+
+                                <button
+                                    class="
+                                        apply-btn
+                                        ${
+                                            applied
+                                                ? "applied"
+                                                : ""
+                                        }
+                                    "
+                                    onclick="
+                                        ${
+                                            applied
+                                                ? `removeApplication(${job.id})`
+                                                : `applyJob(${job.id})`
+                                        }
+                                    "
+                                >
+                                    ${
+                                        applied
+                                            ? "✓ Applied"
+                                            : "Apply Now"
+                                    }
+                                </button>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }).join("");
+
+        }
+
+
+        /* =====================================
+           APPLY
+        ===================================== */
+
+        function applyJob(jobId) {
+
+            const job =
+                jobs.find(
+                    item =>
+                        item.id === jobId
+                );
+
+
+            if (!job) {
+                return;
+            }
+
+
+            applications.push({
+
+                id:
+                    Date.now(),
+
+                jobId:
+                    job.id,
+
+                company:
+                    job.company,
+
+                role:
+                    job.role,
+
+                applied:
+                    new Date()
+                        .toISOString(),
+
+                status:
+                    "Applied",
+
+                nextStep:
+                    "Online Assessment"
+
+            });
+
+
+            saveApplications();
+
+
+            renderJobs();
+            renderApplications();
+            updateStats();
+
+
+            alert(
+                `Application submitted to ${job.company}.`
+            );
+
+        }
+
+
+        function removeApplication(jobId) {
+
+            applications =
+                applications.filter(
+                    item =>
+                        item.jobId !== jobId
+                );
+
+
+            saveApplications();
+
+
+            renderJobs();
+            renderApplications();
+            updateStats();
+
+        }
+
+
+        /* =====================================
+           APPLICATION TABLE
+        ===================================== */
+
+        function getStatusClass(status) {
+
+            if (
+                status === "Online Test"
+            ) {
+                return "status-test";
+            }
+
+            if (
+                status === "Interview"
+            ) {
+                return "status-interview";
+            }
+
+            if (
+                status === "Rejected"
+            ) {
+                return "status-rejected";
+            }
+
+            return "status-applied";
+
+        }
+
+
+        function renderApplications() {
+
+            const table =
+                document.getElementById(
+                    "applicationTable"
+                );
+
+
+            if (!applications.length) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="5"
+                            style="
+                                text-align:center;
+                                padding:30px;
+                            "
+                        >
+                            No applications yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            table.innerHTML =
+                applications.map(
+                    item => `
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    ${item.company}
+                                </strong>
+                            </td>
+
+                            <td>
+                                ${item.role}
+                            </td>
+
+                            <td>
+                                ${formatDate(item.applied)}
+                            </td>
+
+                            <td>
+
+                                <span
+                                    class="
+                                        status-chip
+                                        ${getStatusClass(
+                                            item.status
+                                        )}
+                                    "
+                                >
+                                    ${item.status}
+                                </span>
+
+                            </td>
+
+                            <td>
+                                ${item.nextStep}
+                            </td>
+
+                        </tr>
+
+                    `
+                ).join("");
+
+        }
+
+
+        /* =====================================
+           STATS
+        ===================================== */
+
+        function updateStats() {
+
+            document.getElementById(
+                "opportunityCount"
+            ).textContent =
+                jobs.length;
+
+
+            document.getElementById(
+                "appliedCount"
+            ).textContent =
+                applications.length;
+
+        }
+
+
+        /* =====================================
+           BUTTONS
+        ===================================== */
+
+        document
+            .getElementById("resumeBtn")
+            .addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelector(".resume-box")
+                        .scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                }
+            );
+
+
+        document
+            .getElementById("prepBtn")
+            .addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelector(".prep-list")
+                        .scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                }
+            );
+
+
+        document
+            .getElementById("jobSearch")
+            .addEventListener(
+                "input",
+                renderJobs
+            );
+
+
+        document
+            .getElementById("jobFilter")
+            .addEventListener(
+                "change",
+                renderJobs
+            );
+
+
+        /* =====================================
+           LOGOUT
+        ===================================== */
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutBtn) {
+
+            logoutBtn.addEventListener(
+                "click",
+                () => {
+
+                    localStorage.removeItem(
+                        "bitCampusSession"
+                    );
+
+                    sessionStorage.removeItem(
+                        "bitCampusSession"
+                    );
+
+                    window.location.href =
+                        "../login.html";
+
+                }
+            );
+
+        }
+
+
+        /* =====================================
+           AUTH + STUDENT
+        ===================================== */
+
+        const rawSession =
+            localStorage.getItem(
+                "bitCampusSession"
+            )
+            ||
+            sessionStorage.getItem(
+                "bitCampusSession"
+            );
+
+
+        if (!rawSession) {
+
+            window.location.href =
+                "../login.html";
+
+        } else {
+
+            try {
+
+                const currentUser =
+                    JSON.parse(
+                        rawSession
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        "[data-student-name]"
+                    )
+                    .forEach(
+                        element => {
+
+                            element.textContent =
+                                currentUser.name ||
+                                "Student";
+
+                        }
+                    );
+
+            } catch {
+
+                localStorage.removeItem(
+                    "bitCampusSession"
+                );
+
+                sessionStorage.removeItem(
+                    "bitCampusSession"
+                );
+
+                window.location.href =
+                    "../login.html";
+
+            }
+
+        }
+
+
+        /* =====================================
+           PAGE LOADER
+        ===================================== */
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                const loader =
+                    document.getElementById(
+                        "pageLoader"
+                    );
+
+
+                if (!loader) {
+                    return;
+                }
+
+
+                setTimeout(
+                    () => {
+
+                        loader.style.opacity =
+                            "0";
+
+                        loader.style.visibility =
+                            "hidden";
+
+                        loader.style.pointerEvents =
+                            "none";
+
+
+                        setTimeout(
+                            () => {
+
+                                loader.style.display =
+                                    "none";
+
+                            },
+                            350
+                        );
+
+                    },
+                    500
+                );
+
+            }
+        );
+
+
+        /* =====================================
+           INITIALIZE
+        ===================================== */
+
+        renderJobs();
+        renderApplications();
+        updateStats();
+
+    </script>
+
+    <script>
+window.addEventListener("load", function () {
+
+    const loader =
+        document.getElementById("pageLoader");
+
+    if (!loader) return;
+
+    loader.style.opacity = "0";
+    loader.style.visibility = "hidden";
+    loader.style.pointerEvents = "none";
+
+    setTimeout(function () {
+
+        loader.style.display = "none";
+
+    }, 400);
+
+});
+</script>
+
+</body>
+</html>

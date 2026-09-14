@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Fees</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           FEES SUMMARY
+        ================================= */
+
+        .fee-summary {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+
+            margin-top: 14px;
+
+        }
+
+
+        .fee-card {
+
+            padding: 18px;
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                4px 5px 0 rgba(0,0,0,.14);
+
+        }
+
+
+        .fee-card:nth-child(1) {
+            background: var(--paper);
+        }
+
+        .fee-card:nth-child(2) {
+            background: var(--mint);
+        }
+
+        .fee-card:nth-child(3) {
+            background: var(--pink);
+        }
+
+        .fee-card:nth-child(4) {
+            background: var(--yellow);
+        }
+
+
+        .fee-card span {
+
+            display: block;
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .fee-card strong {
+
+            display: block;
+
+            margin-top: 7px;
+
+            font-family:
+                Georgia, serif;
+
+            font-size: 27px;
+
+        }
+
+
+        .fee-card small {
+
+            display: block;
+
+            margin-top: 5px;
+
+            color:
+                #6e6255;
+
+            font-size: 8px;
+
+        }
+
+
+        /* =================================
+           MAIN GRID
+        ================================= */
+
+        .fee-main-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.15fr .85fr;
+
+            gap: 14px;
+
+            margin-top: 14px;
+
+        }
+
+
+        /* =================================
+           PAYMENT CARD
+        ================================= */
+
+        .payment-card {
+
+            padding: 21px;
+
+            background:
+                var(--paper);
+
+            border:
+                3px solid var(--border);
+
+            box-shadow:
+                6px 7px 0 rgba(0,0,0,.16);
+
+        }
+
+
+        .payment-header {
+
+            display: flex;
+
+            align-items:
+                flex-start;
+
+            justify-content:
+                space-between;
+
+            gap: 12px;
+
+        }
+
+
+        .payment-header h2 {
+
+            margin-top: 9px;
+
+            font-family:
+                Georgia, serif;
+
+            font-size: 24px;
+
+        }
+
+
+        .payment-header p {
+
+            margin-top: 4px;
+
+            color:
+                var(--muted);
+
+            font-size: 9px;
+
+        }
+
+
+        .payment-stamp {
+
+            padding:
+                7px 9px;
+
+            border:
+                2px solid var(--border);
+
+            background:
+                var(--mint);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+            transform:
+                rotate(4deg);
+
+        }
+
+
+        /* =================================
+           PROGRESS
+        ================================= */
+
+        .fee-progress-section {
+
+            margin-top: 22px;
+
+        }
+
+
+        .fee-progress-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+        }
+
+
+        .fee-progress {
+
+            height: 15px;
+
+            margin-top: 8px;
+
+            background:
+                #d5c7a8;
+
+            border:
+                2px solid var(--border);
+
+            overflow: hidden;
+
+        }
+
+
+        .fee-progress span {
+
+            display: block;
+
+            width:
+                54.5%;
+
+            height: 100%;
+
+            background:
+                #5b9875;
+
+        }
+
+
+        .fee-progress-label {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            margin-top: 6px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        /* =================================
+           DUE ALERT
+        ================================= */
+
+        .due-alert {
+
+            margin-top:
+                18px;
+
+            padding:
+                13px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            border:
+                1px dashed var(--border);
+
+            background:
+                var(--yellow-light);
+
+        }
+
+
+        .due-alert strong {
+
+            display:
+                block;
+
+            font-size:
+                10px;
+
+        }
+
+
+        .due-alert span {
+
+            display:
+                block;
+
+            margin-top:
+                3px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        .pay-now-btn {
+
+            padding:
+                9px 13px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .pay-now-btn:hover {
+
+            background:
+                #51463b;
+
+        }
+
+
+        /* =================================
+           FEE BREAKDOWN
+        ================================= */
+
+        .breakdown-card {
+
+            padding:
+                20px;
+
+            background:
+                var(--paper-light);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+
+        }
+
+
+        .breakdown-row {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            padding:
+                11px 0;
+
+            border-bottom:
+                1px dashed #aa9b83;
+
+        }
+
+
+        .breakdown-row span {
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .breakdown-row strong {
+
+            font-size:
+                9px;
+
+        }
+
+
+        .breakdown-total {
+
+            margin-top:
+                11px;
+
+            padding:
+                12px;
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            background:
+                var(--yellow-light);
+
+            border:
+                1px solid var(--border);
+
+        }
+
+
+        .breakdown-total span {
+
+            font-size:
+                10px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .breakdown-total strong {
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                18px;
+
+        }
+
+
+        /* =================================
+           TRANSACTIONS
+        ================================= */
+
+        .transactions-card {
+
+            margin-top:
+                14px;
+
+            padding:
+                20px;
+
+            background:
+                var(--paper);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+
+        }
+
+
+        .transaction-table-wrap {
+
+            overflow-x:
+                auto;
+
+            margin-top:
+                13px;
+
+        }
+
+
+        .transaction-table {
+
+            width: 100%;
+
+            min-width:
+                650px;
+
+            border-collapse:
+                collapse;
+
+        }
+
+
+        .transaction-table th,
+        .transaction-table td {
+
+            padding:
+                10px 8px;
+
+            border:
+                1px solid #9f8e75;
+
+            text-align:
+                left;
+
+            font-size:
+                9px;
+
+        }
+
+
+        .transaction-table th {
+
+            background:
+                var(--yellow-light);
+
+            font-weight:
+                900;
+
+        }
+
+
+        .payment-status {
+
+            display:
+                inline-block;
+
+            padding:
+                4px 7px;
+
+            border:
+                1px solid var(--border);
+
+            font-size:
+                7px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .payment-paid {
+
+            background:
+                var(--mint);
+
+        }
+
+
+        .payment-pending {
+
+            background:
+                var(--pink);
+
+        }
+
+
+        .receipt-btn {
+
+            padding:
+                6px 8px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper-light);
+
+            font-size:
+                7px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =================================
+           RECEIPT MODAL
+        ================================= */
+
+        .receipt-modal {
+
+            position:
+                fixed;
+
+            inset:
+                0;
+
+            z-index:
+                5000;
+
+            display:
+                none;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                20px;
+
+            background:
+                rgba(39,35,31,.82);
+
+        }
+
+
+        .receipt-modal.open {
+
+            display:
+                flex;
+
+        }
+
+
+        .receipt {
+
+            width:
+                min(450px,100%);
+
+            position:
+                relative;
+
+            padding:
+                26px;
+
+            background:
+                #fff4d6;
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                9px 11px 0 rgba(0,0,0,.22);
+
+        }
+
+
+        .receipt::before,
+        .receipt::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            left:
+                0;
+
+            width:
+                100%;
+
+            height:
+                12px;
+
+            background:
+                repeating-linear-gradient(
+                    -45deg,
+                    #fff4d6,
+                    #fff4d6 5px,
+                    #ddcda9 5px,
+                    #ddcda9 10px
+                );
+
+        }
+
+
+        .receipt::before {
+
+            top:
+                -7px;
+
+        }
+
+
+        .receipt::after {
+
+            bottom:
+                -7px;
+
+        }
+
+
+        .receipt-close {
+
+            position:
+                absolute;
+
+            right:
+                10px;
+
+            top:
+                10px;
+
+            width:
+                30px;
+
+            height:
+                30px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--pink);
+
+            font-weight:
+                900;
+
+        }
+
+
+        .receipt-header {
+
+            text-align:
+                center;
+
+            border-bottom:
+                2px dashed #8e7e66;
+
+            padding-bottom:
+                14px;
+
+        }
+
+
+        .receipt-header h2 {
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                25px;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .receipt-header p {
+
+            margin-top:
+                4px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        .receipt-body {
+
+            margin-top:
+                16px;
+
+        }
+
+
+        .receipt-row {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            padding:
+                8px 0;
+
+            border-bottom:
+                1px dotted #a39175;
+
+            font-size:
+                9px;
+
+        }
+
+
+        .receipt-row span {
+
+            color:
+                #766a5d;
+
+        }
+
+
+        .receipt-total {
+
+            margin-top:
+                13px;
+
+            padding:
+                11px;
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            border:
+                2px solid var(--border);
+
+            background:
+                var(--mint);
+
+            font-weight:
+                900;
+
+        }
+
+
+        .receipt-footer {
+
+            margin-top:
+                18px;
+
+            padding-top:
+                12px;
+
+            border-top:
+                2px dashed #8e7e66;
+
+            text-align:
+                center;
+
+            font-size:
+                8px;
+
+            color:
+                #766a5d;
+
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1100px) {
+
+            .fee-summary {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .fee-main-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .fee-summary {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .due-alert {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .pay-now-btn {
+
+                width:
+                    100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         LOADER
+    ================================== -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>
+                BITCAMPUS
+            </strong>
+
+            <span data-loader-text>
+                Loading fee records...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>BitCampus</strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    data-page-link="Attendance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    data-page-link="Assignments"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+
+                <a
+                    href="./timetable.html"
+                    data-page-link="Timetable"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Timetable
+                </a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+
+                <a
+                    href="./results.html"
+                    data-page-link="Results"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🏆</span>
+                    Results
+                </a>
+
+
+                <a
+                    href="./fees.html"
+                    data-page-link="Fees"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">₹</span>
+                    Fees
+                </a>
+
+
+               <a
+    href="./registration.html"
+    data-page-link="Registration"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◫
+    </span>
+
+    Registration
+
+</a>
+
+<a
+  href="./library.html"
+  data-page-link="Library"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">📚</span>
+  Library
+</a>
+
+              <a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">▣</span>
+  Notices & News
+</a>
+
+<a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+
+               <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+
+               <a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+
+<a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+
+              <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+
+            </nav>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <header class="page-topbar">
+
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Fees
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search fee records..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 CONTENT
+            ================================== -->
+
+            <section class="page-content">
+
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        STUDENT FINANCE
+                    </span>
+
+                    <h1>
+                        Fees & Payments
+                    </h1>
+
+                    <p>
+                        Track your semester fees,
+                        payments and receipts.
+                    </p>
+
+                </section>
+
+
+                <!-- =================================
+                     SUMMARY
+                ================================== -->
+
+                <section class="fee-summary">
+
+
+                    <article class="fee-card">
+
+                        <span>
+                            TOTAL FEE
+                        </span>
+
+                        <strong>
+                            ₹80,000
+                        </strong>
+
+                        <small>
+                            Academic Year 2026–27
+                        </small>
+
+                    </article>
+
+
+                    <article class="fee-card">
+
+                        <span>
+                            PAID
+                        </span>
+
+                        <strong>
+                            ₹43,600
+                        </strong>
+
+                        <small>
+                            54.5% completed
+                        </small>
+
+                    </article>
+
+
+                    <article class="fee-card">
+
+                        <span>
+                            PENDING
+                        </span>
+
+                        <strong>
+                            ₹36,400
+                        </strong>
+
+                        <small>
+                            Payment required
+                        </small>
+
+                    </article>
+
+
+                    <article class="fee-card">
+
+                        <span>
+                            NEXT DUE
+                        </span>
+
+                        <strong>
+                            30 Sep
+                        </strong>
+
+                        <small>
+                            Second installment
+                        </small>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================
+                     PAYMENT + BREAKDOWN
+                ================================== -->
+
+                <section class="fee-main-grid">
+
+
+                    <article class="payment-card">
+
+
+                        <div class="payment-header">
+
+                            <div>
+
+                                <span class="card-kicker">
+                                    PAYMENT STATUS
+                                </span>
+
+                                <h2>
+                                    Fee Progress
+                                </h2>
+
+                                <p>
+                                    Your current academic fee
+                                    payment status.
+                                </p>
+
+                            </div>
+
+
+                            <span class="payment-stamp">
+                                PARTIALLY PAID
+                            </span>
+
+                        </div>
+
+
+                        <div class="fee-progress-section">
+
+                            <div
+                                class="fee-progress-header"
+                            >
+
+                                <span>
+                                    Payment Progress
+                                </span>
+
+                                <span>
+                                    54.5%
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="fee-progress"
+                            >
+
+                                <span></span>
+
+                            </div>
+
+
+                            <div
+                                class="fee-progress-label"
+                            >
+
+                                <span>
+                                    ₹43,600 paid
+                                </span>
+
+                                <span>
+                                    ₹80,000 total
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="due-alert">
+
+                            <div>
+
+                                <strong>
+                                    ⚠ Next payment due
+                                </strong>
+
+                                <span>
+                                    ₹20,000 •
+                                    30 September 2026
+                                </span>
+
+                            </div>
+
+
+                            <button
+                                class="pay-now-btn"
+                                id="payNowBtn"
+                            >
+                                PAY NOW
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- BREAKDOWN -->
+
+                    <article class="breakdown-card">
+
+                        <span class="card-kicker">
+                            FEE BREAKDOWN
+                        </span>
+
+                        <h2>
+                            Academic Charges
+                        </h2>
+
+
+                        <div class="breakdown-row">
+
+                            <span>
+                                Tuition Fee
+                            </span>
+
+                            <strong>
+                                ₹50,000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="breakdown-row">
+
+                            <span>
+                                Examination Fee
+                            </span>
+
+                            <strong>
+                                ₹5,000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="breakdown-row">
+
+                            <span>
+                                Library Fee
+                            </span>
+
+                            <strong>
+                                ₹3,000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="breakdown-row">
+
+                            <span>
+                                Lab Fee
+                            </span>
+
+                            <strong>
+                                ₹7,000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="breakdown-row">
+
+                            <span>
+                                Other Charges
+                            </span>
+
+                            <strong>
+                                ₹15,000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="breakdown-total">
+
+                            <span>
+                                TOTAL
+                            </span>
+
+                            <strong>
+                                ₹80,000
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================
+                     TRANSACTIONS
+                ================================== -->
+
+                <section
+                    class="transactions-card"
+                >
+
+                    <span class="card-kicker">
+                        PAYMENT HISTORY
+                    </span>
+
+                    <h2>
+                        Transactions & Receipts
+                    </h2>
+
+
+                    <div
+                        class="transaction-table-wrap"
+                    >
+
+                        <table
+                            class="transaction-table"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Receipt ID
+                                    </th>
+
+                                    <th>
+                                        Description
+                                    </th>
+
+                                    <th>
+                                        Amount
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Receipt
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <tr>
+
+                                    <td>
+                                        10 Aug 2026
+                                    </td>
+
+                                    <td>
+                                        BC-2026-001
+                                    </td>
+
+                                    <td>
+                                        First Installment
+                                    </td>
+
+                                    <td>
+                                        ₹23,600
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="
+                                                payment-status
+                                                payment-paid
+                                            "
+                                        >
+                                            PAID
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="receipt-btn"
+                                            data-receipt="BC-2026-001"
+                                        >
+                                            VIEW
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        25 Aug 2026
+                                    </td>
+
+                                    <td>
+                                        BC-2026-002
+                                    </td>
+
+                                    <td>
+                                        Tuition Payment
+                                    </td>
+
+                                    <td>
+                                        ₹20,000
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="
+                                                payment-status
+                                                payment-paid
+                                            "
+                                        >
+                                            PAID
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="receipt-btn"
+                                            data-receipt="BC-2026-002"
+                                        >
+                                            VIEW
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        —
+                                    </td>
+
+                                    <td>
+                                        BC-2026-003
+                                    </td>
+
+                                    <td>
+                                        Second Installment
+                                    </td>
+
+                                    <td>
+                                        ₹20,000
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="
+                                                payment-status
+                                                payment-pending
+                                            "
+                                        >
+                                            PENDING
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        —
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =================================
+         RECEIPT MODAL
+    ================================== -->
+
+    <div
+        class="receipt-modal"
+        id="receiptModal"
+    >
+
+        <div class="receipt">
+
+
+            <button
+                class="receipt-close"
+                id="receiptClose"
+            >
+                ×
+            </button>
+
+
+            <div class="receipt-header">
+
+                <h2>
+                    BITCAMPUS
+                </h2>
+
+                <p>
+                    STUDENT FEE RECEIPT
+                </p>
+
+            </div>
+
+
+            <div class="receipt-body">
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Receipt ID
+                    </span>
+
+                    <strong id="receiptId">
+                        BC-2026-001
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Student
+                    </span>
+
+                    <strong>
+                        Rudraksh Kumar
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Programme
+                    </span>
+
+                    <strong>
+                        B.Tech CSE
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Payment Date
+                    </span>
+
+                    <strong>
+                        10 Aug 2026
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-row">
+
+                    <span>
+                        Description
+                    </span>
+
+                    <strong id="receiptDescription">
+                        First Installment
+                    </strong>
+
+                </div>
+
+
+                <div class="receipt-total">
+
+                    <span>
+                        AMOUNT PAID
+                    </span>
+
+                    <strong id="receiptAmount">
+                        ₹23,600
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="receipt-footer">
+
+                This is a demo receipt generated
+                by the BitCampus frontend prototype.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           RECEIPTS
+        ================================= */
+
+        const receipts = {
+
+            "BC-2026-001": {
+
+                date:
+                    "10 Aug 2026",
+
+                description:
+                    "First Installment",
+
+                amount:
+                    "₹23,600"
+
+            },
+
+            "BC-2026-002": {
+
+                date:
+                    "25 Aug 2026",
+
+                description:
+                    "Tuition Payment",
+
+                amount:
+                    "₹20,000"
+
+            }
+
+        };
+
+
+        /* =================================
+           RECEIPT MODAL
+        ================================= */
+
+        const receiptModal =
+            document.getElementById(
+                "receiptModal"
+            );
+
+        const receiptClose =
+            document.getElementById(
+                "receiptClose"
+            );
+
+
+        document
+            .querySelectorAll(
+                "[data-receipt]"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const id =
+                                button.dataset.receipt;
+
+
+                            const data =
+                                receipts[id];
+
+
+                            if (!data) {
+                                return;
+                            }
+
+
+                            document.getElementById(
+                                "receiptId"
+                            ).textContent =
+                                id;
+
+
+                            document.getElementById(
+                                "receiptDescription"
+                            ).textContent =
+                                data.description;
+
+
+                            document.getElementById(
+                                "receiptAmount"
+                            ).textContent =
+                                data.amount;
+
+
+                            receiptModal.classList.add(
+                                "open"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        receiptClose.addEventListener(
+            "click",
+            () => {
+
+                receiptModal.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+        receiptModal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    receiptModal
+                ) {
+
+                    receiptModal.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================
+           DEMO PAY NOW
+        ================================= */
+
+        document
+            .getElementById(
+                "payNowBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    alert(
+                        "Payment gateway will be connected in the backend version."
+                    );
+
+                }
+            );
+
+
+        /* =================================
+           ESC
+        ================================= */
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    receiptModal.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

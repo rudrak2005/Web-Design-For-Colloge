@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Assignments</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           ASSIGNMENT PAGE
+        ================================= */
+
+        .assignment-stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+
+            margin-top: 14px;
+        }
+
+
+        .assignment-stat {
+
+            padding: 16px;
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                4px 5px 0 rgba(0,0,0,.14);
+        }
+
+
+        .assignment-stat:nth-child(1) {
+            background: var(--paper);
+        }
+
+        .assignment-stat:nth-child(2) {
+            background: var(--pink);
+        }
+
+        .assignment-stat:nth-child(3) {
+            background: var(--yellow);
+        }
+
+        .assignment-stat:nth-child(4) {
+            background: var(--mint);
+        }
+
+
+        .assignment-stat span {
+
+            display: block;
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .assignment-stat strong {
+
+            display: block;
+
+            margin-top: 7px;
+
+            font-family: Georgia, serif;
+
+            font-size: 28px;
+
+        }
+
+
+        /* =================================
+           TOOLBAR
+        ================================= */
+
+        .assignment-toolbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 12px;
+
+            margin-top: 14px;
+
+            padding: 14px;
+
+            background:
+                var(--paper);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                4px 5px 0 rgba(0,0,0,.14);
+
+        }
+
+
+        .assignment-filters {
+
+            display: flex;
+
+            gap: 7px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .assignment-filter {
+
+            padding:
+                7px 10px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper-light);
+
+            font-size: 8px;
+
+            font-weight: 900;
+        }
+
+
+        .assignment-filter.active {
+
+            background:
+                var(--pink);
+
+        }
+
+
+        .add-assignment-btn {
+
+            padding:
+                9px 13px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+        }
+
+
+        /* =================================
+           ASSIGNMENT GRID
+        ================================= */
+
+        .assignment-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+
+            margin-top: 14px;
+
+        }
+
+
+        .assignment-card {
+
+            position: relative;
+
+            padding: 18px;
+
+            min-height: 230px;
+
+            background:
+                var(--paper-light);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+
+            transition:
+                .2s ease;
+
+        }
+
+
+        .assignment-card:hover {
+
+            transform:
+                translateY(-4px)
+                rotate(-.3deg);
+
+            box-shadow:
+                7px 9px 0 rgba(0,0,0,.18);
+
+        }
+
+
+        .assignment-card:nth-child(2n) {
+
+            transform:
+                rotate(.4deg);
+
+        }
+
+
+        .assignment-card:nth-child(2n):hover {
+
+            transform:
+                translateY(-4px)
+                rotate(.2deg);
+
+        }
+
+
+        .assignment-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content:
+                space-between;
+
+            gap: 8px;
+
+        }
+
+
+        .assignment-subject-tag {
+
+            display: inline-block;
+
+            padding:
+                5px 7px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--mint);
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+        }
+
+
+        .priority-tag {
+
+            padding:
+                5px 7px;
+
+            border:
+                1px solid var(--border);
+
+            font-size: 7px;
+
+            font-weight: 900;
+
+        }
+
+
+        .priority-high {
+
+            background:
+                #e8aaa1;
+
+        }
+
+
+        .priority-medium {
+
+            background:
+                var(--yellow);
+
+        }
+
+
+        .priority-low {
+
+            background:
+                var(--mint);
+
+        }
+
+
+        .assignment-card h3 {
+
+            margin-top:
+                17px;
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                18px;
+
+            line-height:
+                1.2;
+
+        }
+
+
+        .assignment-description {
+
+            margin-top:
+                8px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+            line-height:
+                1.5;
+
+        }
+
+
+        .assignment-meta {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                8px;
+
+            margin-top:
+                18px;
+
+        }
+
+
+        .meta-box {
+
+            padding:
+                8px;
+
+            border:
+                1px dashed #a99579;
+
+            background:
+                rgba(255,255,255,.3);
+
+        }
+
+
+        .meta-box span {
+
+            display:
+                block;
+
+            color:
+                var(--muted);
+
+            font-size:
+                7px;
+
+        }
+
+
+        .meta-box strong {
+
+            display:
+                block;
+
+            margin-top:
+                3px;
+
+            font-size:
+                9px;
+
+        }
+
+
+        .assignment-bottom {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                8px;
+
+            margin-top:
+                18px;
+
+        }
+
+
+        .assignment-status {
+
+            padding:
+                6px 8px;
+
+            border:
+                1px solid var(--border);
+
+            font-size:
+                7px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .status-pending {
+
+            background:
+                var(--pink-light);
+
+        }
+
+
+        .status-progress {
+
+            background:
+                var(--yellow-light);
+
+        }
+
+
+        .status-completed {
+
+            background:
+                var(--mint-light);
+
+        }
+
+
+        .status-overdue {
+
+            background:
+                #e7b1a7;
+
+        }
+
+
+        .assignment-actions {
+
+            display:
+                flex;
+
+            gap:
+                5px;
+
+        }
+
+
+        .assignment-action {
+
+            width:
+                29px;
+
+            height:
+                29px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                transparent;
+
+            font-size:
+                11px;
+
+        }
+
+
+        .assignment-action:hover {
+
+            background:
+                var(--paper);
+
+        }
+
+
+        .assignment-action.complete-action {
+
+            background:
+                var(--mint);
+
+        }
+
+
+        /* =================================
+           EMPTY STATE
+        ================================= */
+
+        .empty-state {
+
+            grid-column:
+                1 / -1;
+
+            padding:
+                45px 20px;
+
+            text-align:
+                center;
+
+            border:
+                2px dashed #96866f;
+
+            background:
+                rgba(255,255,255,.14);
+
+        }
+
+
+        .empty-state-icon {
+
+            font-size:
+                35px;
+
+        }
+
+
+        .empty-state h3 {
+
+            margin-top:
+                10px;
+
+            font-family:
+                Georgia, serif;
+
+        }
+
+
+        .empty-state p {
+
+            margin-top:
+                5px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                10px;
+
+        }
+
+
+        /* =================================
+           MODAL
+        ================================= */
+
+        .assignment-modal {
+
+            position:
+                fixed;
+
+            inset:
+                0;
+
+            z-index:
+                4500;
+
+            display:
+                none;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                18px;
+
+            background:
+                rgba(39,35,31,.8);
+
+        }
+
+
+        .assignment-modal.open {
+
+            display:
+                flex;
+
+        }
+
+
+        .assignment-modal-card {
+
+            width:
+                min(550px, 100%);
+
+            padding:
+                25px;
+
+            position:
+                relative;
+
+            background:
+                var(--paper-light);
+
+            border:
+                3px solid var(--border);
+
+            box-shadow:
+                10px 12px 0 rgba(0,0,0,.24);
+
+        }
+
+
+        .close-modal {
+
+            position:
+                absolute;
+
+            top:
+                10px;
+
+            right:
+                10px;
+
+            width:
+                32px;
+
+            height:
+                32px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--pink);
+
+            font-weight:
+                900;
+
+        }
+
+
+        .assignment-modal-card h2 {
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                26px;
+
+        }
+
+
+        .modal-subtitle {
+
+            margin-top:
+                4px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .form-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                12px;
+
+            margin-top:
+                20px;
+
+        }
+
+
+        .field {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+        }
+
+
+        .field.full {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        .field label {
+
+            margin-bottom:
+                6px;
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .field input,
+        .field select,
+        .field textarea {
+
+            width:
+                100%;
+
+            padding:
+                10px;
+
+            border:
+                1px solid var(--border);
+
+            outline:
+                none;
+
+            background:
+                #fff8e7;
+
+            color:
+                var(--ink);
+
+            font-size:
+                10px;
+
+        }
+
+
+        .field textarea {
+
+            min-height:
+                90px;
+
+            resize:
+                vertical;
+
+        }
+
+
+        .save-assignment {
+
+            width:
+                100%;
+
+            height:
+                45px;
+
+            margin-top:
+                17px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+            font-size:
+                9px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .save-assignment:hover {
+
+            background:
+                #50453a;
+
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1100px) {
+
+            .assignment-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+            .assignment-stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .assignment-toolbar {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
+            .assignment-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .assignment-stats {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .form-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .field.full {
+
+                grid-column:
+                    auto;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         LOADER
+    ================================== -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>
+                BITCAMPUS
+            </strong>
+
+            <span data-loader-text>
+                Loading assignments...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>
+                        BitCampus
+                    </strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    data-page-link="Attendance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    data-page-link="Assignments"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+
+              <a
+    href="./timetable.html"
+    data-page-link="Timetable"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ▦
+    </span>
+
+    Timetable
+
+</a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+<a
+    href="./results.html"
+    data-page-link="Results"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        🏆
+    </span>
+
+    Results
+
+</a><a
+    href="./fees.html"
+    data-page-link="Fees"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        ₹
+    </span>
+
+    Fees
+</a>
+
+
+               <a
+    href="./registration.html"
+    data-page-link="Registration"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◫
+    </span>
+
+    Registration
+
+</a>
+               <a
+  href="./library.html"
+  data-page-link="Library"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">📚</span>
+  Library
+</a>
+
+
+               <a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="nav-link"
+>
+  <span class="nav-icon">▣</span>
+  <span>Notices & News</span>
+</a>
+
+<a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+<a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+
+                <a
+    href="./support.html#feedback"
+    data-page-link="Feedback"
+    class="nav-link"
+>
+    <span class="nav-icon">★</span>
+    <span>Feedback</span>
+</a>
+
+
+               <a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+
+               <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+            </nav>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Assignments
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search assignments..."
+                    id="assignmentSearch"
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 CONTENT
+            ================================== -->
+
+            <section class="page-content">
+
+
+                <!-- HEADER -->
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        STUDENT WORKSPACE
+                    </span>
+
+                    <h1>
+                        Assignments
+                    </h1>
+
+                    <p>
+                        Keep track of your work,
+                        deadlines and academic tasks.
+                    </p>
+
+                </section>
+
+
+                <!-- =================================
+                     STATS
+                ================================== -->
+
+                <section class="assignment-stats">
+
+
+                    <article class="assignment-stat">
+
+                        <span>
+                            TOTAL
+                        </span>
+
+                        <strong id="totalCount">
+                            0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="assignment-stat">
+
+                        <span>
+                            PENDING
+                        </span>
+
+                        <strong id="pendingCount">
+                            0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="assignment-stat">
+
+                        <span>
+                            IN PROGRESS
+                        </span>
+
+                        <strong id="progressCount">
+                            0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="assignment-stat">
+
+                        <span>
+                            COMPLETED
+                        </span>
+
+                        <strong id="completedCount">
+                            0
+                        </strong>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================
+                     TOOLBAR
+                ================================== -->
+
+                <section class="assignment-toolbar">
+
+
+                    <div class="assignment-filters">
+
+                        <button
+                            class="assignment-filter active"
+                            data-filter="all"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            class="assignment-filter"
+                            data-filter="pending"
+                        >
+                            Pending
+                        </button>
+
+                        <button
+                            class="assignment-filter"
+                            data-filter="progress"
+                        >
+                            In Progress
+                        </button>
+
+                        <button
+                            class="assignment-filter"
+                            data-filter="completed"
+                        >
+                            Completed
+                        </button>
+
+                        <button
+                            class="assignment-filter"
+                            data-filter="overdue"
+                        >
+                            Overdue
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="add-assignment-btn"
+                        id="openAssignmentModal"
+                    >
+                        + ADD ASSIGNMENT
+                    </button>
+
+                </section>
+
+
+                <!-- =================================
+                     ASSIGNMENT GRID
+                ================================== -->
+
+                <section
+                    class="assignment-grid"
+                    id="assignmentGrid"
+                >
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =================================
+         ADD ASSIGNMENT MODAL
+    ================================== -->
+
+    <div
+        class="assignment-modal"
+        id="assignmentModal"
+    >
+
+        <div class="assignment-modal-card">
+
+            <button
+                class="close-modal"
+                id="closeAssignmentModal"
+            >
+                ×
+            </button>
+
+
+            <span class="page-label">
+                NEW TASK
+            </span>
+
+            <h2>
+                Add Assignment
+            </h2>
+
+            <p class="modal-subtitle">
+                Add your academic task to the BitCampus board.
+            </p>
+
+
+            <form
+                id="assignmentForm"
+            >
+
+                <div class="form-grid">
+
+
+                    <div class="field full">
+
+                        <label>
+                            Assignment Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="assignmentTitle"
+                            placeholder="e.g. DBMS Assignment"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Subject
+                        </label>
+
+                        <select
+                            id="assignmentSubject"
+                            required
+                        >
+
+                            <option value="">
+                                Select subject
+                            </option>
+
+                            <option>
+                                DSA
+                            </option>
+
+                            <option>
+                                DBMS
+                            </option>
+
+                            <option>
+                                Operating Systems
+                            </option>
+
+                            <option>
+                                Computer Networks
+                            </option>
+
+                            <option>
+                                Mathematics III
+                            </option>
+
+                            <option>
+                                Web Development
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Due Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="assignmentDueDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Priority
+                        </label>
+
+                        <select
+                            id="assignmentPriority"
+                        >
+
+                            <option value="High">
+                                High
+                            </option>
+
+                            <option value="Medium" selected>
+                                Medium
+                            </option>
+
+                            <option value="Low">
+                                Low
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Status
+                        </label>
+
+                        <select
+                            id="assignmentStatus"
+                        >
+
+                            <option value="Pending">
+                                Pending
+                            </option>
+
+                            <option value="In Progress">
+                                In Progress
+                            </option>
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            id="assignmentDescription"
+                            placeholder="Write a short description..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-assignment"
+                >
+                    SAVE ASSIGNMENT
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           STORAGE KEY
+        ================================= */
+
+        const STORAGE_KEY =
+            "bitCampusAssignments";
+
+
+        /* =================================
+           DEFAULT ASSIGNMENTS
+        ================================= */
+
+        const defaultAssignments = [
+
+            {
+                id: 1,
+                title: "DBMS Assignment",
+                subject: "DBMS",
+                dueDate: "2026-09-18",
+                priority: "High",
+                status: "Pending",
+                description:
+                    "Write SQL queries and complete normalization questions."
+            },
+
+            {
+                id: 2,
+                title: "OS Lab Report",
+                subject: "Operating Systems",
+                dueDate: "2026-09-20",
+                priority: "Medium",
+                status: "Pending",
+                description:
+                    "Complete the process scheduling laboratory report."
+            },
+
+            {
+                id: 3,
+                title: "Math Assignment",
+                subject: "Mathematics III",
+                dueDate: "2026-09-22",
+                priority: "Medium",
+                status: "In Progress",
+                description:
+                    "Complete Laplace transform problem set."
+            },
+
+            {
+                id: 4,
+                title: "CN Presentation",
+                subject: "Computer Networks",
+                dueDate: "2026-09-12",
+                priority: "Low",
+                status: "Completed",
+                description:
+                    "Prepare routing protocol presentation."
+            }
+
+        ];
+
+
+        /* =================================
+           GET DATA
+        ================================= */
+
+        function getAssignments() {
+
+            const saved =
+                localStorage.getItem(
+                    STORAGE_KEY
+                );
+
+
+            if (!saved) {
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(
+                        defaultAssignments
+                    )
+                );
+
+                return [
+                    ...defaultAssignments
+                ];
+
+            }
+
+
+            try {
+
+                return JSON.parse(saved);
+
+            } catch {
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(
+                        defaultAssignments
+                    )
+                );
+
+                return [
+                    ...defaultAssignments
+                ];
+
+            }
+
+        }
+
+
+        let assignments =
+            getAssignments();
+
+
+        let activeFilter =
+            "all";
+
+
+        /* =================================
+           ELEMENTS
+        ================================= */
+
+        const grid =
+            document.getElementById(
+                "assignmentGrid"
+            );
+
+        const totalCount =
+            document.getElementById(
+                "totalCount"
+            );
+
+        const pendingCount =
+            document.getElementById(
+                "pendingCount"
+            );
+
+        const progressCount =
+            document.getElementById(
+                "progressCount"
+            );
+
+        const completedCount =
+            document.getElementById(
+                "completedCount"
+            );
+
+
+        const modal =
+            document.getElementById(
+                "assignmentModal"
+            );
+
+        const openModalBtn =
+            document.getElementById(
+                "openAssignmentModal"
+            );
+
+        const closeModalBtn =
+            document.getElementById(
+                "closeAssignmentModal"
+            );
+
+
+        const form =
+            document.getElementById(
+                "assignmentForm"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "assignmentSearch"
+            );
+
+
+        /* =================================
+           SAVE DATA
+        ================================= */
+
+        function saveAssignments() {
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    assignments
+                )
+            );
+
+        }
+
+
+        /* =================================
+           DATE HELPERS
+        ================================= */
+
+        function formatDate(dateString) {
+
+            const date =
+                new Date(
+                    `${dateString}T00:00:00`
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return "No date";
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function isOverdue(assignment) {
+
+            if (
+                assignment.status ===
+                "Completed"
+            ) {
+
+                return false;
+
+            }
+
+
+            const today =
+                new Date();
+
+            today.setHours(
+                0, 0, 0, 0
+            );
+
+
+            const due =
+                new Date(
+                    `${assignment.dueDate}T00:00:00`
+                );
+
+
+            return due < today;
+
+        }
+
+
+        /* =================================
+           GET EFFECTIVE STATUS
+        ================================= */
+
+        function getStatus(assignment) {
+
+            if (
+                isOverdue(assignment)
+            ) {
+
+                return "Overdue";
+
+            }
+
+
+            return assignment.status;
+
+        }
+
+
+        /* =================================
+           PRIORITY CLASS
+        ================================= */
+
+        function getPriorityClass(
+            priority
+        ) {
+
+            if (priority === "High") {
+                return "priority-high";
+            }
+
+            if (priority === "Low") {
+                return "priority-low";
+            }
+
+            return "priority-medium";
+
+        }
+
+
+        /* =================================
+           STATUS CLASS
+        ================================= */
+
+        function getStatusClass(
+            status
+        ) {
+
+            if (status === "Completed") {
+                return "status-completed";
+            }
+
+            if (status === "In Progress") {
+                return "status-progress";
+            }
+
+            if (status === "Overdue") {
+                return "status-overdue";
+            }
+
+            return "status-pending";
+
+        }
+
+
+        /* =================================
+           SUBJECT COLOR
+        ================================= */
+
+        function getSubjectColor(
+            subject
+        ) {
+
+            const colors = {
+
+                DSA:
+                    "var(--mint)",
+
+                DBMS:
+                    "var(--pink)",
+
+                "Operating Systems":
+                    "var(--lavender)",
+
+                "Computer Networks":
+                    "var(--mint)",
+
+                "Mathematics III":
+                    "var(--yellow)",
+
+                "Web Development":
+                    "var(--lavender)"
+
+            };
+
+
+            return (
+                colors[subject]
+                ||
+                "var(--paper-dark)"
+            );
+
+        }
+
+
+        /* =================================
+           RENDER
+        ================================= */
+
+        function renderAssignments() {
+
+            const query =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            let filtered =
+                assignments.filter(
+                    assignment => {
+
+                        const status =
+                            getStatus(
+                                assignment
+                            );
+
+
+                        const matchesFilter =
+
+                            activeFilter ===
+                            "all"
+
+                            ||
+
+                            (
+                                activeFilter ===
+                                "pending"
+                                &&
+                                status ===
+                                "Pending"
+                            )
+
+                            ||
+
+                            (
+                                activeFilter ===
+                                "progress"
+                                &&
+                                status ===
+                                "In Progress"
+                            )
+
+                            ||
+
+                            (
+                                activeFilter ===
+                                "completed"
+                                &&
+                                status ===
+                                "Completed"
+                            )
+
+                            ||
+
+                            (
+                                activeFilter ===
+                                "overdue"
+                                &&
+                                status ===
+                                "Overdue"
+                            );
+
+
+                        const matchesSearch =
+
+                            !query
+
+                            ||
+
+                            assignment.title
+                                .toLowerCase()
+                                .includes(query)
+
+                            ||
+
+                            assignment.subject
+                                .toLowerCase()
+                                .includes(query);
+
+
+                        return (
+                            matchesFilter
+                            &&
+                            matchesSearch
+                        );
+
+                    }
+                );
+
+
+            /* Counts */
+
+            totalCount.textContent =
+                assignments.length;
+
+
+            pendingCount.textContent =
+                assignments.filter(
+                    item =>
+                        getStatus(item) ===
+                        "Pending"
+                ).length;
+
+
+            progressCount.textContent =
+                assignments.filter(
+                    item =>
+                        getStatus(item) ===
+                        "In Progress"
+                ).length;
+
+
+            completedCount.textContent =
+                assignments.filter(
+                    item =>
+                        item.status ===
+                        "Completed"
+                ).length;
+
+
+            /* Empty */
+
+            if (!filtered.length) {
+
+                grid.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-state-icon">
+                            📭
+                        </div>
+
+                        <h3>
+                            No assignments found
+                        </h3>
+
+                        <p>
+                            Add a new assignment or
+                            change your filter.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            /* Cards */
+
+            grid.innerHTML =
+                filtered
+                    .map(
+                        assignment =>
+                            createAssignmentCard(
+                                assignment
+                            )
+                    )
+                    .join("");
+
+        }
+
+
+        /* =================================
+           CREATE CARD
+        ================================= */
+
+        function createAssignmentCard(
+            assignment
+        ) {
+
+            const status =
+                getStatus(
+                    assignment
+                );
+
+
+            return `
+
+                <article
+                    class="assignment-card"
+                    data-id="${assignment.id}"
+                >
+
+                    <div class="assignment-top">
+
+                        <span
+                            class="assignment-subject-tag"
+                            style="
+                                background:
+                                ${getSubjectColor(
+                                    assignment.subject
+                                )}
+                            "
+                        >
+                            ${assignment.subject}
+                        </span>
+
+                        <span
+                            class="priority-tag
+                            ${getPriorityClass(
+                                assignment.priority
+                            )}"
+                        >
+                            ${assignment.priority}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        ${escapeHtml(
+                            assignment.title
+                        )}
+                    </h3>
+
+
+                    <p class="assignment-description">
+                        ${escapeHtml(
+                            assignment.description ||
+                            "No description provided."
+                        )}
+                    </p>
+
+
+                    <div class="assignment-meta">
+
+                        <div class="meta-box">
+
+                            <span>
+                                DUE DATE
+                            </span>
+
+                            <strong>
+                                ${formatDate(
+                                    assignment.dueDate
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="meta-box">
+
+                            <span>
+                                STATUS
+                            </span>
+
+                            <strong>
+                                ${status}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="assignment-bottom">
+
+                        <span
+                            class="
+                                assignment-status
+                                ${getStatusClass(
+                                    status
+                                )}
+                            "
+                        >
+                            ${status}
+                        </span>
+
+
+                        <div class="assignment-actions">
+
+                            ${
+                                assignment.status !==
+                                "Completed"
+                                ?
+
+                                `
+                                <button
+                                    class="
+                                        assignment-action
+                                        complete-action
+                                    "
+                                    title="Mark completed"
+                                    data-action="complete"
+                                    data-id="${assignment.id}"
+                                >
+                                    ✓
+                                </button>
+                                `
+
+                                :
+
+                                ""
+                            }
+
+
+                            <button
+                                class="assignment-action"
+                                title="Delete"
+                                data-action="delete"
+                                data-id="${assignment.id}"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            `;
+
+        }
+
+
+        /* =================================
+           ESCAPE HTML
+        ================================= */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+
+        }
+
+
+        /* =================================
+           FILTER BUTTONS
+        ================================= */
+
+        document
+            .querySelectorAll(
+                ".assignment-filter"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(
+                                ".assignment-filter"
+                            )
+                            .forEach(
+                                item =>
+                                    item.classList.remove(
+                                        "active"
+                                    )
+                            );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        activeFilter =
+                            button.dataset.filter;
+
+
+                        renderAssignments();
+
+                    }
+                );
+
+            });
+
+
+        /* =================================
+           SEARCH
+        ================================= */
+
+        searchInput.addEventListener(
+            "input",
+            renderAssignments
+        );
+
+
+        /* =================================
+           CARD ACTIONS
+        ================================= */
+
+        grid.addEventListener(
+            "click",
+            event => {
+
+                const button =
+                    event.target.closest(
+                        "[data-action]"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                const id =
+                    Number(
+                        button.dataset.id
+                    );
+
+
+                const action =
+                    button.dataset.action;
+
+
+                if (
+                    action ===
+                    "complete"
+                ) {
+
+                    assignments =
+                        assignments.map(
+                            assignment =>
+
+                                assignment.id === id
+
+                                    ?
+
+                                    {
+                                        ...assignment,
+                                        status:
+                                            "Completed"
+                                    }
+
+                                    :
+
+                                    assignment
+
+                        );
+
+
+                    saveAssignments();
+
+                    renderAssignments();
+
+                }
+
+
+                if (
+                    action ===
+                    "delete"
+                ) {
+
+                    const confirmDelete =
+                        confirm(
+                            "Delete this assignment?"
+                        );
+
+
+                    if (!confirmDelete) {
+                        return;
+                    }
+
+
+                    assignments =
+                        assignments.filter(
+                            assignment =>
+                                assignment.id !== id
+                        );
+
+
+                    saveAssignments();
+
+                    renderAssignments();
+
+                }
+
+            }
+        );
+
+
+        /* =================================
+           MODAL OPEN / CLOSE
+        ================================= */
+
+        openModalBtn.addEventListener(
+            "click",
+            () => {
+
+                modal.classList.add(
+                    "open"
+                );
+
+            }
+        );
+
+
+        closeModalBtn.addEventListener(
+            "click",
+            () => {
+
+                modal.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    modal
+                ) {
+
+                    modal.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================
+           ADD ASSIGNMENT
+        ================================= */
+
+        form.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+
+                const title =
+                    document
+                        .getElementById(
+                            "assignmentTitle"
+                        )
+                        .value
+                        .trim();
+
+
+                const subject =
+                    document
+                        .getElementById(
+                            "assignmentSubject"
+                        )
+                        .value;
+
+
+                const dueDate =
+                    document
+                        .getElementById(
+                            "assignmentDueDate"
+                        )
+                        .value;
+
+
+                const priority =
+                    document
+                        .getElementById(
+                            "assignmentPriority"
+                        )
+                        .value;
+
+
+                const status =
+                    document
+                        .getElementById(
+                            "assignmentStatus"
+                        )
+                        .value;
+
+
+                const description =
+                    document
+                        .getElementById(
+                            "assignmentDescription"
+                        )
+                        .value
+                        .trim();
+
+
+                if (
+                    !title ||
+                    !subject ||
+                    !dueDate
+                ) {
+
+                    return;
+
+                }
+
+
+                const newAssignment = {
+
+                    id:
+                        Date.now(),
+
+                    title,
+
+                    subject,
+
+                    dueDate,
+
+                    priority,
+
+                    status,
+
+                    description
+
+                };
+
+
+                assignments.unshift(
+                    newAssignment
+                );
+
+
+                saveAssignments();
+
+                renderAssignments();
+
+                form.reset();
+
+                modal.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+        /* =================================
+           ESC CLOSE
+        ================================= */
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    modal.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================
+           INITIAL RENDER
+        ================================= */
+
+        renderAssignments();
+
+    </script>
+
+</body>
+
+</html>

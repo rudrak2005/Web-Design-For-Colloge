@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Academics</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- LOADER -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>
+                BITCAMPUS
+            </strong>
+
+            <span data-loader-text>
+                Loading academics...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- SIDEBAR -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>
+                        BitCampus
+                    </strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+             <a
+    href="./courses.html"
+    data-page-link="Courses"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">▦</span>
+    Courses
+</a>
+<a
+    href="./attendance.html"
+    data-page-link="Attendance"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◉
+    </span>
+
+    Attendance
+
+</a>
+
+              <a
+    href="./assignments.html"
+    data-page-link="Assignments"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ☷
+    </span>
+
+    Assignments
+
+</a>
+
+                <a href="#" class="page-nav-link">
+                    <span class="page-nav-icon">▦</span>
+                    Timetable
+                </a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+
+                <a href="#" class="page-nav-link">
+                    <span class="page-nav-icon">🏆</span>
+                    Results
+                </a>
+<a
+    href="./fees.html"
+    data-page-link="Fees"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        ₹
+    </span>
+
+    Fees
+</a>
+                <a href="./registration.html" class="page-nav-link">
+                    <span class="page-nav-icon">◫</span>
+                    Registration
+                </a>
+
+                <a href="./library.html" class="page-nav-link">
+                    <span class="page-nav-icon">▣</span>
+                    Library
+                </a>
+<a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="nav-link"
+>
+  <span class="nav-icon">▣</span>
+  <span>Notices & News</span>
+</a>
+
+                <a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+               <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+
+            </nav>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- MAIN -->
+
+        <main class="page-main">
+
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Academics
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search academics..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <section class="page-content">
+
+
+                <!-- HEADER -->
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        ACADEMIC RECORD
+                    </span>
+
+                    <h1>
+                        Academics
+                    </h1>
+
+                    <p>
+                        Track your semester,
+                        credits, subjects and
+                        academic progress.
+                    </p>
+
+                </section>
+
+
+                <!-- ACADEMIC STATS -->
+
+                <section class="page-grid three-column">
+
+
+                    <article class="academic-stat">
+
+                        <span>
+                            CURRENT CGPA
+                        </span>
+
+                        <strong>
+                            8.34
+                        </strong>
+
+                    </article>
+
+
+                    <article class="academic-stat">
+
+                        <span>
+                            CURRENT SEMESTER
+                        </span>
+
+                        <strong>
+                            3
+                        </strong>
+
+                    </article>
+
+
+                    <article class="academic-stat">
+
+                        <span>
+                            CREDITS COMPLETED
+                        </span>
+
+                        <strong>
+                            42
+                        </strong>
+
+                    </article>
+
+
+                    <article class="academic-stat">
+
+                        <span>
+                            ACTIVE COURSES
+                        </span>
+
+                        <strong>
+                            6
+                        </strong>
+
+                    </article>
+
+                </section>
+
+
+                <!-- SUBJECTS -->
+
+                <section class="page-grid two-column">
+
+
+                    <article class="paper-card">
+
+                        <span class="card-kicker">
+                            SEMESTER 3
+                        </span>
+
+                        <h2>
+                            Current Subjects
+                        </h2>
+
+
+                        <div class="tabs">
+
+                            <button class="tab active">
+                                Current
+                            </button>
+
+                            <button class="tab">
+                                Completed
+                            </button>
+
+                            <button class="tab">
+                                All
+                            </button>
+
+                        </div>
+
+
+                        <div class="subject-card">
+
+                            <div class="subject-top">
+
+                                <strong>
+                                    Data Structures & Algorithms
+                                </strong>
+
+                                <span>
+                                    82%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-meta">
+                                4 Credits • Dr. Sharma
+                            </div>
+
+                            <div class="subject-progress">
+                                <span style="width:82%"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="subject-card">
+
+                            <div class="subject-top">
+
+                                <strong>
+                                    Database Management Systems
+                                </strong>
+
+                                <span>
+                                    65%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-meta">
+                                4 Credits • Prof. Mehta
+                            </div>
+
+                            <div class="subject-progress">
+                                <span style="width:65%"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="subject-card">
+
+                            <div class="subject-top">
+
+                                <strong>
+                                    Operating Systems
+                                </strong>
+
+                                <span>
+                                    72%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-meta">
+                                4 Credits • Prof. Verma
+                            </div>
+
+                            <div class="subject-progress">
+                                <span style="width:72%"></span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="subject-card">
+
+                            <div class="subject-top">
+
+                                <strong>
+                                    Computer Networks
+                                </strong>
+
+                                <span>
+                                    90%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-meta">
+                                4 Credits • Dr. Kumar
+                            </div>
+
+                            <div class="subject-progress">
+                                <span style="width:90%"></span>
+                            </div>
+
+                        </div>
+
+
+                    </article>
+
+
+                    <!-- ACADEMIC SUMMARY -->
+
+                    <article class="paper-card">
+
+                        <span class="card-kicker">
+                            PERFORMANCE
+                        </span>
+
+                        <h2>
+                            Academic Summary
+                        </h2>
+
+
+                        <div class="small-stat-grid">
+
+                            <div class="small-stat">
+                                <strong>8.20</strong>
+                                <span>Last SGPA</span>
+                            </div>
+
+                            <div class="small-stat">
+                                <strong>8.34</strong>
+                                <span>CGPA</span>
+                            </div>
+
+                            <div class="small-stat">
+                                <strong>79.23%</strong>
+                                <span>Percentage</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="subject-card"
+                             style="margin-top:15px;"
+                        >
+
+                            <div class="subject-top">
+
+                                <strong>
+                                    Strongest Subject
+                                </strong>
+
+                                <span>
+                                    CN
+                                </span>
+
+                            </div>
+
+                            <div class="subject-meta">
+                                Computer Networks
+                                • 90% course progress
+                            </div>
+
+                        </div>
+
+
+                        <div class="subject-card">
+
+                            <div class="subject-top">
+
+                                <strong>
+                                    Needs Attention
+                                </strong>
+
+                                <span>
+                                    DBMS
+                                </span>
+
+                            </div>
+
+                            <div class="subject-meta">
+                                Focus more on practical
+                                assignments and revision.
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                </section>
+
+
+                <!-- ACHIEVEMENTS -->
+
+                <section class="paper-card"
+                         style="margin-top:14px;"
+                >
+
+                    <span class="card-kicker">
+                        CAMPUS MILESTONES
+                    </span>
+
+                    <h2>
+                        Achievements
+                    </h2>
+
+
+                    <div class="achievement-grid">
+
+                        <div class="achievement">
+
+                            <div class="achievement-icon">
+                                🏆
+                            </div>
+
+                            <strong>
+                                Consistent Learner
+                            </strong>
+
+                            <span>
+                                Maintained academic
+                                progress this semester.
+                            </span>
+
+                        </div>
+
+
+                        <div class="achievement">
+
+                            <div class="achievement-icon">
+                                🔥
+                            </div>
+
+                            <strong>
+                                Study Streak
+                            </strong>
+
+                            <span>
+                                12 consecutive
+                                study days.
+                            </span>
+
+                        </div>
+
+
+                        <div class="achievement">
+
+                            <div class="achievement-icon">
+                                📚
+                            </div>
+
+                            <strong>
+                                Course Explorer
+                            </strong>
+
+                            <span>
+                                6 active academic
+                                subjects.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+</body>
+
+</html>

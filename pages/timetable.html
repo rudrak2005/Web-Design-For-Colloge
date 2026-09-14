@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Timetable</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           TIMETABLE PAGE
+        ================================= */
+
+        .today-strip {
+
+            display: grid;
+
+            grid-template-columns:
+                auto 1fr auto;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 14px;
+
+            padding: 15px 18px;
+
+            background:
+                var(--mint);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+        }
+
+
+        .today-badge {
+
+            padding: 7px 9px;
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+            border:
+                1px solid var(--border);
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+        }
+
+
+        .today-info strong {
+
+            display: block;
+
+            font-family:
+                Georgia, serif;
+
+            font-size: 17px;
+        }
+
+
+        .today-info span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color:
+                #5c6e61;
+
+            font-size: 9px;
+        }
+
+
+        .live-clock {
+
+            font-family:
+                monospace;
+
+            font-size: 18px;
+
+            font-weight: 900;
+        }
+
+
+        /* =================================
+           CURRENT / NEXT CLASS
+        ================================= */
+
+        .class-overview {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 14px;
+
+            margin-top: 14px;
+        }
+
+
+        .live-class-card,
+        .next-class-card {
+
+            position: relative;
+
+            padding: 19px;
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+        }
+
+
+        .live-class-card {
+
+            background:
+                var(--pink);
+        }
+
+
+        .next-class-card {
+
+            background:
+                var(--yellow);
+        }
+
+
+        .class-label {
+
+            display: inline-block;
+
+            padding: 5px 7px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                rgba(255,255,255,.3);
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: .8px;
+        }
+
+
+        .live-dot {
+
+            display: inline-block;
+
+            width: 8px;
+            height: 8px;
+
+            margin-right: 4px;
+
+            border-radius: 50%;
+
+            background:
+                #bd4842;
+
+            animation:
+                pulse 1.2s infinite;
+        }
+
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .35;
+            }
+
+        }
+
+
+        .class-name {
+
+            margin-top: 12px;
+
+            font-family:
+                Georgia, serif;
+
+            font-size: 25px;
+        }
+
+
+        .class-meta {
+
+            margin-top: 7px;
+
+            color:
+                #675c51;
+
+            font-size: 9px;
+
+            line-height: 1.7;
+        }
+
+
+        .class-countdown {
+
+            margin-top: 13px;
+
+            font-family:
+                monospace;
+
+            font-size: 22px;
+
+            font-weight: 900;
+        }
+
+
+        /* =================================
+           WEEKLY GRID
+        ================================= */
+
+        .timetable-card {
+
+            margin-top: 14px;
+
+            padding: 18px;
+
+            background:
+                var(--paper);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+        }
+
+
+        .timetable-wrapper {
+
+            overflow-x: auto;
+
+            margin-top: 15px;
+        }
+
+
+        .weekly-table {
+
+            width: 100%;
+
+            min-width: 800px;
+
+            border-collapse:
+                collapse;
+
+            table-layout:
+                fixed;
+        }
+
+
+        .weekly-table th,
+        .weekly-table td {
+
+            border:
+                1px solid #9f8e75;
+
+            padding:
+                8px;
+
+            text-align:
+                center;
+
+            font-size:
+                8px;
+        }
+
+
+        .weekly-table th {
+
+            background:
+                var(--yellow-light);
+
+            font-weight:
+                900;
+
+            height:
+                42px;
+        }
+
+
+        .weekly-table th.today-column {
+
+            background:
+                var(--mint);
+
+            box-shadow:
+                inset 0 -3px 0 #4d8063;
+        }
+
+
+        .time-column {
+
+            width:
+                70px;
+
+            background:
+                #e6d4ac;
+
+            font-family:
+                monospace;
+
+            font-weight:
+                900;
+        }
+
+
+        .class-cell {
+
+            min-height:
+                55px;
+
+            background:
+                var(--paper-light);
+
+            cursor:
+                pointer;
+
+            transition:
+                .2s;
+        }
+
+
+        .class-cell:hover {
+
+            background:
+                var(--pink-light);
+
+        }
+
+
+        .class-cell.today-cell {
+
+            outline:
+                2px solid
+                rgba(87,153,119,.65);
+
+            outline-offset:
+                -2px;
+        }
+
+
+        .class-cell.current-cell {
+
+            background:
+                var(--pink);
+
+            box-shadow:
+                inset 0 0 0 2px
+                var(--border);
+        }
+
+
+        .subject-title {
+
+            display:
+                block;
+
+            font-weight:
+                900;
+
+            font-size:
+                9px;
+        }
+
+
+        .subject-room {
+
+            display:
+                block;
+
+            margin-top:
+                4px;
+
+            color:
+                #7b6d5d;
+
+            font-size:
+                7px;
+        }
+
+
+        .cell-live {
+
+            display:
+                inline-block;
+
+            margin-top:
+                4px;
+
+            padding:
+                3px 5px;
+
+            background:
+                #c76358;
+
+            color:
+                white;
+
+            border:
+                1px solid
+                var(--border);
+
+            font-size:
+                6px;
+
+            font-weight:
+                900;
+        }
+
+
+        .empty-cell {
+
+            color:
+                #948776;
+
+            font-size:
+                14px;
+        }
+
+
+        /* =================================
+           DAYS FILTER
+        ================================= */
+
+        .day-filter {
+
+            display:
+                flex;
+
+            gap:
+                6px;
+
+            flex-wrap:
+                wrap;
+        }
+
+
+        .day-filter button {
+
+            padding:
+                7px 10px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                var(--paper-light);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+        }
+
+
+        .day-filter button.active {
+
+            background:
+                var(--pink);
+        }
+
+
+        /* =================================
+           CLASS DETAILS
+        ================================= */
+
+        .details-panel {
+
+            margin-top:
+                14px;
+
+            padding:
+                18px;
+
+            background:
+                var(--paper-light);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+        }
+
+
+        .details-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap:
+                10px;
+
+            margin-top:
+                13px;
+        }
+
+
+        .detail-box {
+
+            padding:
+                11px;
+
+            background:
+                var(--paper);
+
+            border:
+                1px dashed #9f8e75;
+        }
+
+
+        .detail-box span {
+
+            display:
+                block;
+
+            color:
+                var(--muted);
+
+            font-size:
+                7px;
+
+        }
+
+
+        .detail-box strong {
+
+            display:
+                block;
+
+            margin-top:
+                4px;
+
+            font-size:
+                10px;
+
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .class-overview {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .today-strip {
+
+                grid-template-columns:
+                    auto 1fr;
+
+            }
+
+
+            .live-clock {
+
+                grid-column:
+                    1 / -1;
+            }
+
+
+            .details-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .today-strip {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .details-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         LOADER
+    ================================== -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>
+                BITCAMPUS
+            </strong>
+
+            <span data-loader-text>
+                Loading timetable...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>
+                        BitCampus
+                    </strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+              <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    data-page-link="Attendance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    data-page-link="Assignments"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+
+                <a
+                    href="./timetable.html"
+                    data-page-link="Timetable"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Timetable
+                </a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+
+              <a
+    href="./results.html"
+    data-page-link="Results"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        🏆
+    </span>
+
+    Results
+
+</a><a
+    href="./fees.html"
+    data-page-link="Fees"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        ₹
+    </span>
+
+    Fees
+</a>
+
+
+               <a
+    href="./registration.html"
+    data-page-link="Registration"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◫
+    </span>
+
+    Registration
+
+</a>
+
+
+               <a
+  href="./library.html"
+  data-page-link="Library"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">📚</span>
+  Library
+</a>
+                <a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">▣</span>
+  Notices & News
+</a>
+              <a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+
+                <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+               <a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+
+
+               <a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+
+                <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+            </nav>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <!-- TOPBAR -->
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Timetable
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search timetable..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CONTENT -->
+
+            <section class="page-content">
+
+
+                <!-- HEADER -->
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        WEEKLY SCHEDULE
+                    </span>
+
+                    <h1>
+                        Student Timetable
+                    </h1>
+
+                    <p>
+                        See your classes, current lecture
+                        and upcoming schedule.
+                    </p>
+
+                </section>
+
+
+                <!-- =================================
+                     TODAY STRIP
+                ================================== -->
+
+                <section class="today-strip">
+
+                    <span class="today-badge">
+                        TODAY
+                    </span>
+
+                    <div class="today-info">
+
+                        <strong id="todayName">
+                            Monday
+                        </strong>
+
+                        <span id="todayDate">
+                            14 September 2026
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="live-clock"
+                        id="liveClock"
+                    >
+                        03:13 PM
+                    </div>
+
+                </section>
+
+
+                <!-- =================================
+                     CURRENT + NEXT
+                ================================== -->
+
+                <section
+                    class="class-overview"
+                >
+
+
+                    <article
+                        class="live-class-card"
+                        id="currentClassCard"
+                    >
+
+                        <span class="class-label">
+
+                            <span
+                                class="live-dot"
+                            ></span>
+
+                            CURRENT CLASS
+
+                        </span>
+
+
+                        <h2
+                            class="class-name"
+                            id="currentClassName"
+                        >
+                            No live class
+                        </h2>
+
+
+                        <p
+                            class="class-meta"
+                            id="currentClassMeta"
+                        >
+                            You are currently free.
+                        </p>
+
+
+                        <div
+                            class="class-countdown"
+                            id="currentCountdown"
+                        >
+                            —
+                        </div>
+
+                    </article>
+
+
+                    <article
+                        class="next-class-card"
+                    >
+
+                        <span class="class-label">
+                            NEXT CLASS
+                        </span>
+
+
+                        <h2
+                            class="class-name"
+                            id="nextClassName"
+                        >
+                            Loading...
+                        </h2>
+
+
+                        <p
+                            class="class-meta"
+                            id="nextClassMeta"
+                        >
+                            Please wait...
+                        </p>
+
+
+                        <div
+                            class="class-countdown"
+                            id="nextCountdown"
+                        >
+                            —
+                        </div>
+
+                    </article>
+
+
+                </section>
+
+
+                <!-- =================================
+                     TABLE
+                ================================== -->
+
+                <section
+                    class="timetable-card"
+                >
+
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            justify-content:space-between;
+                            gap:12px;
+                            flex-wrap:wrap;
+                        "
+                    >
+
+                        <div>
+
+                            <span class="card-kicker">
+                                WEEKLY VIEW
+                            </span>
+
+                            <h2>
+                                Class Schedule
+                            </h2>
+
+                        </div>
+
+
+                        <div
+                            class="day-filter"
+                            id="dayFilter"
+                        >
+
+                            <button
+                                data-day="all"
+                                class="active"
+                            >
+                                All
+                            </button>
+
+                            <button
+                                data-day="1"
+                            >
+                                Mon
+                            </button>
+
+                            <button
+                                data-day="2"
+                            >
+                                Tue
+                            </button>
+
+                            <button
+                                data-day="3"
+                            >
+                                Wed
+                            </button>
+
+                            <button
+                                data-day="4"
+                            >
+                                Thu
+                            </button>
+
+                            <button
+                                data-day="5"
+                            >
+                                Fri
+                            </button>
+
+                            <button
+                                data-day="6"
+                            >
+                                Sat
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timetable-wrapper">
+
+                        <table
+                            class="weekly-table"
+                            id="weeklyTable"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Time
+                                    </th>
+
+                                    <th
+                                        data-day-column="1"
+                                    >
+                                        Monday
+                                    </th>
+
+                                    <th
+                                        data-day-column="2"
+                                    >
+                                        Tuesday
+                                    </th>
+
+                                    <th
+                                        data-day-column="3"
+                                    >
+                                        Wednesday
+                                    </th>
+
+                                    <th
+                                        data-day-column="4"
+                                    >
+                                        Thursday
+                                    </th>
+
+                                    <th
+                                        data-day-column="5"
+                                    >
+                                        Friday
+                                    </th>
+
+                                    <th
+                                        data-day-column="6"
+                                    >
+                                        Saturday
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="timetableBody">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================
+                     DETAILS
+                ================================== -->
+
+                <section
+                    class="details-panel"
+                    id="detailsPanel"
+                >
+
+                    <span class="card-kicker">
+                        SELECTED CLASS
+                    </span>
+
+                    <h2 id="selectedClassTitle">
+                        Select a class from the timetable
+                    </h2>
+
+                    <p
+                        id="selectedClassDescription"
+                        style="
+                            margin-top:5px;
+                            color:var(--muted);
+                            font-size:9px;
+                        "
+                    >
+                        Click any class to see details.
+                    </p>
+
+
+                    <div class="details-grid">
+
+                        <div class="detail-box">
+
+                            <span>
+                                SUBJECT
+                            </span>
+
+                            <strong id="detailSubject">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                FACULTY
+                            </span>
+
+                            <strong id="detailFaculty">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                TIME
+                            </span>
+
+                            <strong id="detailTime">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                ROOM
+                            </span>
+
+                            <strong id="detailRoom">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           TIMETABLE DATA
+        ================================= */
+
+        const timetable = {
+
+            1: [
+
+                {
+                    start: "09:00",
+                    end: "10:00",
+                    subject: "DBMS",
+                    faculty: "Prof. Mehta",
+                    room: "Room 204"
+                },
+
+                {
+                    start: "10:00",
+                    end: "11:00",
+                    subject: "Mathematics III",
+                    faculty: "Dr. Singh",
+                    room: "Room 101"
+                },
+
+                {
+                    start: "11:00",
+                    end: "12:00",
+                    subject: "DBMS Lab",
+                    faculty: "Prof. Mehta",
+                    room: "Lab 2"
+                },
+
+                {
+                    start: "14:00",
+                    end: "15:00",
+                    subject: "Computer Networks",
+                    faculty: "Dr. Kumar",
+                    room: "Room 305"
+                },
+
+                {
+                    start: "16:00",
+                    end: "17:00",
+                    subject: "Web Development",
+                    faculty: "Prof. Verma",
+                    room: "Lab 3"
+                }
+
+            ],
+
+
+            2: [
+
+                {
+                    start: "09:00",
+                    end: "10:00",
+                    subject: "DSA",
+                    faculty: "Dr. Sharma",
+                    room: "Room 205"
+                },
+
+                {
+                    start: "10:00",
+                    end: "11:00",
+                    subject: "DBMS",
+                    faculty: "Prof. Mehta",
+                    room: "Room 204"
+                },
+
+                {
+                    start: "11:00",
+                    end: "12:00",
+                    subject: "Operating Systems",
+                    faculty: "Prof. Verma",
+                    room: "Room 202"
+                },
+
+                {
+                    start: "14:00",
+                    end: "15:00",
+                    subject: "Mathematics III",
+                    faculty: "Dr. Singh",
+                    room: "Room 101"
+                }
+
+            ],
+
+
+            3: [
+
+                {
+                    start: "09:00",
+                    end: "10:00",
+                    subject: "Operating Systems",
+                    faculty: "Prof. Verma",
+                    room: "Room 202"
+                },
+
+                {
+                    start: "10:00",
+                    end: "11:00",
+                    subject: "Computer Networks",
+                    faculty: "Dr. Kumar",
+                    room: "Room 305"
+                },
+
+                {
+                    start: "11:00",
+                    end: "12:00",
+                    subject: "Mathematics III",
+                    faculty: "Dr. Singh",
+                    room: "Room 101"
+                },
+
+                {
+                    start: "14:00",
+                    end: "16:00",
+                    subject: "DSA Lab",
+                    faculty: "Dr. Sharma",
+                    room: "Lab 1"
+                }
+
+            ],
+
+
+            4: [
+
+                {
+                    start: "09:00",
+                    end: "10:00",
+                    subject: "Mathematics III",
+                    faculty: "Dr. Singh",
+                    room: "Room 101"
+                },
+
+                {
+                    start: "10:00",
+                    end: "11:00",
+                    subject: "DSA",
+                    faculty: "Dr. Sharma",
+                    room: "Room 205"
+                },
+
+                {
+                    start: "11:00",
+                    end: "12:00",
+                    subject: "DBMS",
+                    faculty: "Prof. Mehta",
+                    room: "Room 204"
+                },
+
+                {
+                    start: "14:00",
+                    end: "16:00",
+                    subject: "Web Development Lab",
+                    faculty: "Prof. Verma",
+                    room: "Lab 3"
+                }
+
+            ],
+
+
+            5: [
+
+                {
+                    start: "09:00",
+                    end: "10:00",
+                    subject: "Computer Networks",
+                    faculty: "Dr. Kumar",
+                    room: "Room 305"
+                },
+
+                {
+                    start: "10:00",
+                    end: "11:00",
+                    subject: "Web Development",
+                    faculty: "Prof. Verma",
+                    room: "Lab 3"
+                },
+
+                {
+                    start: "11:00",
+                    end: "12:00",
+                    subject: "Operating Systems",
+                    faculty: "Prof. Verma",
+                    room: "Room 202"
+                },
+
+                {
+                    start: "14:00",
+                    end: "15:00",
+                    subject: "DBMS",
+                    faculty: "Prof. Mehta",
+                    room: "Room 204"
+                }
+
+            ],
+
+
+            6: [
+
+                {
+                    start: "10:00",
+                    end: "11:00",
+                    subject: "DSA Practice",
+                    faculty: "Dr. Sharma",
+                    room: "Lab 1"
+                },
+
+                {
+                    start: "11:00",
+                    end: "12:00",
+                    subject: "Project Work",
+                    faculty: "Prof. Verma",
+                    room: "Project Lab"
+                }
+
+            ]
+
+        };
+
+
+        /* =================================
+           TIME SLOTS
+        ================================= */
+
+        const slots = [
+
+            {
+                start: "09:00",
+                end: "10:00"
+            },
+
+            {
+                start: "10:00",
+                end: "11:00"
+            },
+
+            {
+                start: "11:00",
+                end: "12:00"
+            },
+
+            {
+                start: "14:00",
+                end: "15:00"
+            },
+
+            {
+                start: "16:00",
+                end: "17:00"
+            }
+
+        ];
+
+
+        /* =================================
+           HELPERS
+        ================================= */
+
+        function timeToMinutes(time) {
+
+            const [
+                hours,
+                minutes
+            ] =
+                time
+                    .split(":")
+                    .map(Number);
+
+            return (
+                hours * 60 +
+                minutes
+            );
+
+        }
+
+
+        function formatTime(time) {
+
+            const [
+                hours,
+                minutes
+            ] =
+                time
+                    .split(":")
+                    .map(Number);
+
+
+            const suffix =
+                hours >= 12
+                    ? "PM"
+                    : "AM";
+
+
+            const displayHour =
+                hours % 12 || 12;
+
+
+            return `${String(displayHour).padStart(2,"0")}:${String(minutes).padStart(2,"0")} ${suffix}`;
+
+        }
+
+
+        function getCurrentDay() {
+
+            const day =
+                new Date().getDay();
+
+
+            /*
+             * JS:
+             * 0 = Sunday
+             * 1 = Monday
+             * ...
+             */
+
+            return day;
+
+        }
+
+
+        function getTodayName(day) {
+
+            const names = {
+
+                1: "Monday",
+                2: "Tuesday",
+                3: "Wednesday",
+                4: "Thursday",
+                5: "Friday",
+                6: "Saturday",
+                0: "Sunday"
+
+            };
+
+
+            return names[day];
+
+        }
+
+
+        /* =================================
+           TODAY UI
+        ================================= */
+
+        function updateToday() {
+
+            const now =
+                new Date();
+
+
+            const day =
+                now.getDay();
+
+
+            const todayName =
+                document.getElementById(
+                    "todayName"
+                );
+
+
+            const todayDate =
+                document.getElementById(
+                    "todayDate"
+                );
+
+
+            todayName.textContent =
+                getTodayName(day);
+
+
+            todayDate.textContent =
+                now.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+        }
+
+
+        /* =================================
+           CLOCK
+        ================================= */
+
+        function updateClock() {
+
+            const now =
+                new Date();
+
+
+            document
+                .getElementById(
+                    "liveClock"
+                )
+                .textContent =
+
+                now.toLocaleTimeString(
+                    "en-IN",
+                    {
+                        hour:
+                            "2-digit",
+
+                        minute:
+                            "2-digit",
+
+                        second:
+                            "2-digit",
+
+                        hour12:
+                            true
+                    }
+                );
+
+        }
+
+
+        updateToday();
+
+        updateClock();
+
+
+        setInterval(
+            updateClock,
+            1000
+        );
+
+
+        /* =================================
+           CREATE TABLE
+        ================================= */
+
+        const tbody =
+            document.getElementById(
+                "timetableBody"
+            );
+
+
+        function createTable() {
+
+            tbody.innerHTML = "";
+
+
+            slots.forEach(
+                slot => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    const timeCell =
+                        document.createElement(
+                            "td"
+                        );
+
+
+                    timeCell.className =
+                        "time-column";
+
+
+                    timeCell.textContent =
+                        `${formatTime(slot.start)} – ${formatTime(slot.end)}`;
+
+
+                    row.appendChild(
+                        timeCell
+                    );
+
+
+                    for (
+                        let day = 1;
+                        day <= 6;
+                        day++
+                    ) {
+
+                        const cell =
+                            document.createElement(
+                                "td"
+                            );
+
+
+                        cell.className =
+                            "class-cell";
+
+
+                        cell.dataset.day =
+                            String(day);
+
+
+                        cell.dataset.start =
+                            slot.start;
+
+
+                        cell.dataset.end =
+                            slot.end;
+
+
+                        const classes =
+                            timetable[day] || [];
+
+
+                        const classItem =
+                            classes.find(
+                                item =>
+                                    item.start ===
+                                    slot.start
+                            );
+
+
+                        const today =
+                            getCurrentDay();
+
+
+                        if (
+                            today === day
+                        ) {
+
+                            cell.classList.add(
+                                "today-cell"
+                            );
+
+                        }
+
+
+                        if (classItem) {
+
+                            cell.innerHTML = `
+
+                                <span class="subject-title">
+                                    ${classItem.subject}
+                                </span>
+
+                                <span class="subject-room">
+                                    ${classItem.room}
+                                </span>
+
+                            `;
+
+
+                            cell.addEventListener(
+                                "click",
+                                () => {
+
+                                    selectClass(
+                                        classItem,
+                                        day
+                                    );
+
+                                }
+                            );
+
+                        } else {
+
+                            cell.innerHTML = `
+                                <span class="empty-cell">
+                                    —
+                                </span>
+                            `;
+
+                        }
+
+
+                        row.appendChild(
+                            cell
+                        );
+
+                    }
+
+
+                    tbody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            markCurrentClass();
+
+        }
+
+
+        /* =================================
+           CURRENT CLASS
+        ================================= */
+
+        function getCurrentClass() {
+
+            const now =
+                new Date();
+
+
+            const day =
+                now.getDay();
+
+
+            if (
+                day === 0
+                ||
+                day === 7
+            ) {
+
+                return null;
+
+            }
+
+
+            const minutes =
+                now.getHours() * 60 +
+                now.getMinutes();
+
+
+            const classes =
+                timetable[day] || [];
+
+
+            return (
+                classes.find(
+                    item => {
+
+                        const start =
+                            timeToMinutes(
+                                item.start
+                            );
+
+                        const end =
+                            timeToMinutes(
+                                item.end
+                            );
+
+
+                        return (
+                            minutes >= start &&
+                            minutes < end
+                        );
+
+                    }
+                )
+                ||
+                null
+            );
+
+        }
+
+
+        /* =================================
+           NEXT CLASS
+        ================================= */
+
+        function getNextClass() {
+
+            const now =
+                new Date();
+
+
+            const currentDay =
+                now.getDay();
+
+
+            const currentMinutes =
+                now.getHours() * 60 +
+                now.getMinutes();
+
+
+            /*
+             * Sunday
+             */
+
+            if (
+                currentDay === 0
+            ) {
+
+                return findFirstClassAfterToday();
+
+            }
+
+
+            const todayClasses =
+                timetable[currentDay] || [];
+
+
+            const nextToday =
+                todayClasses.find(
+                    item =>
+                        timeToMinutes(
+                            item.start
+                        ) >
+                        currentMinutes
+                );
+
+
+            if (nextToday) {
+
+                return {
+
+                    ...nextToday,
+
+                    day: currentDay
+
+                };
+
+            }
+
+
+            /*
+             * Search next days
+             */
+
+            for (
+                let offset = 1;
+                offset <= 6;
+                offset++
+            ) {
+
+                const day =
+                    (
+                        currentDay +
+                        offset
+                    ) % 7;
+
+
+                if (day === 0) {
+                    continue;
+                }
+
+
+                const classes =
+                    timetable[day] || [];
+
+
+                if (classes.length) {
+
+                    return {
+
+                        ...classes[0],
+
+                        day
+
+                    };
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+        function findFirstClassAfterToday() {
+
+            for (
+                let day = 1;
+                day <= 6;
+                day++
+            ) {
+
+                const classes =
+                    timetable[day] || [];
+
+
+                if (classes.length) {
+
+                    return {
+
+                        ...classes[0],
+
+                        day
+
+                    };
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+        /* =================================
+           UPDATE CURRENT / NEXT
+        ================================= */
+
+        function updateClassStatus() {
+
+            const current =
+                getCurrentClass();
+
+
+            const next =
+                getNextClass();
+
+
+            const currentName =
+                document.getElementById(
+                    "currentClassName"
+                );
+
+
+            const currentMeta =
+                document.getElementById(
+                    "currentClassMeta"
+                );
+
+
+            const currentCountdown =
+                document.getElementById(
+                    "currentCountdown"
+                );
+
+
+            const nextName =
+                document.getElementById(
+                    "nextClassName"
+                );
+
+
+            const nextMeta =
+                document.getElementById(
+                    "nextClassMeta"
+                );
+
+
+            const nextCountdown =
+                document.getElementById(
+                    "nextCountdown"
+                );
+
+
+            const now =
+                new Date();
+
+
+            const currentMinutes =
+                now.getHours() * 60 +
+                now.getMinutes();
+
+
+            /* CURRENT */
+
+            if (current) {
+
+                currentName.textContent =
+                    current.subject;
+
+
+                currentMeta.textContent =
+                    `${current.faculty} • ${current.room} • ${formatTime(current.start)} – ${formatTime(current.end)}`;
+
+
+                const endMinutes =
+                    timeToMinutes(
+                        current.end
+                    );
+
+
+                const remaining =
+                    (
+                        endMinutes -
+                        currentMinutes
+                    ) * 60 -
+                    now.getSeconds();
+
+
+                currentCountdown.textContent =
+                    `Ends in ${formatCountdown(remaining)}`;
+
+            } else {
+
+                currentName.textContent =
+                    "No live class";
+
+
+                currentMeta.textContent =
+                    "You are currently free.";
+
+
+                currentCountdown.textContent =
+                    "—";
+
+            }
+
+
+            /* NEXT */
+
+            if (next) {
+
+                nextName.textContent =
+                    next.subject;
+
+
+                nextMeta.textContent =
+                    `${getTodayName(next.day)} • ${formatTime(next.start)} • ${next.room}`;
+
+
+                const seconds =
+                    getSecondsUntilNext(
+                        next
+                    );
+
+
+                nextCountdown.textContent =
+                    `Starts in ${formatCountdown(seconds)}`;
+
+            } else {
+
+                nextName.textContent =
+                    "No upcoming class";
+
+
+                nextMeta.textContent =
+                    "Your timetable is clear.";
+
+
+                nextCountdown.textContent =
+                    "—";
+
+            }
+
+        }
+
+
+        function getSecondsUntilNext(item) {
+
+            const now =
+                new Date();
+
+
+            const target =
+                new Date(now);
+
+
+            let targetDay =
+                item.day;
+
+
+            let currentDay =
+                now.getDay();
+
+
+            let difference =
+                targetDay -
+                currentDay;
+
+
+            if (difference < 0) {
+
+                difference += 7;
+
+            }
+
+
+            target.setDate(
+                target.getDate() +
+                difference
+            );
+
+
+            const [
+                hours,
+                minutes
+            ] =
+                item.start
+                    .split(":")
+                    .map(Number);
+
+
+            target.setHours(
+                hours,
+                minutes,
+                0,
+                0
+            );
+
+
+            if (
+                difference === 0 &&
+                target <= now
+            ) {
+
+                target.setDate(
+                    target.getDate() + 7
+                );
+
+            }
+
+
+            return Math.max(
+                0,
+                Math.floor(
+                    (
+                        target - now
+                    ) / 1000
+                )
+            );
+
+        }
+
+
+        function formatCountdown(
+            totalSeconds
+        ) {
+
+            totalSeconds =
+                Math.max(
+                    0,
+                    totalSeconds
+                );
+
+
+            const days =
+                Math.floor(
+                    totalSeconds /
+                    86400
+                );
+
+
+            const hours =
+                Math.floor(
+                    (
+                        totalSeconds %
+                        86400
+                    ) /
+                    3600
+                );
+
+
+            const minutes =
+                Math.floor(
+                    (
+                        totalSeconds %
+                        3600
+                    ) /
+                    60
+                );
+
+
+            const seconds =
+                totalSeconds % 60;
+
+
+            if (days > 0) {
+
+                return `${days}d ${hours}h`;
+
+            }
+
+
+            if (hours > 0) {
+
+                return `${hours}h ${minutes}m`;
+
+            }
+
+
+            return `${minutes}m ${String(seconds).padStart(2,"0")}s`;
+
+        }
+
+
+        /* =================================
+           MARK CURRENT CELL
+        ================================= */
+
+        function markCurrentClass() {
+
+            document
+                .querySelectorAll(
+                    ".current-cell"
+                )
+                .forEach(
+                    cell =>
+                        cell.classList.remove(
+                            "current-cell"
+                        )
+                );
+
+
+            const current =
+                getCurrentClass();
+
+
+            if (!current) {
+                return;
+            }
+
+
+            const day =
+                getCurrentDay();
+
+
+            const cell =
+                document.querySelector(
+                    `.class-cell[data-day="${day}"][data-start="${current.start}"]`
+                );
+
+
+            if (cell) {
+
+                cell.classList.add(
+                    "current-cell"
+                );
+
+
+                cell.innerHTML += `
+
+                    <span class="cell-live">
+                        LIVE NOW
+                    </span>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =================================
+           SELECT CLASS
+        ================================= */
+
+        function selectClass(
+            item,
+            day
+        ) {
+
+            document
+                .getElementById(
+                    "selectedClassTitle"
+                )
+                .textContent =
+                item.subject;
+
+
+            document
+                .getElementById(
+                    "selectedClassDescription"
+                )
+                .textContent =
+                `Scheduled for ${getTodayName(day)}. This is demo timetable data for the BitCampus prototype.`;
+
+
+            document
+                .getElementById(
+                    "detailSubject"
+                )
+                .textContent =
+                item.subject;
+
+
+            document
+                .getElementById(
+                    "detailFaculty"
+                )
+                .textContent =
+                item.faculty;
+
+
+            document
+                .getElementById(
+                    "detailTime"
+                )
+                .textContent =
+                `${formatTime(item.start)} – ${formatTime(item.end)}`;
+
+
+            document
+                .getElementById(
+                    "detailRoom"
+                )
+                .textContent =
+                item.room;
+
+        }
+
+
+        /* =================================
+           DAY FILTER
+        ================================= */
+
+        document
+            .querySelectorAll(
+                "#dayFilter button"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            document
+                                .querySelectorAll(
+                                    "#dayFilter button"
+                                )
+                                .forEach(
+                                    item =>
+                                        item.classList.remove(
+                                            "active"
+                                        )
+                                );
+
+
+                            button.classList.add(
+                                "active"
+                            );
+
+
+                            const day =
+                                button.dataset.day;
+
+
+                            document
+                                .querySelectorAll(
+                                    "[data-day-column]"
+                                )
+                                .forEach(
+                                    header => {
+
+                                        if (
+                                            day ===
+                                            "all"
+                                        ) {
+
+                                            header.style.display =
+                                                "";
+
+                                        } else {
+
+                                            header.style.display =
+                                                header.dataset.dayColumn ===
+                                                day
+                                                    ? ""
+                                                    : "none";
+
+                                        }
+
+                                    }
+                                );
+
+
+                            document
+                                .querySelectorAll(
+                                    ".class-cell"
+                                )
+                                .forEach(
+                                    cell => {
+
+                                        if (
+                                            day ===
+                                            "all"
+                                        ) {
+
+                                            cell.style.display =
+                                                "";
+
+                                        } else {
+
+                                            cell.style.display =
+                                                cell.dataset.day ===
+                                                day
+                                                    ? ""
+                                                    : "none";
+
+                                        }
+
+                                    }
+                                );
+
+
+                            /*
+                             * Time column should remain
+                             * visible.
+                             */
+
+                            document
+                                .querySelectorAll(
+                                    ".time-column"
+                                )
+                                .forEach(
+                                    cell => {
+
+                                        cell.style.display =
+                                            "";
+
+                                    }
+                                );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* =================================
+           START
+        ================================= */
+
+        createTable();
+
+        updateClassStatus();
+
+
+        setInterval(
+            () => {
+
+                updateClassStatus();
+
+                markCurrentClass();
+
+                updateToday();
+
+            },
+            1000
+        );
+
+    </script>
+
+</body>
+
+</html>

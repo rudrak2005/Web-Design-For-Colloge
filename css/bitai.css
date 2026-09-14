@@ -1,0 +1,416 @@
+/* =====================================================
+   BITAI — RETRO AI ASSISTANT
+===================================================== */
+
+#bitAIWidget {
+    font-family: inherit;
+}
+
+
+/* =====================================================
+   FLOATING BUTTON
+===================================================== */
+
+.bitai-floating-button {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+
+    width: 62px;
+    height: 62px;
+
+    border: 3px solid #28231f;
+    border-radius: 50%;
+
+    background: #e2b84b;
+
+    color: #28231f;
+
+    font-size: 27px;
+
+    cursor: pointer;
+
+    box-shadow:
+        5px 5px 0 #28231f;
+
+    z-index: 99990;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.bitai-floating-button:hover {
+    transform:
+        translate(-2px, -2px);
+
+    box-shadow:
+        7px 7px 0 #28231f;
+}
+
+
+/* =====================================================
+   WINDOW
+===================================================== */
+
+.bitai-window {
+    position: fixed;
+
+    right: 24px;
+    bottom: 98px;
+
+    width: min(
+        390px,
+        calc(100vw - 30px)
+    );
+
+    height: min(
+        650px,
+        calc(100vh - 130px)
+    );
+
+    display: flex;
+    flex-direction: column;
+
+    background: #fff4d6;
+
+    border: 3px solid #28231f;
+
+    box-shadow:
+        9px 9px 0 #28231f;
+
+    z-index: 99991;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+        translateY(18px)
+        scale(0.97);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.22s ease,
+        visibility 0.22s ease,
+        transform 0.22s ease;
+}
+
+.bitai-window.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.bitai-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px;
+
+    background: #28231f;
+
+    color: #fff4d6;
+
+    border-bottom: 3px solid #28231f;
+}
+
+.bitai-brand {
+    font-size: 18px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+.bitai-status {
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.8px;
+
+    color: #9fd6b5;
+}
+
+.bitai-close {
+    width: 33px;
+    height: 33px;
+
+    border: 2px solid #fff4d6;
+
+    background: #e7a7b7;
+
+    color: #28231f;
+
+    font-size: 20px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   QUICK ACTIONS
+===================================================== */
+
+.bitai-quick-actions {
+    display: flex;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+
+    padding: 11px;
+
+    background: #f2e4c4;
+
+    border-bottom: 1px dashed #28231f;
+}
+
+.bitai-chip {
+    border: 1px solid #28231f;
+
+    padding: 7px 9px;
+
+    background: #fff4d6;
+
+    color: #28231f;
+
+    font: inherit;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.bitai-chip:hover {
+    background: #e7a7b7;
+}
+
+
+/* =====================================================
+   CONVERSATION
+===================================================== */
+
+.bitai-conversation {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 14px;
+
+    background:
+        linear-gradient(
+            rgba(242, 228, 196, 0.97),
+            rgba(242, 228, 196, 0.97)
+        );
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.bitai-message {
+    max-width: 90%;
+
+    margin-bottom: 13px;
+
+    padding: 11px 12px;
+
+    border: 2px solid #28231f;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.bitai-message.ai {
+    margin-right: auto;
+
+    background: #fff4d6;
+
+    box-shadow:
+        3px 3px 0 #28231f;
+}
+
+.bitai-message.user {
+    margin-left: auto;
+
+    background: #e7a7b7;
+
+    box-shadow:
+        3px 3px 0 #28231f;
+}
+
+.bitai-message-label {
+    margin-bottom: 5px;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    opacity: 0.55;
+}
+
+.bitai-message-content {
+    word-break: break-word;
+}
+
+.bitai-muted {
+    opacity: 0.62;
+
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   TYPING
+===================================================== */
+
+.bitai-typing {
+    display: flex;
+
+    gap: 4px;
+
+    align-items: center;
+
+    height: 18px;
+}
+
+.bitai-typing span {
+    width: 6px;
+    height: 6px;
+
+    background: #28231f;
+
+    border-radius: 50%;
+
+    animation:
+        bitAITyping 1s infinite ease-in-out;
+}
+
+.bitai-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.bitai-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes bitAITyping {
+
+    0%,
+    60%,
+    100% {
+        opacity: 0.25;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.bitai-input-area {
+    display: flex;
+
+    gap: 8px;
+
+    padding: 11px;
+
+    background: #28231f;
+
+    border-top: 2px solid #28231f;
+}
+
+.bitai-input-area input {
+    flex: 1;
+
+    min-width: 0;
+
+    border: 2px solid #fff4d6;
+
+    background: #fff4d6;
+
+    color: #28231f;
+
+    padding: 11px;
+
+    outline: none;
+
+    font: inherit;
+
+    font-size: 12px;
+}
+
+.bitai-input-area button {
+    width: 44px;
+
+    border: 2px solid #fff4d6;
+
+    background: #e2b84b;
+
+    color: #28231f;
+
+    font-size: 19px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .bitai-floating-button {
+        right: 15px;
+        bottom: 15px;
+
+        width: 56px;
+        height: 56px;
+    }
+
+    .bitai-window {
+        right: 10px;
+        left: 10px;
+
+        bottom: 82px;
+
+        width: auto;
+
+        height:
+            calc(100vh - 105px);
+    }
+
+}

@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Attendance</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           ATTENDANCE PAGE
+        ================================= */
+
+        .attendance-page-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        /* =================================
+           OVERALL CARD
+        ================================= */
+
+        .overall-attendance-card {
+            padding: 22px;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            box-shadow: 5px 6px 0 rgba(0,0,0,.15);
+        }
+
+        .attendance-main {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .attendance-donut {
+            width: 165px;
+            height: 165px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+
+            background:
+                conic-gradient(
+                    #579977 0deg 295.2deg,
+                    #d2c3a3 295.2deg 360deg
+                );
+        }
+
+        .attendance-donut::before {
+            content: "";
+
+            position: absolute;
+
+            width: 118px;
+            height: 118px;
+
+            border-radius: 50%;
+
+            background: var(--paper);
+        }
+
+        .attendance-donut-content {
+            position: relative;
+
+            text-align: center;
+        }
+
+        .attendance-donut-content strong {
+            display: block;
+
+            font-family: Georgia, serif;
+
+            font-size: 34px;
+        }
+
+        .attendance-donut-content span {
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .attendance-info h2 {
+            font-family: Georgia, serif;
+            font-size: 25px;
+        }
+
+        .attendance-info p {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .safe-zone {
+            display: inline-block;
+
+            margin-top: 13px;
+            padding: 7px 10px;
+
+            background: var(--mint);
+
+            border: 1px solid var(--border);
+
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        /* =================================
+           STAT MINI CARDS
+        ================================= */
+
+        .attendance-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+            margin-top: 20px;
+        }
+
+        .attendance-stat {
+            padding: 13px;
+            border: 1px solid var(--border);
+            background: var(--paper-light);
+            text-align: center;
+        }
+
+        .attendance-stat strong {
+            display: block;
+            font-size: 22px;
+        }
+
+        .attendance-stat span {
+            display: block;
+            margin-top: 3px;
+            font-size: 8px;
+            font-weight: 900;
+            color: var(--muted);
+        }
+
+        /* =================================
+           SUBJECT ATTENDANCE
+        ================================= */
+
+        .attendance-subject-card {
+            padding: 20px;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            box-shadow: 5px 6px 0 rgba(0,0,0,.15);
+        }
+
+        .subject-attendance-row {
+            padding: 13px 0;
+
+            border-bottom:
+                1px dashed #aa9b83;
+        }
+
+        .subject-attendance-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .subject-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .subject-dot {
+            width: 10px;
+            height: 10px;
+
+            border: 1px solid var(--border);
+
+            background: var(--mint);
+        }
+
+        .subject-percent {
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .subject-detail {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 8px;
+        }
+
+        .subject-attendance-bar {
+            height: 9px;
+
+            margin-top: 7px;
+
+            background:
+                rgba(38,34,30,.12);
+
+            border:
+                1px solid rgba(38,34,30,.28);
+
+            overflow: hidden;
+        }
+
+        .subject-attendance-fill {
+            height: 100%;
+
+            background: #579977;
+        }
+
+        .subject-attendance-fill.warning {
+            background: #c47b58;
+        }
+
+        .subject-attendance-fill.danger {
+            background: #b95f56;
+        }
+
+        /* =================================
+           PREDICTOR
+        ================================= */
+
+        .predictor-card {
+            margin-top: 14px;
+
+            padding: 20px;
+
+            background:
+                var(--yellow-light);
+
+            border: 2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.15);
+        }
+
+        .predictor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .predictor-header h2 {
+            font-family: Georgia, serif;
+            font-size: 20px;
+        }
+
+        .predictor-badge {
+            padding: 6px 8px;
+
+            background: var(--pink);
+
+            border: 1px solid var(--border);
+
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .predictor-description {
+            margin-top: 7px;
+
+            color: var(--muted);
+
+            font-size: 9px;
+            line-height: 1.6;
+        }
+
+        .predictor-form {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr) auto;
+
+            gap: 9px;
+
+            margin-top: 17px;
+        }
+
+        .predictor-field label {
+            display: block;
+
+            margin-bottom: 5px;
+
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .predictor-field input {
+            width: 100%;
+
+            height: 40px;
+
+            padding: 0 10px;
+
+            border:
+                1px solid var(--border);
+
+            outline: none;
+
+            background:
+                var(--paper-light);
+
+            color:
+                var(--ink);
+
+            font-size: 10px;
+        }
+
+        .predictor-field input:focus {
+            box-shadow:
+                3px 3px 0 rgba(223,165,184,.6);
+        }
+
+        .predictor-btn {
+            align-self: end;
+
+            height: 40px;
+
+            padding: 0 14px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+            font-size: 9px;
+
+            font-weight: 900;
+        }
+
+        .predictor-result {
+            margin-top: 14px;
+
+            padding: 12px;
+
+            background:
+                rgba(255,255,255,.35);
+
+            border:
+                1px dashed var(--border);
+
+            display: none;
+        }
+
+        .predictor-result.show {
+            display: block;
+        }
+
+        .predictor-result strong {
+            display: block;
+
+            font-family: Georgia, serif;
+
+            font-size: 17px;
+        }
+
+        .predictor-result span {
+            display: block;
+
+            margin-top: 5px;
+
+            color:
+                var(--muted);
+
+            font-size: 9px;
+        }
+
+        /* =================================
+           HISTORY
+        ================================= */
+
+        .history-card {
+            margin-top: 14px;
+
+            padding: 20px;
+
+            background: var(--paper);
+
+            border: 2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.15);
+        }
+
+        .history-table-wrap {
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 9px;
+
+            border:
+                1px solid #a89578;
+
+            text-align: left;
+
+            font-size: 9px;
+        }
+
+        .history-table th {
+            background: var(--yellow-light);
+        }
+
+        .present {
+            color: #367a57;
+            font-weight: 900;
+        }
+
+        .absent {
+            color: var(--red);
+            font-weight: 900;
+        }
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 950px) {
+
+            .attendance-page-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .predictor-form {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .predictor-btn {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .attendance-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .attendance-stats {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .predictor-form {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .attendance-donut {
+                width: 140px;
+                height: 140px;
+            }
+
+            .attendance-donut::before {
+                width: 98px;
+                height: 98px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         LOADER
+    ================================== -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>
+                BITCAMPUS
+            </strong>
+
+            <span data-loader-text>
+                Calculating attendance...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>
+                        BitCampus
+                    </strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    data-page-link="Attendance"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+             <a
+    href="./assignments.html"
+    data-page-link="Assignments"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ☷
+    </span>
+
+    Assignments
+
+</a>
+
+<a
+    href="./timetable.html"
+    data-page-link="Timetable"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ▦
+    </span>
+
+    Timetable
+
+</a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+
+              <a
+    href="./results.html"
+    data-page-link="Results"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        🏆
+    </span>
+
+    Results
+
+</a>
+
+
+                <a href="./fees.html" class="page-nav-link">
+                    <span class="page-nav-icon">₹</span>
+                    Fees
+                </a>
+
+<a
+    href="./registration.html"
+    data-page-link="Registration"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◫
+    </span>
+
+    Registration
+
+</a>
+              <a
+  href="./library.html"
+  data-page-link="Library"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">📚</span>
+  Library
+</a>
+<a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="nav-link"
+>
+  <span class="nav-icon">▣</span>
+  <span>Notices & News</span>
+</a>
+<a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+               <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+<a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <!-- TOPBAR -->
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Attendance
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search attendance..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CONTENT -->
+
+            <section class="page-content">
+
+
+                <!-- =================================
+                     HEADER
+                ================================== -->
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        ACADEMIC TRACKING
+                    </span>
+
+                    <h1>
+                        Attendance
+                    </h1>
+
+                    <p>
+                        Track your class attendance
+                        and know when you need to attend.
+                    </p>
+
+                </section>
+
+
+                <!-- =================================
+                     OVERALL + SUBJECTS
+                ================================== -->
+
+                <section class="attendance-page-grid">
+
+
+                    <!-- OVERALL -->
+
+                    <article
+                        class="overall-attendance-card"
+                    >
+
+                        <span class="card-kicker">
+                            OVERALL
+                        </span>
+
+                        <div class="attendance-main">
+
+
+                            <div class="attendance-donut">
+
+                                <div
+                                    class="attendance-donut-content"
+                                >
+
+                                    <strong>
+                                        82%
+                                    </strong>
+
+                                    <span>
+                                        ATTENDANCE
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="attendance-info">
+
+                                <h2>
+                                    Good Standing
+                                </h2>
+
+                                <p>
+                                    Your current attendance
+                                    is above the minimum
+                                    required percentage.
+                                </p>
+
+                                <span class="safe-zone">
+                                    ✓ SAFE ZONE • 75%+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="attendance-stats">
+
+
+                            <div class="attendance-stat">
+
+                                <strong>
+                                    41
+                                </strong>
+
+                                <span>
+                                    PRESENT
+                                </span>
+
+                            </div>
+
+
+                            <div class="attendance-stat">
+
+                                <strong>
+                                    9
+                                </strong>
+
+                                <span>
+                                    ABSENT
+                                </span>
+
+                            </div>
+
+
+                            <div class="attendance-stat">
+
+                                <strong>
+                                    50
+                                </strong>
+
+                                <span>
+                                    TOTAL
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- SUBJECTS -->
+
+                    <article
+                        class="attendance-subject-card"
+                    >
+
+                        <span class="card-kicker">
+                            SUBJECT-WISE
+                        </span>
+
+                        <h2>
+                            Attendance Breakdown
+                        </h2>
+
+
+                        <!-- DSA -->
+
+                        <div class="subject-attendance-row">
+
+                            <div class="subject-attendance-header">
+
+                                <div class="subject-name">
+
+                                    <span
+                                        class="subject-dot"
+                                    ></span>
+
+                                    Data Structures
+
+                                </div>
+
+                                <span
+                                    class="subject-percent"
+                                >
+                                    84%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-detail">
+
+                                <span>
+                                    21 / 25 classes
+                                </span>
+
+                                <span>
+                                    Good
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="subject-attendance-bar"
+                            >
+
+                                <span
+                                    class="subject-attendance-fill"
+                                    style="width:84%"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DBMS -->
+
+                        <div class="subject-attendance-row">
+
+                            <div class="subject-attendance-header">
+
+                                <div class="subject-name">
+
+                                    <span
+                                        class="subject-dot"
+                                    ></span>
+
+                                    DBMS
+
+                                </div>
+
+                                <span
+                                    class="subject-percent"
+                                >
+                                    78%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-detail">
+
+                                <span>
+                                    18 / 23 classes
+                                </span>
+
+                                <span>
+                                    Good
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="subject-attendance-bar"
+                            >
+
+                                <span
+                                    class="subject-attendance-fill"
+                                    style="width:78%"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- OS -->
+
+                        <div class="subject-attendance-row">
+
+                            <div class="subject-attendance-header">
+
+                                <div class="subject-name">
+
+                                    <span
+                                        class="subject-dot"
+                                    ></span>
+
+                                    Operating Systems
+
+                                </div>
+
+                                <span
+                                    class="subject-percent"
+                                >
+                                    91%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-detail">
+
+                                <span>
+                                    20 / 22 classes
+                                </span>
+
+                                <span>
+                                    Excellent
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="subject-attendance-bar"
+                            >
+
+                                <span
+                                    class="subject-attendance-fill"
+                                    style="width:91%"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CN -->
+
+                        <div class="subject-attendance-row">
+
+                            <div class="subject-attendance-header">
+
+                                <div class="subject-name">
+
+                                    <span
+                                        class="subject-dot"
+                                    ></span>
+
+                                    Computer Networks
+
+                                </div>
+
+                                <span
+                                    class="subject-percent"
+                                >
+                                    73%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-detail">
+
+                                <span>
+                                    16 / 22 classes
+                                </span>
+
+                                <span>
+                                    Watch closely
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="subject-attendance-bar"
+                            >
+
+                                <span
+                                    class="subject-attendance-fill warning"
+                                    style="width:73%"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MATH -->
+
+                        <div class="subject-attendance-row">
+
+                            <div class="subject-attendance-header">
+
+                                <div class="subject-name">
+
+                                    <span
+                                        class="subject-dot"
+                                    ></span>
+
+                                    Mathematics III
+
+                                </div>
+
+                                <span
+                                    class="subject-percent"
+                                >
+                                    69%
+                                </span>
+
+                            </div>
+
+                            <div class="subject-detail">
+
+                                <span>
+                                    11 / 16 classes
+                                </span>
+
+                                <span>
+                                    Below safe zone
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="subject-attendance-bar"
+                            >
+
+                                <span
+                                    class="subject-attendance-fill danger"
+                                    style="width:69%"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================
+                     PREDICTOR
+                ================================== -->
+
+                <article
+                    class="predictor-card"
+                >
+
+                    <div class="predictor-header">
+
+                        <h2>
+                            🧠 Smart Attendance Predictor
+                        </h2>
+
+                        <span class="predictor-badge">
+                            SMART TOOL
+                        </span>
+
+                    </div>
+
+
+                    <p class="predictor-description">
+
+                        Enter your current attendance,
+                        total classes and upcoming classes.
+                        BitCampus will calculate how many
+                        classes you need to attend to reach
+                        your target.
+
+                    </p>
+
+
+                    <div class="predictor-form">
+
+
+                        <div class="predictor-field">
+
+                            <label>
+                                Current Attendance (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="currentAttendance"
+                                value="69"
+                                min="0"
+                                max="100"
+                            >
+
+                        </div>
+
+
+                        <div class="predictor-field">
+
+                            <label>
+                                Classes Held
+                            </label>
+
+                            <input
+                                type="number"
+                                id="classesHeld"
+                                value="16"
+                                min="1"
+                            >
+
+                        </div>
+
+
+                        <div class="predictor-field">
+
+                            <label>
+                                Target (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="targetAttendance"
+                                value="75"
+                                min="1"
+                                max="100"
+                            >
+
+                        </div>
+
+
+                        <button
+                            class="predictor-btn"
+                            id="calculateAttendance"
+                        >
+                            CALCULATE
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="predictor-result"
+                        id="predictorResult"
+                    >
+
+                        <strong id="predictorMainText">
+                        </strong>
+
+                        <span id="predictorSubText">
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================
+                     HISTORY
+                ================================== -->
+
+                <article class="history-card">
+
+                    <span class="card-kicker">
+                        RECENT RECORD
+                    </span>
+
+                    <h2>
+                        Attendance History
+                    </h2>
+
+
+                    <div class="history-table-wrap">
+
+                        <table class="history-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Subject</th>
+                                    <th>Class</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>14 Sep</td>
+                                    <td>DBMS</td>
+                                    <td>Database Basics</td>
+                                    <td class="present">
+                                        Present
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>14 Sep</td>
+                                    <td>DSA</td>
+                                    <td>Trees</td>
+                                    <td class="present">
+                                        Present
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>13 Sep</td>
+                                    <td>Math</td>
+                                    <td>Laplace Transform</td>
+                                    <td class="absent">
+                                        Absent
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>13 Sep</td>
+                                    <td>OS</td>
+                                    <td>Memory Management</td>
+                                    <td class="present">
+                                        Present
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>12 Sep</td>
+                                    <td>CN</td>
+                                    <td>Routing</td>
+                                    <td class="present">
+                                        Present
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           ATTENDANCE PREDICTOR
+        ================================= */
+
+        const calculateButton =
+            document.getElementById(
+                "calculateAttendance"
+            );
+
+        const currentInput =
+            document.getElementById(
+                "currentAttendance"
+            );
+
+        const heldInput =
+            document.getElementById(
+                "classesHeld"
+            );
+
+        const targetInput =
+            document.getElementById(
+                "targetAttendance"
+            );
+
+        const resultBox =
+            document.getElementById(
+                "predictorResult"
+            );
+
+        const mainText =
+            document.getElementById(
+                "predictorMainText"
+            );
+
+        const subText =
+            document.getElementById(
+                "predictorSubText"
+            );
+
+
+        function calculateRequiredClasses() {
+
+            const current =
+                Number(
+                    currentInput.value
+                );
+
+            const held =
+                Number(
+                    heldInput.value
+                );
+
+            const target =
+                Number(
+                    targetInput.value
+                );
+
+
+            /* Validation */
+
+            if (
+                !Number.isFinite(current) ||
+                !Number.isFinite(held) ||
+                !Number.isFinite(target) ||
+                held <= 0 ||
+                current < 0 ||
+                current > 100 ||
+                target <= 0 ||
+                target >= 100
+            ) {
+
+                mainText.textContent =
+                    "Please enter valid values.";
+
+                subText.textContent =
+                    "Attendance must be between 0–100%.";
+
+                resultBox.classList.add(
+                    "show"
+                );
+
+                return;
+
+            }
+
+
+            const present =
+                (current / 100) * held;
+
+
+            /*
+             * We want:
+             *
+             * (present + x) /
+             * (held + x)
+             *
+             * >= target / 100
+             */
+
+            const targetDecimal =
+                target / 100;
+
+
+            const numerator =
+                targetDecimal * held
+                - present;
+
+
+            const denominator =
+                1 - targetDecimal;
+
+
+            const required =
+                Math.ceil(
+                    numerator / denominator
+                );
+
+
+            if (current >= target) {
+
+                mainText.textContent =
+                    `You're already above ${target}%.`;
+
+
+                subText.textContent =
+                    `Current attendance is ${current}%. Keep attending to stay safe.`;
+
+            } else if (required <= 0) {
+
+                mainText.textContent =
+                    `You're already above ${target}%.`;
+
+
+                subText.textContent =
+                    "No additional classes are required.";
+
+            } else {
+
+                mainText.textContent =
+                    `Attend the next ${required} classes.`;
+
+
+                subText.textContent =
+                    `Your attendance can reach approximately ${target}% if you attend every one of them.`;
+
+            }
+
+
+            resultBox.classList.add(
+                "show"
+            );
+
+        }
+
+
+        calculateButton.addEventListener(
+            "click",
+            calculateRequiredClasses
+        );
+
+
+        /* Run once on page load */
+
+        calculateRequiredClasses();
+
+
+        /* =================================
+           STUDENT PROFILE LINK
+        ================================= */
+
+        /*
+         * Profile page abhi current project
+         * me create nahi hui hai.
+         *
+         * Isliye abhi # hi rakha gaya hai.
+         */
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Results</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           RESULTS PAGE
+        ================================= */
+
+        .result-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .result-summary-card {
+            padding: 18px;
+            border: 2px solid var(--border);
+            box-shadow: 4px 5px 0 rgba(0,0,0,.14);
+        }
+
+        .result-summary-card:nth-child(1) {
+            background: var(--mint);
+        }
+
+        .result-summary-card:nth-child(2) {
+            background: var(--pink);
+        }
+
+        .result-summary-card:nth-child(3) {
+            background: var(--lavender);
+        }
+
+        .result-summary-card:nth-child(4) {
+            background: var(--yellow);
+        }
+
+        .result-summary-card span {
+            display: block;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .result-summary-card strong {
+            display: block;
+            margin-top: 7px;
+            font-family: Georgia, serif;
+            font-size: 30px;
+        }
+
+        /* =================================
+           MAIN RESULT GRID
+        ================================= */
+
+        .results-main-grid {
+            display: grid;
+            grid-template-columns: 1.35fr .85fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .marksheet-card {
+            padding: 20px;
+            background: var(--paper);
+            border: 3px solid var(--border);
+            box-shadow: 6px 7px 0 rgba(0,0,0,.15);
+        }
+
+        .marksheet-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .marksheet-label {
+            display: inline-block;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            background: var(--yellow);
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .marksheet-head h2 {
+            margin-top: 10px;
+            font-family: Georgia, serif;
+            font-size: 25px;
+        }
+
+        .marksheet-head p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .marksheet-stamp {
+            padding: 9px 11px;
+            border: 2px solid var(--border);
+            background: var(--pink);
+            font-size: 9px;
+            font-weight: 900;
+            transform: rotate(4deg);
+        }
+
+        .marks-table-wrap {
+            overflow-x: auto;
+            margin-top: 18px;
+        }
+
+        .marks-table {
+            width: 100%;
+            min-width: 620px;
+            border-collapse: collapse;
+        }
+
+        .marks-table th,
+        .marks-table td {
+            padding: 10px 8px;
+            border: 1px solid #9f8e75;
+            text-align: left;
+            font-size: 9px;
+        }
+
+        .marks-table th {
+            background: var(--yellow-light);
+            font-weight: 900;
+        }
+
+        .marks-table td:nth-child(2),
+        .marks-table td:nth-child(3),
+        .marks-table td:nth-child(4),
+        .marks-table td:nth-child(5) {
+            text-align: center;
+        }
+
+        .grade {
+            display: inline-block;
+            min-width: 24px;
+            padding: 4px;
+            text-align: center;
+            border: 1px solid var(--border);
+            background: var(--mint);
+            font-weight: 900;
+        }
+
+        .marksheet-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 15px;
+            color: var(--muted);
+            font-size: 8px;
+        }
+
+        /* =================================
+           PERFORMANCE
+        ================================= */
+
+        .performance-card {
+            padding: 20px;
+            background: var(--paper-light);
+            border: 2px solid var(--border);
+            box-shadow: 5px 6px 0 rgba(0,0,0,.14);
+        }
+
+        .performance-card h2 {
+            font-family: Georgia, serif;
+            font-size: 20px;
+        }
+
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            height: 190px;
+            margin-top: 20px;
+            padding:
+                15px 10px 25px;
+            border-bottom:
+                2px solid var(--border);
+        }
+
+        .chart-item {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .chart-bar {
+            width: min(35px, 70%);
+            height: calc(var(--score) * 1.45px);
+            max-height: 145px;
+            min-height: 12px;
+            background: var(--green-dark);
+            border: 1px solid var(--border);
+            transition: .4s ease;
+        }
+
+        .chart-item:hover .chart-bar {
+            background: var(--pink);
+        }
+
+        .chart-item span {
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .chart-item small {
+            color: var(--muted);
+            font-size: 7px;
+        }
+
+        /* =================================
+           INSIGHTS
+        ================================= */
+
+        .insights-card {
+            padding: 20px;
+            margin-top: 14px;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            box-shadow: 5px 6px 0 rgba(0,0,0,.14);
+        }
+
+        .insight-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .insight {
+            padding: 12px;
+            border: 1px dashed #9f8e75;
+            background: rgba(255,255,255,.28);
+        }
+
+        .insight span {
+            display: block;
+            color: var(--muted);
+            font-size: 8px;
+        }
+
+        .insight strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+        }
+
+        /* =================================
+           CALCULATOR
+        ================================= */
+
+        .calculator-card {
+            margin-top: 14px;
+            padding: 20px;
+            background: var(--yellow-light);
+            border: 2px solid var(--border);
+            box-shadow: 5px 6px 0 rgba(0,0,0,.14);
+        }
+
+        .calculator-card h2 {
+            font-family: Georgia, serif;
+            font-size: 21px;
+        }
+
+        .calculator-card p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr) auto;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .calc-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .calc-field input {
+            width: 100%;
+            height: 40px;
+            padding: 0 9px;
+            border: 1px solid var(--border);
+            outline: none;
+            background: var(--paper-light);
+            font-size: 10px;
+        }
+
+        .calc-add-btn,
+        .calc-btn {
+            align-self: end;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            background: var(--ink);
+            color: var(--paper-light);
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .calculator-subjects {
+            margin-top: 14px;
+        }
+
+        .calc-subject {
+            display: grid;
+            grid-template-columns: 1.4fr .7fr .7fr .7fr auto;
+            gap: 7px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #aa9b83;
+        }
+
+        .calc-subject span {
+            font-size: 9px;
+        }
+
+        .calc-remove {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--border);
+            background: var(--pink);
+            font-weight: 900;
+        }
+
+        .calculator-result {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px dashed var(--border);
+            background: rgba(255,255,255,.4);
+        }
+
+        .calculator-result.show {
+            display: block;
+        }
+
+        .calculator-result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+        }
+
+        .calc-result-box {
+            padding: 10px;
+            background: var(--paper-light);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .calc-result-box span {
+            display: block;
+            color: var(--muted);
+            font-size: 8px;
+        }
+
+        .calc-result-box strong {
+            display: block;
+            margin-top: 4px;
+            font-family: Georgia, serif;
+            font-size: 22px;
+        }
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1100px) {
+
+            .result-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .results-main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .calc-add-btn,
+            .calc-btn {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .result-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .insight-list {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-result-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- LOADER -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>BITCAMPUS</strong>
+
+            <span data-loader-text>
+                Loading results...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>BitCampus</strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    data-page-link="Attendance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    data-page-link="Assignments"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+
+                <a
+                    href="./timetable.html"
+                    data-page-link="Timetable"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Timetable
+                </a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+
+                <a
+                    href="./results.html"
+                    data-page-link="Results"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">🏆</span>
+                    Results
+                </a>
+
+
+            <a
+    href="./fees.html"
+    data-page-link="Fees"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        ₹
+    </span>
+
+    Fees
+</a>
+<a
+    href="./registration.html"
+    data-page-link="Registration"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◫
+    </span>
+
+    Registration
+
+</a>
+
+
+              <a
+  href="./library.html"
+  data-page-link="Library"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">📚</span>
+  Library
+</a>
+                <a href="./notices.html" class="page-nav-link">
+                    <span class="page-nav-icon">📢</span>
+                    Notices & News
+                </a>
+
+<a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+
+               <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+
+<a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+
+               <a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+<a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+
+            </nav>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="page-breadcrumb">
+
+                        <span>BitCampus</span>
+
+                        <b>/</b>
+
+                        <strong>Results</strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search results..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <section class="page-content">
+
+
+                <!-- =================================
+                     HEADER
+                ================================== -->
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        ACADEMIC RESULTS
+                    </span>
+
+                    <h1>
+                        Results
+                    </h1>
+
+                    <p>
+                        View your semester marks,
+                        grades and academic performance.
+                    </p>
+
+                </section>
+
+
+                <!-- =================================
+                     SUMMARY
+                ================================== -->
+
+                <section class="result-summary">
+
+
+                    <article class="result-summary-card">
+
+                        <span>
+                            CURRENT SGPA
+                        </span>
+
+                        <strong>
+                            8.20
+                        </strong>
+
+                    </article>
+
+
+                    <article class="result-summary-card">
+
+                        <span>
+                            OVERALL CGPA
+                        </span>
+
+                        <strong>
+                            8.34
+                        </strong>
+
+                    </article>
+
+
+                    <article class="result-summary-card">
+
+                        <span>
+                            PERCENTAGE
+                        </span>
+
+                        <strong>
+                            79.23%
+                        </strong>
+
+                    </article>
+
+
+                    <article class="result-summary-card">
+
+                        <span>
+                            CREDITS
+                        </span>
+
+                        <strong>
+                            42
+                        </strong>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================
+                     MAIN RESULTS
+                ================================== -->
+
+                <section class="results-main-grid">
+
+
+                    <!-- MARKSHEET -->
+
+                    <article class="marksheet-card">
+
+                        <div class="marksheet-head">
+
+                            <div>
+
+                                <span class="marksheet-label">
+                                    OFFICIAL RECORD
+                                </span>
+
+                                <h2>
+                                    Semester 3 Marksheet
+                                </h2>
+
+                                <p>
+                                    B.Tech Computer Science Engineering
+                                </p>
+
+                            </div>
+
+
+                            <span class="marksheet-stamp">
+                                VERIFIED
+                            </span>
+
+                        </div>
+
+
+                        <div class="marks-table-wrap">
+
+                            <table class="marks-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Subject
+                                        </th>
+
+                                        <th>
+                                            Marks
+                                        </th>
+
+                                        <th>
+                                            Grade
+                                        </th>
+
+                                        <th>
+                                            Credits
+                                        </th>
+
+                                        <th>
+                                            Grade Point
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="marksTableBody">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <div class="marksheet-footer">
+
+                            <span>
+                                Result Status: PASS
+                            </span>
+
+                            <span>
+                                Semester 3
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PERFORMANCE -->
+
+                    <article class="performance-card">
+
+                        <span class="card-kicker">
+                            ANALYTICS
+                        </span>
+
+                        <h2>
+                            Subject Performance
+                        </h2>
+
+
+                        <div class="chart">
+
+                            <div class="chart-item">
+
+                                <div
+                                    class="chart-bar"
+                                    style="--score:86"
+                                ></div>
+
+                                <span>DSA</span>
+
+                                <small>86</small>
+
+                            </div>
+
+
+                            <div class="chart-item">
+
+                                <div
+                                    class="chart-bar"
+                                    style="--score:91"
+                                ></div>
+
+                                <span>DBMS</span>
+
+                                <small>91</small>
+
+                            </div>
+
+
+                            <div class="chart-item">
+
+                                <div
+                                    class="chart-bar"
+                                    style="--score:78"
+                                ></div>
+
+                                <span>OS</span>
+
+                                <small>78</small>
+
+                            </div>
+
+
+                            <div class="chart-item">
+
+                                <div
+                                    class="chart-bar"
+                                    style="--score:84"
+                                ></div>
+
+                                <span>CN</span>
+
+                                <small>84</small>
+
+                            </div>
+
+
+                            <div class="chart-item">
+
+                                <div
+                                    class="chart-bar"
+                                    style="--score:72"
+                                ></div>
+
+                                <span>Math</span>
+
+                                <small>72</small>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================
+                     INSIGHTS
+                ================================== -->
+
+                <section class="insights-card">
+
+                    <span class="card-kicker">
+                        PERFORMANCE NOTES
+                    </span>
+
+                    <h2>
+                        Academic Insights
+                    </h2>
+
+
+                    <div class="insight-list">
+
+
+                        <div class="insight">
+
+                            <span>
+                                STRONGEST SUBJECT
+                            </span>
+
+                            <strong id="strongestSubject">
+                                DBMS — 91
+                            </strong>
+
+                        </div>
+
+
+                        <div class="insight">
+
+                            <span>
+                                NEEDS ATTENTION
+                            </span>
+
+                            <strong id="weakestSubject">
+                                Mathematics — 72
+                            </strong>
+
+                        </div>
+
+
+                        <div class="insight">
+
+                            <span>
+                                HIGHEST GRADE
+                            </span>
+
+                            <strong>
+                                A+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="insight">
+
+                            <span>
+                                RESULT STATUS
+                            </span>
+
+                            <strong>
+                                PASS
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================
+                     CGPA CALCULATOR
+                ================================== -->
+
+                <section class="calculator-card">
+
+                    <span class="card-kicker">
+                        SMART TOOL
+                    </span>
+
+                    <h2>
+                        SGPA Calculator
+                    </h2>
+
+                    <p>
+                        Add subjects, enter grade points
+                        and credits to calculate your SGPA.
+                    </p>
+
+
+                    <div class="calculator-subjects"
+                         id="calculatorSubjects"
+                    >
+                    </div>
+
+
+                    <div class="calc-row">
+
+                        <button
+                            class="calc-add-btn"
+                            id="addSubjectBtn"
+                        >
+                            + ADD SUBJECT
+                        </button>
+
+                        <div></div>
+                        <div></div>
+                        <div></div>
+
+                        <button
+                            class="calc-btn"
+                            id="calculateSgpa"
+                        >
+                            CALCULATE
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="calculator-result"
+                        id="calculatorResult"
+                    >
+
+                        <div
+                            class="calculator-result-grid"
+                        >
+
+                            <div class="calc-result-box">
+
+                                <span>
+                                    TOTAL CREDITS
+                                </span>
+
+                                <strong id="totalCredits">
+                                    0
+                                </strong>
+
+                            </div>
+
+
+                            <div class="calc-result-box">
+
+                                <span>
+                                    SGPA
+                                </span>
+
+                                <strong id="calculatedSgpa">
+                                    0.00
+                                </strong>
+
+                            </div>
+
+
+                            <div class="calc-result-box">
+
+                                <span>
+                                    EST. PERCENTAGE
+                                </span>
+
+                                <strong id="estimatedPercentage">
+                                    0%
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           RESULT DATA
+        ================================= */
+
+        const subjects = [
+
+            {
+                name:
+                    "Data Structures",
+
+                marks:
+                    86,
+
+                grade:
+                    "A",
+
+                credits:
+                    4,
+
+                gradePoint:
+                    9
+            },
+
+            {
+                name:
+                    "Database Management Systems",
+
+                marks:
+                    91,
+
+                grade:
+                    "A+",
+
+                credits:
+                    4,
+
+                gradePoint:
+                    10
+            },
+
+            {
+                name:
+                    "Operating Systems",
+
+                marks:
+                    78,
+
+                grade:
+                    "B+",
+
+                credits:
+                    4,
+
+                gradePoint:
+                    8
+            },
+
+            {
+                name:
+                    "Computer Networks",
+
+                marks:
+                    84,
+
+                grade:
+                    "A",
+
+                credits:
+                    4,
+
+                gradePoint:
+                    9
+            },
+
+            {
+                name:
+                    "Mathematics III",
+
+                marks:
+                    72,
+
+                grade:
+                    "B+",
+
+                credits:
+                    4,
+
+                gradePoint:
+                    8
+            }
+
+        ];
+
+
+        /* =================================
+           RENDER MARKSHEET
+        ================================= */
+
+        const marksTableBody =
+            document.getElementById(
+                "marksTableBody"
+            );
+
+
+        function renderMarksheet() {
+
+            marksTableBody.innerHTML =
+                subjects.map(
+                    subject => `
+
+                        <tr>
+
+                            <td>
+                                ${subject.name}
+                            </td>
+
+                            <td>
+                                ${subject.marks}
+                            </td>
+
+                            <td>
+                                <span class="grade">
+                                    ${subject.grade}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${subject.credits}
+                            </td>
+
+                            <td>
+                                ${subject.gradePoint}
+                            </td>
+
+                        </tr>
+
+                    `
+                ).join("");
+
+        }
+
+
+        renderMarksheet();
+
+
+        /* =================================
+           PERFORMANCE INSIGHTS
+        ================================= */
+
+        const strongest =
+            subjects.reduce(
+                (best, item) =>
+                    item.marks > best.marks
+                        ? item
+                        : best
+            );
+
+
+        const weakest =
+            subjects.reduce(
+                (worst, item) =>
+                    item.marks < worst.marks
+                        ? item
+                        : worst
+            );
+
+
+        document.getElementById(
+            "strongestSubject"
+        ).textContent =
+            `${strongest.name} — ${strongest.marks}`;
+
+
+        document.getElementById(
+            "weakestSubject"
+        ).textContent =
+            `${weakest.name} — ${weakest.marks}`;
+
+
+        /* =================================
+           SGPA CALCULATOR
+        ================================= */
+
+        const calculatorSubjects =
+            document.getElementById(
+                "calculatorSubjects"
+            );
+
+
+        const calculatorResult =
+            document.getElementById(
+                "calculatorResult"
+            );
+
+
+        let calculatorRows = [];
+
+
+        function addCalculatorSubject(
+            name = "",
+            gradePoint = "",
+            credits = ""
+        ) {
+
+            const id =
+                Date.now() +
+                Math.random();
+
+
+            calculatorRows.push({
+                id,
+                name,
+                gradePoint,
+                credits
+            });
+
+
+            renderCalculatorRows();
+
+        }
+
+
+        function renderCalculatorRows() {
+
+            calculatorSubjects.innerHTML =
+                calculatorRows.map(
+                    (item, index) => `
+
+                        <div
+                            class="calc-subject"
+                            data-id="${item.id}"
+                        >
+
+                            <input
+                                class="calc-input-name"
+                                type="text"
+                                placeholder="Subject"
+                                value="${item.name}"
+                            >
+
+                            <input
+                                class="calc-input-grade"
+                                type="number"
+                                min="0"
+                                max="10"
+                                step="0.1"
+                                placeholder="Grade Point"
+                                value="${item.gradePoint}"
+                            >
+
+                            <input
+                                class="calc-input-credit"
+                                type="number"
+                                min="1"
+                                max="10"
+                                step="1"
+                                placeholder="Credits"
+                                value="${item.credits}"
+                            >
+
+                            <span>
+                                GP × C
+                            </span>
+
+                            <button
+                                class="calc-remove"
+                                data-remove="${item.id}"
+                                type="button"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+                    `
+                ).join("");
+
+
+            document
+                .querySelectorAll(
+                    ".calc-remove"
+                )
+                .forEach(
+                    button => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                const id =
+                                    button.dataset.remove;
+
+
+                                calculatorRows =
+                                    calculatorRows.filter(
+                                        item =>
+                                            String(
+                                                item.id
+                                            ) !==
+                                            String(id)
+                                    );
+
+
+                                renderCalculatorRows();
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        /* =================================
+           DEFAULT ROWS
+        ================================= */
+
+        addCalculatorSubject(
+            "Data Structures",
+            9,
+            4
+        );
+
+        addCalculatorSubject(
+            "DBMS",
+            10,
+            4
+        );
+
+        addCalculatorSubject(
+            "Operating Systems",
+            8,
+            4
+        );
+
+        addCalculatorSubject(
+            "Computer Networks",
+            9,
+            4
+        );
+
+
+        /* =================================
+           ADD SUBJECT
+        ================================= */
+
+        document
+            .getElementById(
+                "addSubjectBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    addCalculatorSubject();
+
+                }
+            );
+
+
+        /* =================================
+           CALCULATE
+        ================================= */
+
+        document
+            .getElementById(
+                "calculateSgpa"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    const rows =
+                        document
+                            .querySelectorAll(
+                                ".calc-subject"
+                            );
+
+
+                    if (!rows.length) {
+
+                        return;
+
+                    }
+
+
+                    let totalCredits = 0;
+
+                    let weightedPoints = 0;
+
+
+                    let valid = true;
+
+
+                    rows.forEach(row => {
+
+                        const gradePoint =
+                            Number(
+                                row
+                                    .querySelector(
+                                        ".calc-input-grade"
+                                    )
+                                    .value
+                            );
+
+
+                        const credits =
+                            Number(
+                                row
+                                    .querySelector(
+                                        ".calc-input-credit"
+                                    )
+                                    .value
+                            );
+
+
+                        if (
+                            !Number.isFinite(
+                                gradePoint
+                            ) ||
+                            !Number.isFinite(
+                                credits
+                            ) ||
+                            gradePoint < 0 ||
+                            gradePoint > 10 ||
+                            credits <= 0
+                        ) {
+
+                            valid = false;
+
+                            return;
+
+                        }
+
+
+                        weightedPoints +=
+                            gradePoint *
+                            credits;
+
+
+                        totalCredits +=
+                            credits;
+
+                    });
+
+
+                    if (
+                        !valid ||
+                        totalCredits === 0
+                    ) {
+
+                        alert(
+                            "Please enter valid grade points and credits."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const sgpa =
+                        weightedPoints /
+                        totalCredits;
+
+
+                    /*
+                     * Common rough conversion
+                     * used for this prototype.
+                     * It is not a university-standard
+                     * conversion.
+                     */
+
+                    const percentage =
+                        Math.max(
+                            0,
+                            Math.min(
+                                100,
+                                (
+                                    sgpa -
+                                    0.75
+                                ) * 10
+                            )
+                        );
+
+
+                    document.getElementById(
+                        "totalCredits"
+                    ).textContent =
+                        totalCredits;
+
+
+                    document.getElementById(
+                        "calculatedSgpa"
+                    ).textContent =
+                        sgpa.toFixed(2);
+
+
+                    document.getElementById(
+                        "estimatedPercentage"
+                    ).textContent =
+                        `${percentage.toFixed(2)}%`;
+
+
+                    calculatorResult.classList.add(
+                        "show"
+                    );
+
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>

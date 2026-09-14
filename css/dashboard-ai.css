@@ -1,0 +1,231 @@
+/* =====================================================
+   BITAI — DASHBOARD DAILY BRIEF
+===================================================== */
+
+.bitai-dashboard {
+    margin: 26px 0;
+    border: 3px solid #28231f;
+    background: #fff4d6;
+    box-shadow: 7px 7px 0 #28231f;
+    overflow: hidden;
+}
+
+.bitai-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    padding: 16px 20px;
+
+    background: #28231f;
+    color: #fff4d6;
+}
+
+.bitai-dashboard-brand {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.bitai-dashboard-status {
+    margin-top: 3px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #9fd6b5;
+}
+
+.bitai-dashboard-online {
+    padding: 6px 9px;
+    border: 1px solid #fff4d6;
+    color: #9fd6b5;
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.bitai-dashboard-body {
+    padding: 20px;
+}
+
+.bitai-greeting {
+    font-size: 14px;
+    font-weight: 800;
+    opacity: 0.7;
+}
+
+.bitai-greeting strong {
+    color: #28231f;
+    font-size: 22px;
+}
+
+.bitai-dashboard-title {
+    margin-top: 4px;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.bitai-dashboard-subtitle {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: 0.65;
+}
+
+.bitai-insight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+    margin-top: 18px;
+}
+
+.bitai-insight {
+    border: 2px solid #28231f;
+    padding: 14px;
+    background: #f2e4c4;
+    min-height: 110px;
+}
+
+.bitai-insight.warning {
+    background: #e7a7b7;
+}
+
+.bitai-insight.good {
+    background: #9fd6b5;
+}
+
+.bitai-insight.info {
+    background: #b7a9d6;
+}
+
+.bitai-insight-icon {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.bitai-insight-title {
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.bitai-insight-text {
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.5;
+    opacity: 0.72;
+}
+
+.bitai-priority-box {
+    margin-top: 16px;
+    padding: 15px;
+
+    border: 2px dashed #28231f;
+    background: #fffdf4;
+}
+
+.bitai-priority-label {
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.bitai-priority-text {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.bitai-plan {
+    margin-top: 16px;
+}
+
+.bitai-plan-title {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.bitai-plan-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.bitai-plan-item {
+    border: 1px solid #28231f;
+    padding: 11px;
+    background: #fff4d6;
+}
+
+.bitai-plan-number {
+    font-size: 10px;
+    font-weight: 900;
+    opacity: 0.55;
+}
+
+.bitai-plan-task {
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.bitai-dashboard-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 17px;
+}
+
+.bitai-dashboard-btn {
+    border: 2px solid #28231f;
+    background: #28231f;
+    color: #fff4d6;
+    padding: 10px 13px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.bitai-dashboard-btn.secondary {
+    background: #e2b84b;
+    color: #28231f;
+}
+
+.bitai-dashboard-btn:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 950px) {
+
+    .bitai-insight-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .bitai-plan-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .bitai-dashboard-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .bitai-insight-grid,
+    .bitai-plan-list {
+        grid-template-columns: 1fr;
+    }
+
+    .bitai-dashboard-title {
+        font-size: 21px;
+    }
+
+}

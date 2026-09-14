@@ -1,0 +1,2851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student Profile | BitCampus</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+    <link
+    rel="stylesheet"
+    href="../css/bitai.css"
+>
+
+    <style>
+
+        /* =====================================
+           PROFILE PAGE
+        ===================================== */
+
+        .profile-hero {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .profile-card-main {
+            background: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 6px 6px 0 #28231f;
+            padding: 25px;
+        }
+
+        .profile-identity {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .profile-avatar {
+            width: 92px;
+            height: 92px;
+            flex-shrink: 0;
+            border: 3px solid #28231f;
+            background: #e7a7b7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 900;
+            box-shadow: 5px 5px 0 #28231f;
+        }
+
+        .profile-name {
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .profile-course {
+            margin-top: 6px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .profile-id {
+            display: inline-block;
+            margin-top: 9px;
+            padding: 5px 9px;
+            border: 1px solid #28231f;
+            background: #e2b84b;
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .profile-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .profile-btn {
+            padding: 10px 13px;
+            border: 2px solid #28231f;
+            background: #28231f;
+            color: #fff4d6;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .profile-btn.secondary {
+            background: transparent;
+            color: #28231f;
+        }
+
+        .profile-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* COMPLETION */
+
+        .completion-card {
+            background: #9fd6b5;
+            border: 2px solid #28231f;
+            box-shadow: 6px 6px 0 #28231f;
+            padding: 25px;
+        }
+
+        .completion-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 900;
+            opacity: 0.7;
+        }
+
+        .completion-value {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 6px 0;
+        }
+
+        .completion-text {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .completion-bar {
+            height: 12px;
+            border: 2px solid #28231f;
+            background: #fff4d6;
+            margin-top: 15px;
+        }
+
+        .completion-bar span {
+            display: block;
+            width: 78%;
+            height: 100%;
+            background: #28231f;
+        }
+
+        /* MAIN GRID */
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .profile-panel {
+            background: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 5px 5px 0 #28231f;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        /* INFO */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .info-item {
+            border: 1px dashed #28231f;
+            background: #f2e4c4;
+            padding: 13px;
+        }
+
+        .info-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            opacity: 0.6;
+            letter-spacing: 0.8px;
+        }
+
+        .info-value {
+            margin-top: 4px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        /* FORM */
+
+        .profile-form {
+            margin-top: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .profile-input,
+        .profile-select,
+        .profile-textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 2px solid #28231f;
+            background: #fffdf4;
+            color: #28231f;
+            font: inherit;
+            outline: none;
+        }
+
+        .profile-textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .profile-input:focus,
+        .profile-select:focus,
+        .profile-textarea:focus {
+            box-shadow: 4px 4px 0 #28231f;
+            transform: translate(-1px, -1px);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* DOCUMENTS */
+
+        .documents-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .document-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border: 2px solid #28231f;
+            padding: 14px;
+            background: #f2e4c4;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .document-icon {
+            width: 42px;
+            height: 42px;
+            border: 2px solid #28231f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e2b84b;
+            font-weight: 900;
+        }
+
+        .document-title {
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .document-meta {
+            margin-top: 3px;
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        .document-status {
+            padding: 5px 8px;
+            border: 1px solid #28231f;
+            background: #9fd6b5;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .document-btn {
+            border: 2px solid #28231f;
+            background: #fff4d6;
+            padding: 8px 10px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 800;
+        }
+
+        /* ADMIT CARD */
+
+        .admit-card {
+            background: #fffdf4;
+            border: 3px solid #28231f;
+            box-shadow: 6px 6px 0 #28231f;
+            padding: 20px;
+            margin-top: 18px;
+            position: relative;
+        }
+
+        .admit-card::before {
+            content: "BITCAMPUS";
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            opacity: 0.35;
+        }
+
+        .admit-title {
+            text-align: center;
+            font-size: 19px;
+            font-weight: 900;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #28231f;
+        }
+
+        .admit-subtitle {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 4px;
+            opacity: 0.65;
+        }
+
+        .admit-body {
+            display: grid;
+            grid-template-columns: 1fr 85px;
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .admit-details {
+            display: grid;
+            gap: 10px;
+        }
+
+        .admit-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .admit-row strong {
+            font-weight: 900;
+        }
+
+        .admit-photo {
+            width: 78px;
+            height: 96px;
+            border: 2px solid #28231f;
+            background: #e7a7b7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .exam-info {
+            margin-top: 16px;
+            padding-top: 13px;
+            border-top: 1px dashed #28231f;
+        }
+
+        .exam-info strong {
+            font-size: 11px;
+        }
+
+        .exam-info p {
+            margin-top: 5px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .print-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            border: 2px solid #28231f;
+            background: #28231f;
+            color: #fff4d6;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        /* SETTINGS */
+
+        .settings-list {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .setting-item {
+            border: 1px solid #28231f;
+            padding: 13px;
+            background: #f2e4c4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .setting-item strong {
+            font-size: 13px;
+        }
+
+        .setting-item small {
+            display: block;
+            margin-top: 3px;
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        .toggle {
+            position: relative;
+            width: 46px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #bbb;
+            border: 2px solid #28231f;
+            cursor: pointer;
+        }
+
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 2px;
+            top: 2px;
+            background: #fff4d6;
+            border: 1px solid #28231f;
+            transition: 0.2s;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background: #9fd6b5;
+        }
+
+        .toggle input:checked + .toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        .profile-note {
+            margin-top: 15px;
+            padding: 13px;
+            border: 2px dashed #28231f;
+            background: #f2e4c4;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* MODAL */
+
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(40,35,31,0.78);
+        }
+
+        .profile-modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: min(500px, 100%);
+            background: #fff4d6;
+            border: 3px solid #28231f;
+            box-shadow: 8px 8px 0 #000;
+            padding: 25px;
+        }
+
+        .modal-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .modal-box p {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            width: 100%;
+            margin-top: 18px;
+            padding: 10px;
+            border: 2px solid #28231f;
+            background: #28231f;
+            color: #fff4d6;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        /* =====================================
+           PRINT
+        ===================================== */
+
+        @media print {
+
+            body * {
+                visibility: hidden;
+            }
+
+            .admit-card,
+            .admit-card * {
+                visibility: visible;
+            }
+
+            .admit-card {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+
+        }
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 1050px) {
+
+            .profile-hero,
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-identity {
+                align-items: flex-start;
+            }
+
+            .profile-name {
+                font-size: 24px;
+            }
+
+            .profile-avatar {
+                width: 72px;
+                height: 72px;
+                font-size: 24px;
+            }
+
+            .admit-body {
+                grid-template-columns: 1fr;
+            }
+
+            .document-card {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .admit-row {
+                grid-template-columns: 95px 1fr;
+            }
+
+        }
+
+    
+/* =====================================
+   FINAL BITCAMPUS PROFILE LAYOUT
+===================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    background: #f2e4c4 !important;
+    color: #28231f !important;
+}
+
+body {
+    min-width: 0 !important;
+}
+
+.dashboard-shell {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+
+.sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 18px 12px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
+    background: #f2e4c4 !important;
+    border-right: 2px solid #28231f !important;
+}
+
+.brand,
+.sidebar-nav {
+    width: 100% !important;
+}
+
+.page-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 4px 0 !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+}
+
+.main-content {
+    width: calc(100% - 250px) !important;
+    min-width: 0 !important;
+    margin-left: 250px !important;
+    padding: 30px 34px 50px !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.page-header {
+    width: 100% !important;
+    min-height: auto !important;
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+}
+
+.profile-hero,
+.profile-grid {
+    width: 100% !important;
+}
+
+.profile-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr) !important;
+    gap: 22px !important;
+}
+
+.profile-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr) !important;
+    gap: 24px !important;
+    align-items: start !important;
+}
+
+.profile-grid > div,
+.profile-grid > aside {
+    min-width: 0 !important;
+}
+
+.profile-panel,
+.profile-card-main,
+.completion-card {
+    min-width: 0 !important;
+}
+
+.info-grid {
+    width: 100% !important;
+}
+
+.profile-input,
+.profile-select,
+.profile-textarea {
+    max-width: 100% !important;
+}
+
+.documents-list,
+.settings-list,
+.admit-card {
+    width: 100% !important;
+}
+
+.profile-modal {
+    position: fixed !important;
+    inset: 0 !important;
+}
+
+@media (max-width: 1050px) {
+    .profile-hero,
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-shell {
+        flex-direction: column !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+        inset: auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 2px solid #28231f !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 22px 16px 40px !important;
+    }
+
+    .page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .profile-hero,
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .profile-identity {
+        align-items: flex-start !important;
+    }
+
+    .admit-body {
+        grid-template-columns: 1fr !important;
+    }
+
+    .document-card {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+}
+
+    
+/* =====================================
+   STANDALONE BITCAMPUS PROFILE
+===================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #f2e4c4;
+    color: #28231f;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    line-height: 1.4;
+}
+
+.dashboard-shell {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    background: #f2e4c4;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    padding: 18px 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #f2e4c4;
+    border-right: 2px solid #28231f;
+    z-index: 10;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #28231f;
+    background: #e2b84b;
+    font-weight: 900;
+}
+
+.brand-name {
+    font-weight: 900;
+    font-size: 17px;
+}
+
+.brand-tagline {
+    font-size: 10px;
+    opacity: .65;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.page-nav-link,
+button.page-nav-link {
+    width: 100%;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 0;
+    color: #28231f;
+    background: transparent;
+    text-decoration: none;
+    font: inherit;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.page-nav-link:hover,
+.page-nav-link.active {
+    background: #e7a7b7;
+}
+
+.page-nav-icon {
+    width: 20px;
+    flex: 0 0 20px;
+    text-align: center;
+}
+
+.logout-link {
+    margin-top: 8px;
+    background: #fff4d6 !important;
+    border: 1px solid #28231f !important;
+}
+
+.main-content {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    padding: 30px 34px 50px;
+    min-width: 0;
+    background: #f2e4c4;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.eyebrow {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: .65;
+}
+
+.page-header h1 {
+    margin: 4px 0 8px;
+    font-size: 34px;
+    line-height: 1.1;
+}
+
+.page-subtitle {
+    margin: 0;
+    font-size: 13px;
+    opacity: .72;
+}
+
+.student-mini-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 2px solid #28231f;
+    background: #fff4d6;
+    box-shadow: 3px 3px 0 #28231f;
+    flex-shrink: 0;
+}
+
+.student-mini-avatar {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #28231f;
+    background: #e7a7b7;
+    font-weight: 900;
+}
+
+.student-mini-card strong,
+.student-mini-card small {
+    display: block;
+}
+
+.student-mini-card small {
+    font-size: 10px;
+    opacity: .65;
+}
+
+.profile-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+    gap: 22px;
+    margin-bottom: 25px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.profile-card-main,
+.completion-card,
+.profile-panel {
+    min-width: 0;
+}
+
+.profile-panel h2 {
+    margin: 5px 0 0;
+}
+
+@media (max-width: 1050px) {
+    .profile-hero,
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 2px solid #28231f;
+    }
+
+    .dashboard-shell {
+        flex-direction: column;
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 22px 16px 40px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 700px) {
+    .profile-hero,
+    .profile-grid,
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         LOADER
+    ====================================== -->
+
+    
+
+        <div class="loader-text">
+            Opening Student Profile...
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         APP
+    ====================================== -->
+
+    <div class="dashboard-shell">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    BC
+                </div>
+
+                <div>
+
+                    <div class="brand-name">
+                        BitCampus
+                    </div>
+
+                    <div class="brand-tagline">
+                        Campus OS
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+
+                <a
+                    href="./dashboard.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+                <a
+                    href="./profile.html"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">◈</span>
+                    Student Profile
+                </a>
+
+
+                <a
+                    href="./academics.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◈</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+
+                <a
+                    href="./timetable.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Timetable
+                </a>
+
+
+                <a
+                    href="./results.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🏆</span>
+                    Results
+                </a>
+
+
+                <a
+                    href="./fees.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">₹</span>
+                    Fees
+                </a>
+
+
+                <a
+                    href="./registration.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◫</span>
+                    Registration
+                </a>
+
+
+                <a
+                    href="./library.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">📚</span>
+                    Library
+                </a>
+
+
+                <a
+                    href="./notices.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▣</span>
+                    Notices & News
+                </a>
+
+
+                <a
+                    href="./notifications.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🔔</span>
+                    Notifications
+                </a>
+
+
+                <a
+                    href="./placement.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">↗</span>
+                    Placement
+                </a>
+
+
+                <a
+                    href="./support.html#feedback"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">★</span>
+                    Feedback
+                </a>
+
+
+                <a
+                    href="./support.html#grievance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">?</span>
+                    Grievance
+                </a>
+
+
+                <a
+                    href="./support.html#links"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🔗</span>
+                    Important Links
+                </a>
+
+
+                <button
+                    id="logoutBtn"
+                    class="page-nav-link logout-link"
+                >
+                    <span class="page-nav-icon">↪</span>
+                    Logout
+                </button>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- =====================================
+             MAIN
+        ====================================== -->
+
+        <main class="main-content">
+
+
+            <!-- HEADER -->
+
+            <header class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        BITCAMPUS / IDENTITY CENTER
+                    </div>
+
+                    <h1>
+                        Student Profile
+                    </h1>
+
+                    <p class="page-subtitle">
+                        Your academic identity,
+                        documents and profile settings.
+                    </p>
+
+                </div>
+
+
+                <div class="student-mini-card">
+
+                    <div
+                        class="student-mini-avatar"
+                        id="miniAvatar"
+                    >
+                        RK
+                    </div>
+
+                    <div>
+
+                        <strong
+                            data-student-name
+                        >
+                            Student
+                        </strong>
+
+                        <small>
+                            B.Tech CSE
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- PROFILE HERO -->
+
+            <section class="profile-hero">
+
+
+                <div class="profile-card-main">
+
+                    <div class="profile-identity">
+
+                        <div
+                            class="profile-avatar"
+                            id="profileAvatar"
+                        >
+                            RK
+                        </div>
+
+                        <div>
+
+                            <div
+                                class="profile-name"
+                                id="profileName"
+                            >
+                                Rudraksh Kumar
+                            </div>
+
+                            <div class="profile-course">
+                                B.Tech Computer Science & Engineering
+                            </div>
+
+                            <span class="profile-id">
+                                BC-2026-CSE-001
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-actions">
+
+                        <button
+                            class="profile-btn"
+                            id="editProfileBtn"
+                        >
+                            Edit Profile
+                        </button>
+
+                        <button
+                            class="profile-btn secondary"
+                            id="scrollAdmitBtn"
+                        >
+                            View Admit Card
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="completion-card">
+
+                    <div class="completion-label">
+                        Profile Completion
+                    </div>
+
+                    <div
+                        class="completion-value"
+                        id="completionValue"
+                    >
+                        78%
+                    </div>
+
+                    <div class="completion-text">
+                        Add your phone number,
+                        address and emergency contact
+                        to complete your profile.
+                    </div>
+
+                    <div class="completion-bar">
+                        <span
+                            id="completionBar"
+                        ></span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- MAIN GRID -->
+
+            <section class="profile-grid">
+
+
+                <!-- LEFT -->
+
+                <div>
+
+
+                    <!-- PERSONAL INFO -->
+
+                    <section
+                        class="profile-panel"
+                    >
+
+                        <div class="eyebrow">
+                            IDENTITY / 01
+                        </div>
+
+                        <h2>
+                            Personal Information
+                        </h2>
+
+                        <div class="info-grid">
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Full Name
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="infoName"
+                                >
+                                    Rudraksh Kumar
+                                </div>
+                            </div>
+
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Student ID
+                                </div>
+
+                                <div class="info-value">
+                                    BC-2026-CSE-001
+                                </div>
+                            </div>
+
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Email
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="infoEmail"
+                                >
+                                    student@bitcampus.com
+                                </div>
+                            </div>
+
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Course
+                                </div>
+
+                                <div class="info-value">
+                                    B.Tech CSE
+                                </div>
+                            </div>
+
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Semester
+                                </div>
+
+                                <div class="info-value">
+                                    Semester 3
+                                </div>
+                            </div>
+
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Section
+                                </div>
+
+                                <div class="info-value">
+                                    CSE-A
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- CONTACT -->
+
+                    <section
+                        class="profile-panel"
+                    >
+
+                        <div class="eyebrow">
+                            CONTACT / 02
+                        </div>
+
+                        <h2>
+                            Contact Information
+                        </h2>
+
+                        <div class="info-grid">
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Phone
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="infoPhone"
+                                >
+                                    Not added
+                                </div>
+                            </div>
+
+
+                            <div class="info-item">
+                                <div class="info-label">
+                                    Emergency Contact
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="infoEmergency"
+                                >
+                                    Not added
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="info-item"
+                                style="grid-column: 1 / -1;"
+                            >
+
+                                <div class="info-label">
+                                    Address
+                                </div>
+
+                                <div
+                                    class="info-value"
+                                    id="infoAddress"
+                                >
+                                    Not added
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- EDIT PROFILE -->
+
+                    <section
+                        class="profile-panel"
+                        id="editSection"
+                    >
+
+                        <div class="eyebrow">
+                            SETTINGS / 03
+                        </div>
+
+                        <h2>
+                            Edit Profile
+                        </h2>
+
+
+                        <form
+                            class="profile-form"
+                            id="profileForm"
+                        >
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Full Name
+                                </label>
+
+                                <input
+                                    id="editName"
+                                    class="profile-input"
+                                    type="text"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Phone
+                                </label>
+
+                                <input
+                                    id="editPhone"
+                                    class="profile-input"
+                                    type="tel"
+                                    placeholder="+91 XXXXX XXXXX"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Emergency Contact
+                                </label>
+
+                                <input
+                                    id="editEmergency"
+                                    class="profile-input"
+                                    type="tel"
+                                    placeholder="+91 XXXXX XXXXX"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Address
+                                </label>
+
+                                <textarea
+                                    id="editAddress"
+                                    class="profile-textarea"
+                                    placeholder="Enter your current address"
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button
+                                    type="submit"
+                                    class="profile-btn"
+                                >
+                                    Save Profile
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="profile-btn secondary"
+                                    id="resetProfileBtn"
+                                >
+                                    Reset
+                                </button>
+
+                            </div>
+
+
+                        </form>
+
+                    </section>
+
+
+                    <!-- ADMIT CARD -->
+
+                    <section
+                        class="profile-panel"
+                        id="admitCard"
+                    >
+
+                        <div class="eyebrow">
+                            EXAMINATION / 04
+                        </div>
+
+                        <h2>
+                            Admit Card
+                        </h2>
+
+
+                        <div class="admit-card">
+
+                            <div class="admit-title">
+                                BITCAMPUS UNIVERSITY
+                            </div>
+
+                            <div class="admit-subtitle">
+                                Semester 3 • Mid-Semester Examination 2026
+                            </div>
+
+
+                            <div class="admit-body">
+
+                                <div class="admit-details">
+
+
+                                    <div class="admit-row">
+                                        <strong>
+                                            Student Name
+                                        </strong>
+
+                                        <span id="admitName">
+                                            Rudraksh Kumar
+                                        </span>
+                                    </div>
+
+
+                                    <div class="admit-row">
+                                        <strong>
+                                            Student ID
+                                        </strong>
+
+                                        <span>
+                                            BC-2026-CSE-001
+                                        </span>
+                                    </div>
+
+
+                                    <div class="admit-row">
+                                        <strong>
+                                            Course
+                                        </strong>
+
+                                        <span>
+                                            B.Tech CSE
+                                        </span>
+                                    </div>
+
+
+                                    <div class="admit-row">
+                                        <strong>
+                                            Semester
+                                        </strong>
+
+                                        <span>
+                                            Semester 3
+                                        </span>
+                                    </div>
+
+
+                                    <div class="admit-row">
+                                        <strong>
+                                            Exam Center
+                                        </strong>
+
+                                        <span>
+                                            Block A • Room 204
+                                        </span>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div
+                                    class="admit-photo"
+                                    id="admitPhoto"
+                                >
+                                    RK
+                                </div>
+
+                            </div>
+
+
+                            <div class="exam-info">
+
+                                <strong>
+                                    EXAM INSTRUCTIONS
+                                </strong>
+
+                                <p>
+                                    Carry your student ID card.
+                                    Reach the examination hall
+                                    20 minutes before reporting
+                                    time. Mobile phones and
+                                    unauthorized electronic
+                                    devices are not permitted.
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                class="print-btn"
+                                id="printAdmitBtn"
+                            >
+                                Print / Save Admit Card
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- RIGHT -->
+
+                <aside>
+
+
+                    <!-- DOCUMENTS -->
+
+                    <section
+                        class="profile-panel"
+                    >
+
+                        <div class="eyebrow">
+                            DOCUMENT VAULT
+                        </div>
+
+                        <h2>
+                            My Documents
+                        </h2>
+
+
+                        <div
+                            class="documents-list"
+                            id="documentsList"
+                        >
+
+                            <div class="document-card">
+
+                                <div class="document-info">
+
+                                    <div class="document-icon">
+                                        ID
+                                    </div>
+
+                                    <div>
+
+                                        <div class="document-title">
+                                            Student ID Card
+                                        </div>
+
+                                        <div class="document-meta">
+                                            Official identity document
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="document-status">
+                                    Verified
+                                </span>
+
+                            </div>
+
+
+                            <div class="document-card">
+
+                                <div class="document-info">
+
+                                    <div class="document-icon">
+                                        10
+                                    </div>
+
+                                    <div>
+
+                                        <div class="document-title">
+                                            Class 10 Marksheet
+                                        </div>
+
+                                        <div class="document-meta">
+                                            Academic document
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="document-status">
+                                    Verified
+                                </span>
+
+                            </div>
+
+
+                            <div class="document-card">
+
+                                <div class="document-info">
+
+                                    <div class="document-icon">
+                                        12
+                                    </div>
+
+                                    <div>
+
+                                        <div class="document-title">
+                                            Class 12 Marksheet
+                                        </div>
+
+                                        <div class="document-meta">
+                                            Academic document
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="document-status">
+                                    Verified
+                                </span>
+
+                            </div>
+
+
+                            <div class="document-card">
+
+                                <div class="document-info">
+
+                                    <div class="document-icon">
+                                        PH
+                                    </div>
+
+                                    <div>
+
+                                        <div class="document-title">
+                                            Student Photograph
+                                        </div>
+
+                                        <div class="document-meta">
+                                            Profile image
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <span class="document-status">
+                                    Verified
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="profile-note">
+                            Document uploads are simulated
+                            in this frontend prototype.
+                            No files are sent to a server.
+                        </div>
+
+                    </section>
+
+
+                    <!-- SETTINGS -->
+
+                    <section
+                        class="profile-panel"
+                    >
+
+                        <div class="eyebrow">
+                            PREFERENCES
+                        </div>
+
+                        <h2>
+                            Profile Settings
+                        </h2>
+
+
+                        <div class="settings-list">
+
+
+                            <div class="setting-item">
+
+                                <div>
+
+                                    <strong>
+                                        Email Notifications
+                                    </strong>
+
+                                    <small>
+                                        Receive important campus updates.
+                                    </small>
+
+                                </div>
+
+
+                                <label class="toggle">
+
+                                    <input
+                                        type="checkbox"
+                                        id="emailNotifications"
+                                        checked
+                                    >
+
+                                    <span
+                                        class="toggle-slider"
+                                    ></span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="setting-item">
+
+                                <div>
+
+                                    <strong>
+                                        Assignment Alerts
+                                    </strong>
+
+                                    <small>
+                                        Get reminders before deadlines.
+                                    </small>
+
+                                </div>
+
+
+                                <label class="toggle">
+
+                                    <input
+                                        type="checkbox"
+                                        id="assignmentAlerts"
+                                        checked
+                                    >
+
+                                    <span
+                                        class="toggle-slider"
+                                    ></span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="setting-item">
+
+                                <div>
+
+                                    <strong>
+                                        Attendance Alerts
+                                    </strong>
+
+                                    <small>
+                                        Warn when attendance gets low.
+                                    </small>
+
+                                </div>
+
+
+                                <label class="toggle">
+
+                                    <input
+                                        type="checkbox"
+                                        id="attendanceAlerts"
+                                        checked
+                                    >
+
+                                    <span
+                                        class="toggle-slider"
+                                    ></span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="setting-item">
+
+                                <div>
+
+                                    <strong>
+                                        Placement Alerts
+                                    </strong>
+
+                                    <small>
+                                        Notify about new opportunities.
+                                    </small>
+
+                                </div>
+
+
+                                <label class="toggle">
+
+                                    <input
+                                        type="checkbox"
+                                        id="placementAlerts"
+                                        checked
+                                    >
+
+                                    <span
+                                        class="toggle-slider"
+                                    ></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="profile-note">
+                            Preferences are saved locally
+                            in this prototype.
+                        </div>
+
+                    </section>
+
+                </aside>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================
+         MODAL
+    ====================================== -->
+
+    <div
+        class="profile-modal"
+        id="profileModal"
+    >
+
+        <div class="modal-box">
+
+            <h2 id="modalTitle">
+                Profile Updated
+            </h2>
+
+            <p id="modalMessage">
+                Your profile has been updated.
+            </p>
+
+            <button
+                class="modal-close"
+                id="modalClose"
+            >
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =====================================
+           STORAGE
+        ===================================== */
+
+        const PROFILE_KEY =
+            "bitCampusProfile";
+
+        const SETTINGS_KEY =
+            "bitCampusProfileSettings";
+
+
+        /* =====================================
+           DEFAULT PROFILE
+        ===================================== */
+
+        const defaultProfile = {
+
+            name:
+                "Rudraksh Kumar",
+
+            email:
+                "student@bitcampus.com",
+
+            phone:
+                "",
+
+            emergency:
+                "",
+
+            address:
+                ""
+
+        };
+
+
+        let profile =
+            JSON.parse(
+                localStorage.getItem(
+                    PROFILE_KEY
+                ) ||
+                JSON.stringify(
+                    defaultProfile
+                )
+            );
+
+
+        let settings =
+            JSON.parse(
+                localStorage.getItem(
+                    SETTINGS_KEY
+                ) ||
+                JSON.stringify({
+
+                    emailNotifications: true,
+
+                    assignmentAlerts: true,
+
+                    attendanceAlerts: true,
+
+                    placementAlerts: true
+
+                })
+            );
+
+
+        /* =====================================
+           SESSION
+        ===================================== */
+
+        const rawSession =
+            localStorage.getItem(
+                "bitCampusSession"
+            )
+            ||
+            sessionStorage.getItem(
+                "bitCampusSession"
+            );
+
+
+        if (!rawSession) {
+
+            window.location.href =
+                "../login.html";
+
+        }
+
+
+        let currentUser = null;
+
+
+        try {
+
+            currentUser =
+                JSON.parse(
+                    rawSession
+                );
+
+        } catch {
+
+            localStorage.removeItem(
+                "bitCampusSession"
+            );
+
+            sessionStorage.removeItem(
+                "bitCampusSession"
+            );
+
+            window.location.href =
+                "../login.html";
+
+        }
+
+
+        /* =====================================
+           HELPERS
+        ===================================== */
+
+        function saveProfile() {
+
+            localStorage.setItem(
+                PROFILE_KEY,
+                JSON.stringify(profile)
+            );
+
+        }
+
+
+        function saveSettings() {
+
+            localStorage.setItem(
+                SETTINGS_KEY,
+                JSON.stringify(settings)
+            );
+
+        }
+
+
+        function getInitials(name) {
+
+            return name
+                .split(" ")
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(
+                    word =>
+                        word
+                            .charAt(0)
+                            .toUpperCase()
+                )
+                .join("");
+
+        }
+
+
+        function showModal(
+            title,
+            message
+        ) {
+
+            document.getElementById(
+                "modalTitle"
+            ).textContent = title;
+
+            document.getElementById(
+                "modalMessage"
+            ).textContent = message;
+
+            document
+                .getElementById(
+                    "profileModal"
+                )
+                .classList.add(
+                    "show"
+                );
+
+        }
+
+
+        /* =====================================
+           RENDER PROFILE
+        ===================================== */
+
+        function renderProfile() {
+
+            const initials =
+                getInitials(
+                    profile.name
+                ) || "ST";
+
+
+            document.getElementById(
+                "profileAvatar"
+            ).textContent =
+                initials;
+
+
+            document.getElementById(
+                "miniAvatar"
+            ).textContent =
+                initials;
+
+
+            document.getElementById(
+                "admitPhoto"
+            ).textContent =
+                initials;
+
+
+            document.getElementById(
+                "profileName"
+            ).textContent =
+                profile.name;
+
+
+            document.getElementById(
+                "infoName"
+            ).textContent =
+                profile.name;
+
+
+            document.getElementById(
+                "infoEmail"
+            ).textContent =
+                profile.email;
+
+
+            document.getElementById(
+                "infoPhone"
+            ).textContent =
+                profile.phone ||
+                "Not added";
+
+
+            document.getElementById(
+                "infoEmergency"
+            ).textContent =
+                profile.emergency ||
+                "Not added";
+
+
+            document.getElementById(
+                "infoAddress"
+            ).textContent =
+                profile.address ||
+                "Not added";
+
+
+            document.getElementById(
+                "admitName"
+            ).textContent =
+                profile.name;
+
+
+            document
+                .querySelectorAll(
+                    "[data-student-name]"
+                )
+                .forEach(
+                    element => {
+
+                        element.textContent =
+                            profile.name;
+
+                    }
+                );
+
+
+            document.getElementById(
+                "editName"
+            ).value =
+                profile.name;
+
+
+            document.getElementById(
+                "editPhone"
+            ).value =
+                profile.phone;
+
+
+            document.getElementById(
+                "editEmergency"
+            ).value =
+                profile.emergency;
+
+
+            document.getElementById(
+                "editAddress"
+            ).value =
+                profile.address;
+
+
+            updateCompletion();
+
+        }
+
+
+        /* =====================================
+           COMPLETION
+        ===================================== */
+
+        function updateCompletion() {
+
+            let completed = 2;
+
+            if (profile.phone) {
+                completed++;
+            }
+
+            if (profile.emergency) {
+                completed++;
+            }
+
+            if (profile.address) {
+                completed++;
+            }
+
+            const total = 5;
+
+            const percentage =
+                Math.round(
+                    (completed / total) * 100
+                );
+
+
+            document.getElementById(
+                "completionValue"
+            ).textContent =
+                `${percentage}%`;
+
+
+            document.getElementById(
+                "completionBar"
+            ).style.width =
+                `${percentage}%`;
+
+        }
+
+
+        /* =====================================
+           FORM
+        ===================================== */
+
+        document
+            .getElementById(
+                "profileForm"
+            )
+            .addEventListener(
+                "submit",
+                event => {
+
+                    event.preventDefault();
+
+
+                    profile.name =
+                        document
+                            .getElementById(
+                                "editName"
+                            )
+                            .value
+                            .trim();
+
+
+                    profile.phone =
+                        document
+                            .getElementById(
+                                "editPhone"
+                            )
+                            .value
+                            .trim();
+
+
+                    profile.emergency =
+                        document
+                            .getElementById(
+                                "editEmergency"
+                            )
+                            .value
+                            .trim();
+
+
+                    profile.address =
+                        document
+                            .getElementById(
+                                "editAddress"
+                            )
+                            .value
+                            .trim();
+
+
+                    if (!profile.name) {
+
+                        alert(
+                            "Name cannot be empty."
+                        );
+
+                        return;
+
+                    }
+
+
+                    saveProfile();
+
+                    renderProfile();
+
+
+                    showModal(
+                        "Profile Updated",
+                        "Your profile information has been saved successfully in the BitCampus prototype."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "resetProfileBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    renderProfile();
+
+                }
+            );
+
+
+        /* =====================================
+           EDIT BUTTON
+        ===================================== */
+
+        document
+            .getElementById(
+                "editProfileBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .getElementById(
+                            "editSection"
+                        )
+                        .scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                }
+            );
+
+
+        /* =====================================
+           ADMIT CARD SCROLL
+        ===================================== */
+
+        document
+            .getElementById(
+                "scrollAdmitBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .getElementById(
+                            "admitCard"
+                        )
+                        .scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                }
+            );
+
+
+        /* =====================================
+           PRINT
+        ===================================== */
+
+        document
+            .getElementById(
+                "printAdmitBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    window.print();
+
+                }
+            );
+
+
+        /* =====================================
+           SETTINGS
+        ===================================== */
+
+        const settingIds = [
+
+            "emailNotifications",
+
+            "assignmentAlerts",
+
+            "attendanceAlerts",
+
+            "placementAlerts"
+
+        ];
+
+
+        settingIds.forEach(
+            id => {
+
+                const checkbox =
+                    document.getElementById(id);
+
+
+                checkbox.checked =
+                    Boolean(
+                        settings[id]
+                    );
+
+
+                checkbox.addEventListener(
+                    "change",
+                    () => {
+
+                        settings[id] =
+                            checkbox.checked;
+
+                        saveSettings();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================
+           MODAL
+        ===================================== */
+
+        document
+            .getElementById(
+                "modalClose"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .getElementById(
+                            "profileModal"
+                        )
+                        .classList.remove(
+                            "show"
+                        );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "profileModal"
+            )
+            .addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target.id ===
+                        "profileModal"
+                    ) {
+
+                        event.currentTarget
+                            .classList.remove(
+                                "show"
+                            );
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================
+           LOGOUT
+        ===================================== */
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutBtn) {
+
+            logoutBtn.addEventListener(
+                "click",
+                () => {
+
+                    localStorage.removeItem(
+                        "bitCampusSession"
+                    );
+
+                    sessionStorage.removeItem(
+                        "bitCampusSession"
+                    );
+
+                    window.location.href =
+                        "../login.html";
+
+                }
+            );
+
+        }
+if (!loader) {
+                    return;
+                }
+
+
+                setTimeout(
+                    () => {
+
+                        loader.style.opacity =
+                            "0";
+
+                        loader.style.visibility =
+                            "hidden";
+
+                        loader.style.pointerEvents =
+                            "none";
+
+
+                        setTimeout(
+                            () => {
+
+                                loader.style.display =
+                                    "none";
+
+                            },
+                            350
+                        );
+
+                    },
+                    500
+                );
+
+            
+        
+
+
+        /* =====================================
+           INITIALIZE
+        ===================================== */
+
+        renderProfile();
+
+    </script>
+<script src="../js/bitai.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Courses</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           COURSE PAGE EXTRA STYLES
+        ================================= */
+
+        .course-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .course-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .course-filter button {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            background: var(--paper-light);
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .course-filter button.active {
+            background: var(--pink);
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .course-card {
+            position: relative;
+            padding: 18px;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            box-shadow: 5px 6px 0 rgba(0,0,0,.15);
+            transition: .2s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px) rotate(-.3deg);
+            box-shadow: 7px 9px 0 rgba(0,0,0,.18);
+        }
+
+        .course-card:nth-child(2n) {
+            transform: rotate(.4deg);
+        }
+
+        .course-card:nth-child(2n):hover {
+            transform: translateY(-4px) rotate(.2deg);
+        }
+
+        .course-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .course-symbol {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid var(--border);
+
+            font-family: Georgia, serif;
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        .course-symbol.green {
+            background: var(--mint);
+        }
+
+        .course-symbol.pink {
+            background: var(--pink);
+        }
+
+        .course-symbol.lavender {
+            background: var(--lavender);
+        }
+
+        .course-symbol.yellow {
+            background: var(--yellow);
+        }
+
+        .course-credit {
+            padding: 5px 7px;
+            border: 1px solid var(--border);
+            background: var(--paper-light);
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .course-card h3 {
+            margin-top: 15px;
+            font-family: Georgia, serif;
+            font-size: 18px;
+        }
+
+        .course-code {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 8px;
+            letter-spacing: .8px;
+        }
+
+        .course-faculty {
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 9px;
+        }
+
+        .course-faculty span {
+            color: var(--muted);
+        }
+
+        .course-progress-head {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 18px;
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .course-progress {
+            height: 9px;
+            margin-top: 7px;
+            background: rgba(38,34,30,.13);
+            border: 1px solid rgba(38,34,30,.35);
+        }
+
+        .course-progress span {
+            display: block;
+            height: 100%;
+            background: #579977;
+        }
+
+        .course-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 17px;
+        }
+
+        .module-text {
+            color: var(--muted);
+            font-size: 8px;
+        }
+
+        .view-course-btn {
+            padding: 7px 9px;
+            border: 1px solid var(--border);
+            background: var(--ink);
+            color: var(--paper-light);
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .view-course-btn:hover {
+            background: #4e4338;
+        }
+
+        /* =================================
+           COURSE MODAL
+        ================================= */
+
+        .course-modal {
+            position: fixed;
+            inset: 0;
+
+            z-index: 4000;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(39,35,31,.78);
+        }
+
+        .course-modal.open {
+            display: flex;
+        }
+
+        .course-modal-card {
+            width: min(720px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+
+            position: relative;
+
+            padding: 24px;
+
+            background: var(--paper-light);
+
+            border: 3px solid var(--border);
+
+            box-shadow: 10px 12px 0 rgba(0,0,0,.25);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+
+            width: 34px;
+            height: 34px;
+
+            border: 1px solid var(--border);
+            background: var(--pink);
+            font-weight: 900;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding-right: 45px;
+        }
+
+        .modal-header h2 {
+            font-family: Georgia, serif;
+            font-size: 28px;
+        }
+
+        .modal-header p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .module-list {
+            margin-top: 22px;
+        }
+
+        .module-row {
+            display: grid;
+            grid-template-columns: 30px 1fr auto;
+            gap: 10px;
+            align-items: center;
+
+            padding: 10px 0;
+
+            border-bottom: 1px dashed #aa9b83;
+        }
+
+        .module-number {
+            width: 28px;
+            height: 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid var(--border);
+            background: var(--mint);
+
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .module-row strong {
+            display: block;
+            font-size: 10px;
+        }
+
+        .module-row small {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 8px;
+        }
+
+        .module-status {
+            padding: 5px 7px;
+            border: 1px solid var(--border);
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .module-status.done {
+            background: var(--mint);
+        }
+
+        .module-status.pending {
+            background: var(--yellow-light);
+        }
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1100px) {
+            .course-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .course-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         LOADER
+    ================================== -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>BITCAMPUS</strong>
+
+            <span data-loader-text>
+                Loading courses...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         APP
+    ================================== -->
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>
+                        BitCampus
+                    </strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+                <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+              <a
+    href="./attendance.html"
+    data-page-link="Attendance"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◉
+    </span>
+
+    Attendance
+
+</a>
+
+                <a href="./assignments.html" class="page-nav-link">
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+               <a
+    href="./timetable.html"
+    data-page-link="Timetable"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ▦
+    </span>
+
+    Timetable
+
+</a>
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+<a
+    href="./results.html"
+    data-page-link="Results"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        🏆
+    </span>
+
+    Results
+
+</a>
+              <a
+    href="./fees.html"
+    data-page-link="Fees"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">
+        ₹
+    </span>
+
+    Fees
+</a>
+<a
+    href="./registration.html"
+    data-page-link="Registration"
+    class="page-nav-link"
+>
+
+    <span class="page-nav-icon">
+        ◫
+    </span>
+
+    Registration
+
+</a>
+<a
+  href="./library.html"
+  data-page-link="Library"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">📚</span>
+  Library
+</a>
+               <a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">▣</span>
+  Notices & News
+</a>
+<a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+                <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a><a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <!-- =================================
+                 TOPBAR
+            ================================== -->
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Courses
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search courses..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 CONTENT
+            ================================== -->
+
+            <section class="page-content">
+
+
+                <!-- HEADER -->
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        SEMESTER 3 • ACADEMICS
+                    </span>
+
+                    <h1>
+                        My Courses
+                    </h1>
+
+                    <p>
+                        Explore your subjects,
+                        course progress and learning modules.
+                    </p>
+
+                </section>
+
+
+                <!-- TOOLBAR -->
+
+                <section
+                    class="paper-card"
+                    style="margin-top:14px;"
+                >
+
+                    <div class="course-toolbar">
+
+                        <div class="course-filter">
+
+                            <button
+                                class="active"
+                                data-filter="all"
+                            >
+                                All Courses
+                            </button>
+
+                            <button
+                                data-filter="progress"
+                            >
+                                In Progress
+                            </button>
+
+                            <button
+                                data-filter="completed"
+                            >
+                                Completed
+                            </button>
+
+                        </div>
+
+
+                        <select
+                            id="semesterSelect"
+                        >
+
+                            <option>
+                                Semester 3
+                            </option>
+
+                            <option>
+                                Semester 2
+                            </option>
+
+                            <option>
+                                Semester 1
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- COURSE GRID -->
+
+                    <div class="course-grid">
+
+
+                        <!-- DSA -->
+
+                        <article
+                            class="course-card"
+                            data-progress="82"
+                        >
+
+                            <div class="course-top">
+
+                                <div class="course-symbol green">
+                                    DSA
+                                </div>
+
+                                <span class="course-credit">
+                                    4 CREDITS
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Data Structures
+                                & Algorithms
+                            </h3>
+
+                            <p class="course-code">
+                                CSE-301
+                            </p>
+
+
+                            <div class="course-faculty">
+
+                                <span>
+                                    Faculty
+                                </span>
+
+                                <strong>
+                                    Dr. Sharma
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-progress-head">
+
+                                <span>
+                                    Course Progress
+                                </span>
+
+                                <b>
+                                    82%
+                                </b>
+
+                            </div>
+
+
+                            <div class="course-progress">
+
+                                <span
+                                    style="width:82%"
+                                ></span>
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+                                <span class="module-text">
+                                    9 / 11 modules
+                                </span>
+
+                                <button
+                                    class="view-course-btn"
+                                    data-course="dsa"
+                                >
+                                    View Course →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- DBMS -->
+
+                        <article
+                            class="course-card"
+                            data-progress="65"
+                        >
+
+                            <div class="course-top">
+
+                                <div class="course-symbol pink">
+                                    DB
+                                </div>
+
+                                <span class="course-credit">
+                                    4 CREDITS
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Database
+                                Management Systems
+                            </h3>
+
+                            <p class="course-code">
+                                CSE-302
+                            </p>
+
+
+                            <div class="course-faculty">
+
+                                <span>
+                                    Faculty
+                                </span>
+
+                                <strong>
+                                    Prof. Mehta
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-progress-head">
+
+                                <span>
+                                    Course Progress
+                                </span>
+
+                                <b>
+                                    65%
+                                </b>
+
+                            </div>
+
+
+                            <div class="course-progress">
+
+                                <span
+                                    style="width:65%"
+                                ></span>
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+                                <span class="module-text">
+                                    7 / 11 modules
+                                </span>
+
+                                <button
+                                    class="view-course-btn"
+                                    data-course="dbms"
+                                >
+                                    View Course →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- OS -->
+
+                        <article
+                            class="course-card"
+                            data-progress="72"
+                        >
+
+                            <div class="course-top">
+
+                                <div class="course-symbol lavender">
+                                    OS
+                                </div>
+
+                                <span class="course-credit">
+                                    4 CREDITS
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Operating
+                                Systems
+                            </h3>
+
+                            <p class="course-code">
+                                CSE-303
+                            </p>
+
+
+                            <div class="course-faculty">
+
+                                <span>
+                                    Faculty
+                                </span>
+
+                                <strong>
+                                    Prof. Verma
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-progress-head">
+
+                                <span>
+                                    Course Progress
+                                </span>
+
+                                <b>
+                                    72%
+                                </b>
+
+                            </div>
+
+
+                            <div class="course-progress">
+
+                                <span
+                                    style="width:72%"
+                                ></span>
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+                                <span class="module-text">
+                                    8 / 11 modules
+                                </span>
+
+                                <button
+                                    class="view-course-btn"
+                                    data-course="os"
+                                >
+                                    View Course →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- CN -->
+
+                        <article
+                            class="course-card"
+                            data-progress="90"
+                        >
+
+                            <div class="course-top">
+
+                                <div class="course-symbol green">
+                                    CN
+                                </div>
+
+                                <span class="course-credit">
+                                    4 CREDITS
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Computer
+                                Networks
+                            </h3>
+
+                            <p class="course-code">
+                                CSE-304
+                            </p>
+
+
+                            <div class="course-faculty">
+
+                                <span>
+                                    Faculty
+                                </span>
+
+                                <strong>
+                                    Dr. Kumar
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-progress-head">
+
+                                <span>
+                                    Course Progress
+                                </span>
+
+                                <b>
+                                    90%
+                                </b>
+
+                            </div>
+
+
+                            <div class="course-progress">
+
+                                <span
+                                    style="width:90%"
+                                ></span>
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+                                <span class="module-text">
+                                    10 / 11 modules
+                                </span>
+
+                                <button
+                                    class="view-course-btn"
+                                    data-course="cn"
+                                >
+                                    View Course →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- MATH -->
+
+                        <article
+                            class="course-card"
+                            data-progress="70"
+                        >
+
+                            <div class="course-top">
+
+                                <div class="course-symbol yellow">
+                                    M
+                                </div>
+
+                                <span class="course-credit">
+                                    4 CREDITS
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Mathematics III
+                            </h3>
+
+                            <p class="course-code">
+                                MTH-301
+                            </p>
+
+
+                            <div class="course-faculty">
+
+                                <span>
+                                    Faculty
+                                </span>
+
+                                <strong>
+                                    Dr. Singh
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-progress-head">
+
+                                <span>
+                                    Course Progress
+                                </span>
+
+                                <b>
+                                    70%
+                                </b>
+
+                            </div>
+
+
+                            <div class="course-progress">
+
+                                <span
+                                    style="width:70%"
+                                ></span>
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+                                <span class="module-text">
+                                    7 / 10 modules
+                                </span>
+
+                                <button
+                                    class="view-course-btn"
+                                    data-course="math"
+                                >
+                                    View Course →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- WEB -->
+
+                        <article
+                            class="course-card"
+                            data-progress="88"
+                        >
+
+                            <div class="course-top">
+
+                                <div class="course-symbol lavender">
+                                    WEB
+                                </div>
+
+                                <span class="course-credit">
+                                    3 CREDITS
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Web Development
+                            </h3>
+
+                            <p class="course-code">
+                                CSE-305
+                            </p>
+
+
+                            <div class="course-faculty">
+
+                                <span>
+                                    Faculty
+                                </span>
+
+                                <strong>
+                                    Prof. Verma
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-progress-head">
+
+                                <span>
+                                    Course Progress
+                                </span>
+
+                                <b>
+                                    88%
+                                </b>
+
+                            </div>
+
+
+                            <div class="course-progress">
+
+                                <span
+                                    style="width:88%"
+                                ></span>
+
+                            </div>
+
+
+                            <div class="course-footer">
+
+                                <span class="module-text">
+                                    8 / 9 modules
+                                </span>
+
+                                <button
+                                    class="view-course-btn"
+                                    data-course="web"
+                                >
+                                    View Course →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =================================
+         COURSE MODAL
+    ================================== -->
+
+    <div
+        class="course-modal"
+        id="courseModal"
+    >
+
+        <div class="course-modal-card">
+
+            <button
+                class="modal-close"
+                id="modalClose"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-header">
+
+                <div
+                    class="course-symbol green"
+                    id="modalSymbol"
+                >
+                    DSA
+                </div>
+
+                <div>
+
+                    <h2 id="modalTitle">
+                        Data Structures
+                    </h2>
+
+                    <p id="modalSubtitle">
+                        Course details
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="module-list"
+                 id="moduleList"
+            >
+                <!-- JS se modules -->
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           COURSE DATA
+        ================================= */
+
+        const courseData = {
+
+            dsa: {
+
+                title:
+                    "Data Structures & Algorithms",
+
+                subtitle:
+                    "CSE-301 • 4 Credits • Dr. Sharma",
+
+                symbol:
+                    "DSA",
+
+                modules: [
+
+                    ["Arrays", "Completed"],
+                    ["Linked Lists", "Completed"],
+                    ["Stacks & Queues", "Completed"],
+                    ["Trees", "Completed"],
+                    ["Graphs", "Completed"],
+                    ["Recursion", "Completed"],
+                    ["Sorting", "Completed"],
+                    ["Searching", "Completed"],
+                    ["Dynamic Programming", "Completed"],
+                    ["Greedy Algorithms", "Pending"],
+                    ["Advanced Problems", "Pending"]
+
+                ]
+
+            },
+
+
+            dbms: {
+
+                title:
+                    "Database Management Systems",
+
+                subtitle:
+                    "CSE-302 • 4 Credits • Prof. Mehta",
+
+                symbol:
+                    "DB",
+
+                modules: [
+
+                    ["Database Basics", "Completed"],
+                    ["ER Model", "Completed"],
+                    ["Relational Model", "Completed"],
+                    ["SQL Basics", "Completed"],
+                    ["Advanced SQL", "Completed"],
+                    ["Normalization", "Completed"],
+                    ["Transactions", "Pending"],
+                    ["Indexing", "Pending"],
+                    ["Query Optimization", "Pending"],
+                    ["NoSQL", "Pending"],
+                    ["Mini Project", "Pending"]
+
+                ]
+
+            },
+
+
+            os: {
+
+                title:
+                    "Operating Systems",
+
+                subtitle:
+                    "CSE-303 • 4 Credits • Prof. Verma",
+
+                symbol:
+                    "OS",
+
+                modules: [
+
+                    ["OS Fundamentals", "Completed"],
+                    ["Processes", "Completed"],
+                    ["Threads", "Completed"],
+                    ["CPU Scheduling", "Completed"],
+                    ["Deadlocks", "Completed"],
+                    ["Memory Management", "Completed"],
+                    ["Virtual Memory", "Completed"],
+                    ["File Systems", "Completed"],
+                    ["I/O Systems", "Pending"],
+                    ["Security", "Pending"],
+                    ["Case Study", "Pending"]
+
+                ]
+
+            },
+
+
+            cn: {
+
+                title:
+                    "Computer Networks",
+
+                subtitle:
+                    "CSE-304 • 4 Credits • Dr. Kumar",
+
+                symbol:
+                    "CN",
+
+                modules: [
+
+                    ["Networking Basics", "Completed"],
+                    ["OSI Model", "Completed"],
+                    ["TCP/IP", "Completed"],
+                    ["Data Link Layer", "Completed"],
+                    ["Routing", "Completed"],
+                    ["Transport Layer", "Completed"],
+                    ["Application Layer", "Completed"],
+                    ["Wireless Networks", "Completed"],
+                    ["Network Security", "Completed"],
+                    ["Advanced Routing", "Completed"],
+                    ["Final Revision", "Pending"]
+
+                ]
+
+            },
+
+
+            math: {
+
+                title:
+                    "Mathematics III",
+
+                subtitle:
+                    "MTH-301 • 4 Credits • Dr. Singh",
+
+                symbol:
+                    "M",
+
+                modules: [
+
+                    ["Differential Equations", "Completed"],
+                    ["Laplace Transform", "Completed"],
+                    ["Fourier Series", "Completed"],
+                    ["Complex Variables", "Completed"],
+                    ["Probability", "Completed"],
+                    ["Statistics", "Completed"],
+                    ["Numerical Methods", "Pending"],
+                    ["Transforms", "Pending"],
+                    ["Practice Set", "Pending"],
+                    ["Final Revision", "Pending"]
+
+                ]
+
+            },
+
+
+            web: {
+
+                title:
+                    "Web Development",
+
+                subtitle:
+                    "CSE-305 • 3 Credits • Prof. Verma",
+
+                symbol:
+                    "WEB",
+
+                modules: [
+
+                    ["HTML", "Completed"],
+                    ["CSS", "Completed"],
+                    ["Responsive Design", "Completed"],
+                    ["JavaScript Basics", "Completed"],
+                    ["DOM", "Completed"],
+                    ["Events", "Completed"],
+                    ["LocalStorage", "Completed"],
+                    ["Mini Project", "Completed"],
+                    ["Final Project", "Pending"]
+
+                ]
+
+            }
+
+        };
+
+
+        /* =================================
+           MODAL
+        ================================= */
+
+        const modal =
+            document.getElementById(
+                "courseModal"
+            );
+
+        const modalTitle =
+            document.getElementById(
+                "modalTitle"
+            );
+
+        const modalSubtitle =
+            document.getElementById(
+                "modalSubtitle"
+            );
+
+        const modalSymbol =
+            document.getElementById(
+                "modalSymbol"
+            );
+
+        const moduleList =
+            document.getElementById(
+                "moduleList"
+            );
+
+        const modalClose =
+            document.getElementById(
+                "modalClose"
+            );
+
+
+        function openCourse(courseKey) {
+
+            const course =
+                courseData[courseKey];
+
+
+            if (!course) {
+                return;
+            }
+
+
+            modalTitle.textContent =
+                course.title;
+
+            modalSubtitle.textContent =
+                course.subtitle;
+
+            modalSymbol.textContent =
+                course.symbol;
+
+
+            moduleList.innerHTML = "";
+
+
+            course.modules.forEach(
+                (module, index) => {
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+                    row.className =
+                        "module-row";
+
+
+                    const statusClass =
+                        module[1] === "Completed"
+                            ? "done"
+                            : "pending";
+
+
+                    row.innerHTML = `
+
+                        <div class="module-number">
+                            ${String(index + 1).padStart(2, "0")}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${module[0]}
+                            </strong>
+
+                            <small>
+                                Course module
+                            </small>
+
+                        </div>
+
+                        <span class="module-status ${statusClass}">
+                            ${module[1]}
+                        </span>
+
+                    `;
+
+
+                    moduleList.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            modal.classList.add(
+                "open"
+            );
+
+        }
+
+
+        document
+            .querySelectorAll(
+                ".view-course-btn"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        openCourse(
+                            button.dataset.course
+                        );
+
+                    }
+                );
+
+            });
+
+
+        modalClose.addEventListener(
+            "click",
+            () => {
+
+                modal.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === modal
+                ) {
+
+                    modal.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================
+           COURSE FILTER
+        ================================= */
+
+        const filterButtons =
+            document.querySelectorAll(
+                "[data-filter]"
+            );
+
+        const courseCards =
+            document.querySelectorAll(
+                ".course-card"
+            );
+
+
+        filterButtons.forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        filterButtons.forEach(
+                            item =>
+                                item.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        const filter =
+                            button.dataset.filter;
+
+
+                        courseCards.forEach(
+                            card => {
+
+                                const progress =
+                                    Number(
+                                        card.dataset.progress
+                                    );
+
+
+                                if (
+                                    filter === "all"
+                                ) {
+
+                                    card.style.display =
+                                        "";
+
+                                } else if (
+                                    filter === "progress"
+                                ) {
+
+                                    card.style.display =
+                                        progress > 0 &&
+                                        progress < 100
+                                            ? ""
+                                            : "none";
+
+                                } else if (
+                                    filter === "completed"
+                                ) {
+
+                                    card.style.display =
+                                        progress >= 90
+                                            ? ""
+                                            : "none";
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+            });
+
+
+        /* =================================
+           KEYBOARD ESC
+        ================================= */
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    modal.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

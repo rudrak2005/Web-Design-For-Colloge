@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Library | BitCampus</title>
+
+  <link rel="stylesheet" href="../css/pages.css" />
+
+  <style>
+    .library-toolbar {
+      display: grid;
+      grid-template-columns: 1fr 220px 160px;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .library-search,
+    .library-filter {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid var(--ink, #28231f);
+      background: #fff4d6;
+      font: inherit;
+      outline: none;
+      box-shadow: 4px 4px 0 #28231f;
+    }
+
+    .library-search:focus,
+    .library-filter:focus {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0 #28231f;
+    }
+
+    .library-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .library-stat {
+      position: relative;
+      padding: 18px;
+      border: 2px solid #28231f;
+      background: #fff4d6;
+      box-shadow: 5px 5px 0 #28231f;
+    }
+
+    .library-stat:nth-child(2) {
+      background: #e7a7b7;
+    }
+
+    .library-stat:nth-child(3) {
+      background: #9fd6b5;
+    }
+
+    .library-stat:nth-child(4) {
+      background: #b7a9d6;
+    }
+
+    .library-stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.75;
+      font-weight: 700;
+    }
+
+    .library-stat-value {
+      margin-top: 5px;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .books-section {
+      margin-top: 25px;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .book-card {
+      background: #fff4d6;
+      border: 2px solid #28231f;
+      padding: 18px;
+      box-shadow: 5px 5px 0 #28231f;
+      transition: 0.2s ease;
+      position: relative;
+    }
+
+    .book-card:hover {
+      transform: translate(-2px, -2px) rotate(-0.3deg);
+      box-shadow: 7px 7px 0 #28231f;
+    }
+
+    .book-cover {
+      height: 145px;
+      border: 2px solid #28231f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 15px;
+      margin-bottom: 15px;
+      font-weight: 900;
+      font-size: 19px;
+      background: #e2b84b;
+    }
+
+    .book-card:nth-child(2n) .book-cover {
+      background: #b7a9d6;
+    }
+
+    .book-card:nth-child(3n) .book-cover {
+      background: #9fd6b5;
+    }
+
+    .book-category {
+      display: inline-block;
+      padding: 5px 8px;
+      border: 1px solid #28231f;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      background: #f2e4c4;
+    }
+
+    .book-title {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .book-author {
+      font-size: 13px;
+      opacity: 0.75;
+      margin-bottom: 10px;
+    }
+
+    .book-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px dashed #28231f;
+      border-bottom: 1px dashed #28231f;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .book-status {
+      font-weight: 800;
+    }
+
+    .available {
+      color: #23623d;
+    }
+
+    .unavailable {
+      color: #9a3027;
+    }
+
+    .book-action {
+      width: 100%;
+      border: 2px solid #28231f;
+      background: #28231f;
+      color: #fff4d6;
+      padding: 11px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .book-action:hover {
+      background: #4b3625;
+    }
+
+    .book-action:disabled {
+      background: #999;
+      cursor: not-allowed;
+      border-color: #777;
+    }
+
+    .issued-section {
+      margin-top: 30px;
+    }
+
+    .issued-table-wrap {
+      overflow-x: auto;
+      border: 2px solid #28231f;
+      box-shadow: 5px 5px 0 #28231f;
+    }
+
+    .issued-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+      background: #fff4d6;
+    }
+
+    .issued-table th,
+    .issued-table td {
+      padding: 13px;
+      border-bottom: 1px solid #28231f;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .issued-table th {
+      background: #e2b84b;
+      font-weight: 900;
+    }
+
+    .fine {
+      font-weight: 900;
+      color: #9a3027;
+    }
+
+    .return-btn {
+      border: 1px solid #28231f;
+      background: #e7a7b7;
+      padding: 8px 11px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 45px 20px;
+      border: 2px dashed #28231f;
+      background: #f2e4c4;
+    }
+
+    .library-note {
+      margin-top: 20px;
+      padding: 15px;
+      border: 2px dashed #28231f;
+      background: #f2e4c4;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1000px) {
+      .library-toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .library-toolbar button {
+        grid-column: 1 / -1;
+      }
+
+      .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .library-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .library-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .library-toolbar button {
+        grid-column: auto;
+      }
+
+      .books-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .library-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* =====================================
+   LIBRARY LAYOUT FIX
+===================================== */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background: #f2e4c4;
+    color: #28231f;
+}
+
+/* Main app layout */
+
+.dashboard-shell {
+    display: grid !important;
+    grid-template-columns: 250px minmax(0, 1fr) !important;
+
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Sidebar */
+
+.sidebar {
+    position: sticky !important;
+    top: 0 !important;
+
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 100vh !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    margin: 0 !important;
+    padding: 18px 12px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Sidebar links */
+
+.sidebar-nav {
+    width: 100% !important;
+}
+
+.page-nav-link {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Main content */
+
+.main-content {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 28px 32px 50px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Header */
+
+.page-header {
+    width: 100% !important;
+
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+
+    min-height: auto !important;
+}
+
+/* Library stats */
+
+.library-stats {
+    width: 100% !important;
+    margin-top: 0 !important;
+}
+
+/* Toolbar */
+
+.library-toolbar {
+    width: 100% !important;
+}
+
+/* Books */
+
+.books-section {
+    width: 100% !important;
+    margin-top: 28px !important;
+}
+
+.books-grid {
+    width: 100% !important;
+}
+
+/* Issued books */
+
+.issued-section {
+    width: 100% !important;
+}
+
+/* Remove accidental huge spacing */
+
+.main-content > section:first-of-type {
+    margin-top: 0 !important;
+}
+
+/* Mobile */
+
+@media (max-width: 900px) {
+
+    .dashboard-shell {
+        grid-template-columns: 1fr !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+    }
+
+    .main-content {
+        padding: 22px 16px 40px !important;
+    }
+
+}
+
+.page-header,
+.main-content,
+.dashboard-shell,
+.sidebar {
+    transform: none !important;
+}
+
+.main-content {
+    position: relative !important;
+    top: 0 !important;
+}
+
+.page-header {
+    position: relative !important;
+    top: 0 !important;
+}
+
+.books-section,
+.library-stats,
+.panel,
+.issued-section {
+    position: relative !important;
+    top: 0 !important;
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="page-loader" id="pageLoader">
+
+    <div class="loader-spinner"></div>
+
+    <div
+        class="loader-text"
+        data-loader-text
+    >
+        Opening Library...
+    </div>
+
+</div>
+  <div class="dashboard-shell">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">BC</div>
+        <div>
+          <div class="brand-name">BitCampus</div>
+          <div class="brand-tagline">Campus OS</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a href="./dashboard.html" class="page-nav-link">
+          <span class="page-nav-icon">⌂</span>
+          Dashboard
+        </a>
+
+        <a href="./academics.html" class="page-nav-link">
+          <span class="page-nav-icon">◈</span>
+          Academics
+        </a>
+
+        <a href="./courses.html" class="page-nav-link">
+          <span class="page-nav-icon">▦</span>
+          Courses
+        </a>
+
+        <a href="./attendance.html" class="page-nav-link">
+          <span class="page-nav-icon">◉</span>
+          Attendance
+        </a>
+
+        <a href="./assignments.html" class="page-nav-link">
+          <span class="page-nav-icon">☷</span>
+          Assignments
+        </a>
+
+        <a href="./timetable.html" class="page-nav-link">
+          <span class="page-nav-icon">▤</span>
+          Timetable
+        </a>
+
+        <a href="./results.html" class="page-nav-link">
+          <span class="page-nav-icon">🏆</span>
+          Results
+        </a>
+
+        <a href="./fees.html" class="page-nav-link">
+          <span class="page-nav-icon">₹</span>
+          Fees
+        </a>
+
+        <a href="./registration.html" class="page-nav-link">
+          <span class="page-nav-icon">◫</span>
+          Registration
+        </a>
+
+        <a href="./library.html" class="page-nav-link active">
+          <span class="page-nav-icon">📚</span>
+          Library
+        </a>
+
+       <a
+  href="./notices.html"
+  data-page-link="Notices & News"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">▣</span>
+  Notices & News
+</a>
+<a
+  href="./notifications.html"
+  data-page-link="Notifications"
+  class="page-nav-link"
+>
+  <span class="page-nav-icon">🔔</span>
+  Notifications
+</a>
+
+        <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+       <a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+<a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+       <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+
+        <button id="logoutBtn" class="page-nav-link logout-link">
+          <span class="page-nav-icon">↪</span>
+          Logout
+        </button>
+
+      </nav>
+    </aside>
+
+    <main class="main-content">
+
+      <header class="page-header">
+
+        <div>
+          <div class="eyebrow">BITCAMPUS / LIBRARY</div>
+          <h1>Library</h1>
+          <p class="page-subtitle">
+            Books, borrowing & your campus reading desk.
+          </p>
+        </div>
+
+        <div class="student-mini-card">
+          <div class="student-mini-avatar">RK</div>
+          <div>
+            <strong data-student-name>Student</strong>
+            <small>B.Tech CSE</small>
+          </div>
+        </div>
+
+      </header>
+
+      <section class="library-stats">
+
+        <div class="library-stat">
+          <div class="library-stat-label">Books Available</div>
+          <div class="library-stat-value" id="availableBooks">0</div>
+        </div>
+
+        <div class="library-stat">
+          <div class="library-stat-label">Currently Issued</div>
+          <div class="library-stat-value" id="issuedBooks">0</div>
+        </div>
+
+        <div class="library-stat">
+          <div class="library-stat-label">Reading Hours</div>
+          <div class="library-stat-value">14h</div>
+        </div>
+
+        <div class="library-stat">
+          <div class="library-stat-label">Current Fine</div>
+          <div class="library-stat-value">₹0</div>
+        </div>
+
+      </section>
+
+      <section class="panel">
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">BOOK DESK</div>
+            <h2>Find a Book</h2>
+          </div>
+        </div>
+
+        <div class="library-toolbar">
+
+          <input
+            type="text"
+            id="bookSearch"
+            class="library-search"
+            placeholder="Search title, author or ISBN..."
+          />
+
+          <select id="categoryFilter" class="library-filter">
+            <option value="all">All Categories</option>
+            <option value="programming">Programming</option>
+            <option value="database">Database</option>
+            <option value="networking">Networking</option>
+            <option value="mathematics">Mathematics</option>
+            <option value="software">Software</option>
+          </select>
+
+          <button id="resetFilters" class="book-action">
+            Reset
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="books-section">
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">SHELF / A-01</div>
+            <h2>Campus Collection</h2>
+          </div>
+        </div>
+
+        <div class="books-grid" id="booksGrid"></div>
+
+      </section>
+
+      <section class="issued-section">
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">YOUR DESK</div>
+            <h2>Issued Books</h2>
+          </div>
+        </div>
+
+        <div class="issued-table-wrap">
+
+          <table class="issued-table">
+
+            <thead>
+              <tr>
+                <th>Book</th>
+                <th>Issued On</th>
+                <th>Due On</th>
+                <th>Status</th>
+                <th>Fine</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="issuedBooksTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+      <div class="library-note">
+        <strong>Library Note:</strong>
+        Standard borrowing period is 14 days in this BitCampus prototype.
+        Late return fine is calculated at ₹5 per day.
+        This is a frontend demo and does not connect to a real university library system.
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="../js/pages.js"></script>
+
+  <script>
+    const books = [
+      {
+        id: 1,
+        title: "Data Structures & Algorithms",
+        author: "Narasimha Karumanchi",
+        isbn: "9788193245279",
+        category: "programming",
+        categoryLabel: "Programming",
+        copies: 5,
+        available: 3
+      },
+      {
+        id: 2,
+        title: "Database System Concepts",
+        author: "Abraham Silberschatz",
+        isbn: "9780078022159",
+        category: "database",
+        categoryLabel: "Database",
+        copies: 4,
+        available: 2
+      },
+      {
+        id: 3,
+        title: "Computer Networking",
+        author: "James Kurose",
+        isbn: "9780136681557",
+        category: "networking",
+        categoryLabel: "Networking",
+        copies: 6,
+        available: 4
+      },
+      {
+        id: 4,
+        title: "Engineering Mathematics",
+        author: "B.S. Grewal",
+        isbn: "9788174091959",
+        category: "mathematics",
+        categoryLabel: "Mathematics",
+        copies: 8,
+        available: 5
+      },
+      {
+        id: 5,
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        isbn: "9780132350884",
+        category: "software",
+        categoryLabel: "Software",
+        copies: 3,
+        available: 2
+      },
+      {
+        id: 6,
+        title: "C++ Primer",
+        author: "Stanley B. Lippman",
+        isbn: "9780321714114",
+        category: "programming",
+        categoryLabel: "Programming",
+        copies: 4,
+        available: 0
+      },
+      {
+        id: 7,
+        title: "Operating System Concepts",
+        author: "Silberschatz & Galvin",
+        isbn: "9781118063330",
+        category: "software",
+        categoryLabel: "Software",
+        copies: 5,
+        available: 1
+      },
+      {
+        id: 8,
+        title: "Computer Networks Lab Manual",
+        author: "BitCampus Library",
+        isbn: "BCNETLAB001",
+        category: "networking",
+        categoryLabel: "Networking",
+        copies: 7,
+        available: 6
+      }
+    ];
+
+    const STORAGE_KEY = "bitCampusIssuedBooks";
+
+    let issuedBooks = JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+
+    function saveIssuedBooks() {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(issuedBooks)
+      );
+    }
+
+    function getTodayISO() {
+      return new Date().toISOString().split("T")[0];
+    }
+
+    function addDays(dateString, days) {
+      const date = new Date(dateString);
+      date.setDate(date.getDate() + days);
+
+      return date.toISOString().split("T")[0];
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+
+      return date.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function calculateFine(dueDate, returned = false) {
+      const due = new Date(dueDate);
+      const today = returned ? new Date() : new Date();
+
+      if (today <= due) {
+        return 0;
+      }
+
+      const diff = Math.ceil(
+        (today - due) / (1000 * 60 * 60 * 24)
+      );
+
+      return diff * 5;
+    }
+
+    function renderStats() {
+      const available = books.reduce(
+        (total, book) => total + book.available,
+        0
+      );
+
+      document.getElementById("availableBooks").textContent =
+        available;
+
+      document.getElementById("issuedBooks").textContent =
+        issuedBooks.length;
+    }
+
+    function renderBooks() {
+      const grid = document.getElementById("booksGrid");
+
+      const searchValue =
+        document.getElementById("bookSearch").value
+          .trim()
+          .toLowerCase();
+
+      const categoryValue =
+        document.getElementById("categoryFilter").value;
+
+      const filteredBooks = books.filter(book => {
+
+        const matchesSearch =
+          book.title.toLowerCase().includes(searchValue) ||
+          book.author.toLowerCase().includes(searchValue) ||
+          book.isbn.toLowerCase().includes(searchValue);
+
+        const matchesCategory =
+          categoryValue === "all" ||
+          book.category === categoryValue;
+
+        return matchesSearch && matchesCategory;
+      });
+
+      if (!filteredBooks.length) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <h3>No books found</h3>
+            <p>Try another title, author or category.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filteredBooks.map(book => {
+
+        const isIssued = issuedBooks.some(
+          item => item.bookId === book.id
+        );
+
+        const isAvailable =
+          book.available > 0 && !isIssued;
+
+        return `
+          <article class="book-card">
+
+            <div class="book-cover">
+              ${book.title}
+            </div>
+
+            <span class="book-category">
+              ${book.categoryLabel}
+            </span>
+
+            <div class="book-title">
+              ${book.title}
+            </div>
+
+            <div class="book-author">
+              by ${book.author}
+            </div>
+
+            <div class="book-meta">
+              <span>
+                ISBN: ${book.isbn}
+              </span>
+
+              <span class="book-status ${
+                isAvailable ? "available" : "unavailable"
+              }">
+                ${
+                  isIssued
+                    ? "Issued to You"
+                    : book.available > 0
+                      ? `${book.available} Available`
+                      : "Unavailable"
+                }
+              </span>
+            </div>
+
+            <button
+              class="book-action"
+              ${
+                !isAvailable
+                  ? "disabled"
+                  : ""
+              }
+              onclick="issueBook(${book.id})"
+            >
+              ${
+                isIssued
+                  ? "Already Issued"
+                  : book.available > 0
+                    ? "Issue Book"
+                    : "Currently Unavailable"
+              }
+            </button>
+
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderIssuedBooks() {
+      const table =
+        document.getElementById("issuedBooksTable");
+
+      if (!issuedBooks.length) {
+
+        table.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align:center; padding:30px;">
+              No books currently issued.
+            </td>
+          </tr>
+        `;
+
+        return;
+      }
+
+      table.innerHTML = issuedBooks.map(item => {
+
+        const fine = calculateFine(item.dueDate);
+
+        const isLate = fine > 0;
+
+        return `
+          <tr>
+
+            <td>
+              <strong>${item.title}</strong>
+            </td>
+
+            <td>
+              ${formatDate(item.issuedOn)}
+            </td>
+
+            <td>
+              ${formatDate(item.dueDate)}
+            </td>
+
+            <td>
+              ${
+                isLate
+                  ? '<span class="fine">OVERDUE</span>'
+                  : "ON TIME"
+              }
+            </td>
+
+            <td>
+              ${
+                fine > 0
+                  ? `<span class="fine">₹${fine}</span>`
+                  : "₹0"
+              }
+            </td>
+
+            <td>
+              <button
+                class="return-btn"
+                onclick="returnBook(${item.bookId})"
+              >
+                Return
+              </button>
+            </td>
+
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function issueBook(bookId) {
+
+      const book = books.find(
+        item => item.id === bookId
+      );
+
+      if (!book) return;
+
+      if (book.available <= 0) {
+        alert("This book is currently unavailable.");
+        return;
+      }
+
+      const alreadyIssued = issuedBooks.some(
+        item => item.bookId === bookId
+      );
+
+      if (alreadyIssued) {
+        alert("You already have this book issued.");
+        return;
+      }
+
+      const issuedOn = getTodayISO();
+      const dueDate = addDays(issuedOn, 14);
+
+      issuedBooks.push({
+        bookId: book.id,
+        title: book.title,
+        issuedOn,
+        dueDate
+      });
+
+      book.available--;
+
+      saveIssuedBooks();
+
+      renderStats();
+      renderBooks();
+      renderIssuedBooks();
+
+      alert(
+        `"${book.title}" issued successfully.\n\nDue date: ${formatDate(dueDate)}`
+      );
+    }
+
+    function returnBook(bookId) {
+
+      const index = issuedBooks.findIndex(
+        item => item.bookId === bookId
+      );
+
+      if (index === -1) return;
+
+      const book = books.find(
+        item => item.id === bookId
+      );
+
+      const item = issuedBooks[index];
+
+      const fine = calculateFine(item.dueDate, true);
+
+      if (fine > 0) {
+        const confirmed = confirm(
+          `This book is overdue.\nEstimated fine: ₹${fine}\n\nReturn book?`
+        );
+
+        if (!confirmed) return;
+      }
+
+      if (book) {
+        book.available++;
+      }
+
+      issuedBooks.splice(index, 1);
+
+      saveIssuedBooks();
+
+      renderStats();
+      renderBooks();
+      renderIssuedBooks();
+
+      alert("Book return request completed.");
+    }
+
+    document
+      .getElementById("bookSearch")
+      .addEventListener("input", renderBooks);
+
+    document
+      .getElementById("categoryFilter")
+      .addEventListener("change", renderBooks);
+
+    document
+      .getElementById("resetFilters")
+      .addEventListener("click", () => {
+
+        document.getElementById("bookSearch").value = "";
+
+        document.getElementById("categoryFilter").value =
+          "all";
+
+        renderBooks();
+      });
+
+    renderStats();
+    renderBooks();
+    renderIssuedBooks();
+
+    window.addEventListener("load", function () {
+
+    const loader = document.getElementById("pageLoader");
+
+    if (!loader) return;
+
+    setTimeout(function () {
+
+        loader.style.opacity = "0";
+        loader.style.visibility = "hidden";
+        loader.style.pointerEvents = "none";
+
+        setTimeout(function () {
+            loader.style.display = "none";
+        }, 350);
+
+    }, 500);
+
+});
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", function () {
+
+        localStorage.removeItem("bitCampusSession");
+        sessionStorage.removeItem("bitCampusSession");
+
+        window.location.href = "../login.html";
+
+    });
+
+}
+  </script>
+
+</body>
+</html>

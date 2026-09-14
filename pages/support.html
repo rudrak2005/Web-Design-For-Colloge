@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student Support | BitCampus</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =====================================
+           DAY 15 - STUDENT SUPPORT
+        ===================================== */
+
+        .support-hero {
+            background: #28231f;
+            color: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 7px 7px 0 #4b3625;
+            padding: 28px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-hero::after {
+            content: "?";
+            position: absolute;
+            right: 30px;
+            bottom: -45px;
+            font-size: 180px;
+            font-weight: 900;
+            opacity: 0.05;
+        }
+
+        .support-hero .eyebrow {
+            color: #e2b84b;
+        }
+
+        .support-hero h2 {
+            font-size: 34px;
+            line-height: 1.15;
+            margin: 8px 0 12px;
+            max-width: 700px;
+        }
+
+        .support-hero p {
+            max-width: 700px;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
+        /* =====================================
+           SUMMARY
+        ===================================== */
+
+        .support-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .support-stat {
+            border: 2px solid #28231f;
+            background: #fff4d6;
+            box-shadow: 5px 5px 0 #28231f;
+            padding: 18px;
+        }
+
+        .support-stat:nth-child(2) {
+            background: #e7a7b7;
+        }
+
+        .support-stat:nth-child(3) {
+            background: #9fd6b5;
+        }
+
+        .support-stat:nth-child(4) {
+            background: #b7a9d6;
+        }
+
+        .support-stat-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .support-stat-value {
+            margin-top: 4px;
+            font-size: 30px;
+            font-weight: 900;
+        }
+
+        /* =====================================
+           SECTION GRID
+        ===================================== */
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .support-panel {
+            background: #fff4d6;
+            border: 2px solid #28231f;
+            box-shadow: 5px 5px 0 #28231f;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .support-panel h2 {
+            margin-top: 5px;
+        }
+
+        /* =====================================
+           FORMS
+        ===================================== */
+
+        .support-form {
+            margin-top: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .support-input,
+        .support-select,
+        .support-textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 2px solid #28231f;
+            background: #fffdf4;
+            color: #28231f;
+            font: inherit;
+            outline: none;
+        }
+
+        .support-textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .support-input:focus,
+        .support-select:focus,
+        .support-textarea:focus {
+            box-shadow: 4px 4px 0 #28231f;
+            transform: translate(-1px, -1px);
+        }
+
+        .support-submit {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #28231f;
+            background: #28231f;
+            color: #fff4d6;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .support-submit:hover {
+            background: #4b3625;
+        }
+
+        /* =====================================
+           RATING
+        ===================================== */
+
+        .rating-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            display: none;
+        }
+
+        .rating-label {
+            min-width: 42px;
+            padding: 9px 11px;
+            border: 2px solid #28231f;
+            text-align: center;
+            cursor: pointer;
+            background: #f2e4c4;
+            font-weight: 900;
+        }
+
+        .rating-option:checked + .rating-label {
+            background: #e2b84b;
+            box-shadow: 3px 3px 0 #28231f;
+        }
+
+        /* =====================================
+           TICKET
+        ===================================== */
+
+        .ticket-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+            margin-top: 15px;
+        }
+
+        .ticket-card {
+            border: 2px solid #28231f;
+            background: #f2e4c4;
+            padding: 15px;
+        }
+
+        .ticket-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .ticket-id {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.7px;
+        }
+
+        .ticket-title {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .ticket-date {
+            margin-top: 5px;
+            font-size: 11px;
+            opacity: 0.65;
+        }
+
+        .ticket-status {
+            display: inline-block;
+            padding: 5px 8px;
+            border: 1px solid #28231f;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .status-open {
+            background: #e2b84b;
+        }
+
+        .status-progress {
+            background: #b7a9d6;
+        }
+
+        .status-resolved {
+            background: #9fd6b5;
+        }
+
+        .status-closed {
+            background: #e7a7b7;
+        }
+
+        .ticket-description {
+            margin-top: 11px;
+            font-size: 12px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        /* =====================================
+           LINKS
+        ===================================== */
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px;
+            margin-top: 18px;
+        }
+
+        .important-link {
+            display: block;
+            padding: 15px;
+            border: 2px solid #28231f;
+            background: #fff4d6;
+            box-shadow: 3px 3px 0 #28231f;
+            color: #28231f;
+            text-decoration: none;
+            transition: 0.15s ease;
+        }
+
+        .important-link:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 #28231f;
+        }
+
+        .link-icon {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .link-title {
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .link-description {
+            margin-top: 4px;
+            font-size: 11px;
+            line-height: 1.5;
+            opacity: 0.65;
+        }
+
+        .important-link:nth-child(2n) {
+            background: #e7a7b7;
+        }
+
+        .important-link:nth-child(3n) {
+            background: #9fd6b5;
+        }
+
+        .important-link:nth-child(4n) {
+            background: #b7a9d6;
+        }
+
+        /* =====================================
+           INFO NOTE
+        ===================================== */
+
+        .support-note {
+            margin-top: 16px;
+            padding: 14px;
+            border: 2px dashed #28231f;
+            background: #f2e4c4;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* =====================================
+           MODAL
+        ===================================== */
+
+        .support-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(40, 35, 31, 0.78);
+        }
+
+        .support-modal-overlay.show {
+            display: flex;
+        }
+
+        .support-modal {
+            width: min(520px, 100%);
+            background: #fff4d6;
+            color: #28231f;
+            border: 3px solid #28231f;
+            box-shadow: 8px 8px 0 #000;
+            padding: 25px;
+        }
+
+        .support-modal h2 {
+            margin-bottom: 10px;
+        }
+
+        .success-ticket {
+            margin: 18px 0;
+            padding: 15px;
+            border: 2px dashed #28231f;
+            background: #9fd6b5;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            width: 100%;
+            padding: 11px;
+            border: 2px solid #28231f;
+            background: #28231f;
+            color: #fff4d6;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        /* =====================================
+           EMPTY
+        ===================================== */
+
+        .ticket-empty {
+            padding: 30px 15px;
+            border: 2px dashed #28231f;
+            background: #f2e4c4;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .ticket-empty p {
+            margin-top: 5px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 1050px) {
+
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .support-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .support-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .support-hero h2 {
+                font-size: 27px;
+            }
+
+            .ticket-top {
+                flex-direction: column;
+            }
+
+        }
+
+        /* =====================================
+   SUPPORT PAGE LAYOUT FIX
+===================================== */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    width: 100% !important;
+    min-height: 100% !important;
+
+    overflow-x: hidden !important;
+}
+
+.dashboard-shell {
+    display: flex !important;
+
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    position: relative !important;
+}
+
+.sidebar {
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 250px !important;
+    min-width: 250px !important;
+
+    height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 18px 12px !important;
+
+    box-sizing: border-box !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    z-index: 500 !important;
+
+    border-right: 2px solid #28231f !important;
+}
+
+.sidebar-nav {
+    width: 100% !important;
+}
+
+.page-nav-link {
+    display: flex !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box !important;
+
+    margin: 4px 0 !important;
+
+    white-space: nowrap !important;
+}
+
+.main-content {
+    display: block !important;
+
+    width: calc(100% - 250px) !important;
+    min-width: 0 !important;
+
+    margin-left: 250px !important;
+
+    padding: 30px 34px 50px !important;
+
+    box-sizing: border-box !important;
+
+    position: relative !important;
+
+    top: 0 !important;
+    left: 0 !important;
+}
+
+.page-header {
+    width: 100% !important;
+
+    min-height: auto !important;
+
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 20px !important;
+}
+
+.support-hero {
+    width: 100% !important;
+}
+
+.support-stats {
+    width: 100% !important;
+}
+
+.support-grid {
+    width: 100% !important;
+}
+
+.support-panel {
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 900px) {
+
+    .dashboard-shell {
+        flex-direction: column !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+
+        height: auto !important;
+
+        border-right: none !important;
+        border-bottom: 2px solid #28231f !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+
+        padding: 22px 16px 40px !important;
+    }
+
+    .page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .support-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+    
+/* =====================================
+   FINAL SUPPORT PAGE LAYOUT
+===================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    background: #f2e4c4 !important;
+    color: #28231f !important;
+}
+
+body {
+    min-width: 0 !important;
+}
+
+.dashboard-shell {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+
+.sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 18px 12px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
+    background: #f2e4c4 !important;
+    border-right: 2px solid #28231f !important;
+}
+
+.brand {
+    width: 100% !important;
+}
+
+.sidebar-nav {
+    width: 100% !important;
+}
+
+.page-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 4px 0 !important;
+    padding: 10px 12px !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+}
+
+.main-content {
+    width: calc(100% - 250px) !important;
+    min-width: 0 !important;
+    margin-left: 250px !important;
+    padding: 30px 34px 50px !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.page-header {
+    width: 100% !important;
+    min-height: auto !important;
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+}
+
+.support-hero,
+.support-stats,
+.support-grid,
+.support-panel {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.support-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 1fr) !important;
+    gap: 24px !important;
+    align-items: start !important;
+}
+
+.support-grid > div,
+.support-grid > aside {
+    min-width: 0 !important;
+}
+
+.support-stats {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+}
+
+.support-stat,
+.support-panel,
+.important-link,
+.ticket-card {
+    min-width: 0 !important;
+}
+
+.support-input,
+.support-select,
+.support-textarea {
+    max-width: 100% !important;
+}
+
+@media (max-width: 1050px) {
+    .support-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .support-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-shell {
+        flex-direction: column !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+        inset: auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 2px solid #28231f !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 22px 16px 40px !important;
+    }
+
+    .page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .support-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 650px) {
+    .support-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .links-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =====================================
+         LOADER
+    ====================================== -->
+
+    
+
+        <div class="loader-text">
+            Opening Student Support...
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         APP
+    ====================================== -->
+
+    <div class="dashboard-shell">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    BC
+                </div>
+
+                <div>
+
+                    <div class="brand-name">
+                        BitCampus
+                    </div>
+
+                    <div class="brand-tagline">
+                        Campus OS
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+
+                <a
+                    href="./dashboard.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">⌂</span>
+                    Dashboard
+                </a>
+
+
+                <!-- Profile intentionally inactive -->
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+                <a
+                    href="./academics.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◈</span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▦</span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◉</span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">☷</span>
+                    Assignments
+                </a>
+
+
+                <a
+                    href="./timetable.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▤</span>
+                    Timetable
+                </a>
+
+
+                <a
+                    href="./results.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🏆</span>
+                    Results
+                </a>
+
+
+                <a
+                    href="./fees.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">₹</span>
+                    Fees
+                </a>
+
+
+                <a
+                    href="./registration.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">◫</span>
+                    Registration
+                </a>
+
+
+                <a
+                    href="./library.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">📚</span>
+                    Library
+                </a>
+
+
+                <a
+                    href="./notices.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">▣</span>
+                    Notices & News
+                </a>
+
+
+                <a
+                    href="./notifications.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🔔</span>
+                    Notifications
+                </a>
+
+
+                <a
+                    href="./placement.html"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">↗</span>
+                    Placement
+                </a>
+
+
+                <a
+                    href="./support.html#feedback"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">★</span>
+                    Feedback
+                </a>
+
+
+                <a
+                    href="./support.html#grievance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">?</span>
+                    Grievance
+                </a>
+
+
+                <a
+                    href="./support.html#links"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">🔗</span>
+                    Important Links
+                </a>
+
+
+                <button
+                    id="logoutBtn"
+                    class="page-nav-link logout-link"
+                >
+                    <span class="page-nav-icon">↪</span>
+                    Logout
+                </button>
+
+
+            </nav>
+
+        </aside>
+
+
+        <!-- =====================================
+             MAIN
+        ====================================== -->
+
+        <main class="main-content">
+
+
+            <!-- HEADER -->
+
+            <header class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        BITCAMPUS / STUDENT SUPPORT
+                    </div>
+
+                    <h1>
+                        Student Support
+                    </h1>
+
+                    <p class="page-subtitle">
+                        Speak up, share feedback and
+                        find important campus resources.
+                    </p>
+
+                </div>
+
+
+                <div class="student-mini-card">
+
+                    <div class="student-mini-avatar">
+                        RK
+                    </div>
+
+                    <div>
+
+                        <strong
+                            data-student-name
+                        >
+                            Student
+                        </strong>
+
+                        <small>
+                            B.Tech CSE
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- HERO -->
+
+            <section class="support-hero">
+
+                <div class="eyebrow">
+                    STUDENT HELP DESK
+                </div>
+
+                <h2>
+                    Your voice belongs on campus.
+                </h2>
+
+                <p>
+                    Share course feedback, report a
+                    problem, submit a grievance or
+                    quickly reach important university
+                    resources from one place.
+                </p>
+
+            </section>
+
+
+            <!-- STATS -->
+
+            <section class="support-stats">
+
+                <div class="support-stat">
+
+                    <div class="support-stat-label">
+                        Feedback Sent
+                    </div>
+
+                    <div
+                        class="support-stat-value"
+                        id="feedbackCount"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="support-stat">
+
+                    <div class="support-stat-label">
+                        Open Grievances
+                    </div>
+
+                    <div
+                        class="support-stat-value"
+                        id="openGrievanceCount"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="support-stat">
+
+                    <div class="support-stat-label">
+                        Resolved
+                    </div>
+
+                    <div
+                        class="support-stat-value"
+                        id="resolvedCount"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="support-stat">
+
+                    <div class="support-stat-label">
+                        Important Links
+                    </div>
+
+                    <div class="support-stat-value">
+                        10
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- GRID -->
+
+            <section class="support-grid">
+
+
+                <!-- LEFT -->
+
+                <div>
+
+
+                    <!-- FEEDBACK -->
+
+                    <section
+                        class="support-panel"
+                        id="feedback"
+                    >
+
+                        <div class="eyebrow">
+                            VOICE / 01
+                        </div>
+
+                        <h2>
+                            Send Feedback
+                        </h2>
+
+                        <form
+                            class="support-form"
+                            id="feedbackForm"
+                        >
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Feedback Type
+                                </label>
+
+                                <select
+                                    class="support-select"
+                                    id="feedbackType"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select type
+                                    </option>
+
+                                    <option>
+                                        Course
+                                    </option>
+
+                                    <option>
+                                        Faculty
+                                    </option>
+
+                                    <option>
+                                        Library
+                                    </option>
+
+                                    <option>
+                                        Campus Facilities
+                                    </option>
+
+                                    <option>
+                                        Placement
+                                    </option>
+
+                                    <option>
+                                        Portal
+                                    </option>
+
+                                    <option>
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Rating
+                                </label>
+
+                                <div class="rating-row">
+
+                                    <input
+                                        class="rating-option"
+                                        type="radio"
+                                        name="rating"
+                                        id="rate1"
+                                        value="1"
+                                        required
+                                    >
+
+                                    <label
+                                        class="rating-label"
+                                        for="rate1"
+                                    >
+                                        1
+                                    </label>
+
+
+                                    <input
+                                        class="rating-option"
+                                        type="radio"
+                                        name="rating"
+                                        id="rate2"
+                                        value="2"
+                                    >
+
+                                    <label
+                                        class="rating-label"
+                                        for="rate2"
+                                    >
+                                        2
+                                    </label>
+
+
+                                    <input
+                                        class="rating-option"
+                                        type="radio"
+                                        name="rating"
+                                        id="rate3"
+                                        value="3"
+                                    >
+
+                                    <label
+                                        class="rating-label"
+                                        for="rate3"
+                                    >
+                                        3
+                                    </label>
+
+
+                                    <input
+                                        class="rating-option"
+                                        type="radio"
+                                        name="rating"
+                                        id="rate4"
+                                        value="4"
+                                    >
+
+                                    <label
+                                        class="rating-label"
+                                        for="rate4"
+                                    >
+                                        4
+                                    </label>
+
+
+                                    <input
+                                        class="rating-option"
+                                        type="radio"
+                                        name="rating"
+                                        id="rate5"
+                                        value="5"
+                                    >
+
+                                    <label
+                                        class="rating-label"
+                                        for="rate5"
+                                    >
+                                        5
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Your Feedback
+                                </label>
+
+                                <textarea
+                                    id="feedbackMessage"
+                                    class="support-textarea"
+                                    placeholder="Tell us what is working well or what should be improved..."
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="support-submit"
+                            >
+                                Submit Feedback
+                            </button>
+
+
+                        </form>
+
+
+                        <div class="support-note">
+                            Feedback is stored locally in this
+                            prototype. A real university system
+                            would send it to the administration
+                            backend.
+                        </div>
+
+                    </section>
+
+
+                    <!-- GRIEVANCE -->
+
+                    <section
+                        class="support-panel"
+                        id="grievance"
+                    >
+
+                        <div class="eyebrow">
+                            SUPPORT / 02
+                        </div>
+
+                        <h2>
+                            Submit a Grievance
+                        </h2>
+
+
+                        <form
+                            class="support-form"
+                            id="grievanceForm"
+                        >
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Grievance Category
+                                </label>
+
+                                <select
+                                    class="support-select"
+                                    id="grievanceCategory"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select category
+                                    </option>
+
+                                    <option>
+                                        Academic
+                                    </option>
+
+                                    <option>
+                                        Examination
+                                    </option>
+
+                                    <option>
+                                        Fees
+                                    </option>
+
+                                    <option>
+                                        Attendance
+                                    </option>
+
+                                    <option>
+                                        Faculty
+                                    </option>
+
+                                    <option>
+                                        Infrastructure
+                                    </option>
+
+                                    <option>
+                                        Hostel
+                                    </option>
+
+                                    <option>
+                                        Library
+                                    </option>
+
+                                    <option>
+                                        Placement
+                                    </option>
+
+                                    <option>
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Subject
+                                </label>
+
+                                <input
+                                    id="grievanceSubject"
+                                    class="support-input"
+                                    type="text"
+                                    placeholder="Enter grievance subject"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="grievanceDescription"
+                                    class="support-textarea"
+                                    placeholder="Explain your issue clearly..."
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="support-submit"
+                            >
+                                Submit Grievance
+                            </button>
+
+
+                        </form>
+
+
+                        <div class="ticket-list"
+                             id="ticketList">
+                        </div>
+
+                    </section>
+
+
+                </div>
+
+
+                <!-- RIGHT -->
+
+                <aside id="links">
+
+
+                    <!-- LINKS -->
+
+                    <section
+                        class="support-panel"
+                    >
+
+                        <div class="eyebrow">
+                            RESOURCE DESK
+                        </div>
+
+                        <h2>
+                            Important Links
+                        </h2>
+
+
+                        <div class="links-grid">
+
+
+                            <a
+                                href="./academics.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    🎓
+                                </div>
+
+                                <div class="link-title">
+                                    Academic Portal
+                                </div>
+
+                                <div class="link-description">
+                                    Courses, academics and
+                                    semester information.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./results.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    🏆
+                                </div>
+
+                                <div class="link-title">
+                                    Results
+                                </div>
+
+                                <div class="link-description">
+                                    View marks, SGPA, CGPA
+                                    and result history.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./attendance.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    ◉
+                                </div>
+
+                                <div class="link-title">
+                                    Attendance
+                                </div>
+
+                                <div class="link-description">
+                                    Check subject attendance
+                                    and predictor.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./registration.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    ◫
+                                </div>
+
+                                <div class="link-title">
+                                    Registration
+                                </div>
+
+                                <div class="link-description">
+                                    Semester registration
+                                    and student forms.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./fees.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    ₹
+                                </div>
+
+                                <div class="link-title">
+                                    Fee Portal
+                                </div>
+
+                                <div class="link-description">
+                                    Fee status, transactions
+                                    and payment details.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./library.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    📚
+                                </div>
+
+                                <div class="link-title">
+                                    Library
+                                </div>
+
+                                <div class="link-description">
+                                    Books, issued items and
+                                    library information.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./notices.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    📢
+                                </div>
+
+                                <div class="link-title">
+                                    Notices
+                                </div>
+
+                                <div class="link-description">
+                                    Campus notices, news and
+                                    important announcements.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./notifications.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    🔔
+                                </div>
+
+                                <div class="link-title">
+                                    Notifications
+                                </div>
+
+                                <div class="link-description">
+                                    Smart alerts generated
+                                    by BitCampus.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./placement.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    💼
+                                </div>
+
+                                <div class="link-title">
+                                    Placement
+                                </div>
+
+                                <div class="link-description">
+                                    Jobs, internships and
+                                    application tracking.
+                                </div>
+
+                            </a>
+
+
+                            <a
+                                href="./dashboard.html"
+                                class="important-link"
+                            >
+
+                                <div class="link-icon">
+                                    ⌂
+                                </div>
+
+                                <div class="link-title">
+                                    Student Dashboard
+                                </div>
+
+                                <div class="link-description">
+                                    Return to your BitCampus
+                                    main dashboard.
+                                </div>
+
+                            </a>
+
+
+                        </div>
+
+
+                        <div class="support-note">
+                            External university websites can
+                            be connected later when the real
+                            institution URLs are available.
+                        </div>
+
+                    </section>
+
+
+                    <!-- SUPPORT INFO -->
+
+                    <section
+                        class="support-panel"
+                    >
+
+                        <div class="eyebrow">
+                            HELP DESK
+                        </div>
+
+                        <h2>
+                            Support Information
+                        </h2>
+
+                        <div class="support-note">
+
+                            <strong>
+                                Expected response:
+                            </strong>
+
+                            <br>
+
+                            Academic grievances:
+                            2–5 working days.
+
+                            <br><br>
+
+                            Administrative requests:
+                            3–7 working days.
+
+                            <br><br>
+
+                            Emergency campus matters should
+                            be reported directly to the
+                            administration office.
+
+                        </div>
+
+                    </section>
+
+
+                </aside>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================
+         SUCCESS MODAL
+    ====================================== -->
+
+    <div
+        class="support-modal-overlay"
+        id="supportModal"
+    >
+
+        <div class="support-modal">
+
+            <h2 id="modalTitle">
+                Submitted
+            </h2>
+
+            <div
+                class="success-ticket"
+                id="modalMessage"
+            >
+            </div>
+
+            <button
+                class="modal-close"
+                id="modalClose"
+            >
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+<script>
+
+        /* =====================================
+           STORAGE KEYS
+        ===================================== */
+
+        const FEEDBACK_KEY =
+            "bitCampusFeedback";
+
+        const GRIEVANCE_KEY =
+            "bitCampusGrievances";
+
+
+        /* =====================================
+           DATA
+        ===================================== */
+
+        let feedbacks =
+            JSON.parse(
+                localStorage.getItem(
+                    FEEDBACK_KEY
+                ) || "[]"
+            );
+
+
+        let grievances =
+            JSON.parse(
+                localStorage.getItem(
+                    GRIEVANCE_KEY
+                ) || "[]"
+            );
+
+
+        /* =====================================
+           SESSION / AUTH
+        ===================================== */
+
+        const rawSession =
+            localStorage.getItem(
+                "bitCampusSession"
+            )
+            ||
+            sessionStorage.getItem(
+                "bitCampusSession"
+            );
+
+
+        if (!rawSession) {
+
+            window.location.href =
+                "../login.html";
+
+        }
+
+
+        let currentUser = null;
+
+
+        try {
+
+            currentUser =
+                JSON.parse(rawSession);
+
+
+        } catch {
+
+            localStorage.removeItem(
+                "bitCampusSession"
+            );
+
+            sessionStorage.removeItem(
+                "bitCampusSession"
+            );
+
+            window.location.href =
+                "../login.html";
+
+        }
+
+
+        /* =====================================
+           STUDENT NAME
+        ===================================== */
+
+        document
+            .querySelectorAll(
+                "[data-student-name]"
+            )
+            .forEach(
+                element => {
+
+                    element.textContent =
+                        currentUser?.name ||
+                        "Student";
+
+                }
+            );
+
+
+        /* =====================================
+           HELPERS
+        ===================================== */
+
+        function saveFeedbacks() {
+
+            localStorage.setItem(
+                FEEDBACK_KEY,
+                JSON.stringify(feedbacks)
+            );
+
+        }
+
+
+        function saveGrievances() {
+
+            localStorage.setItem(
+                GRIEVANCE_KEY,
+                JSON.stringify(grievances)
+            );
+
+        }
+
+
+        function formatDate(dateValue) {
+
+            return new Date(
+                dateValue
+            ).toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function generateTicketId() {
+
+            const random =
+                Math.floor(
+                    100000 +
+                    Math.random() * 900000
+                );
+
+            return `BC-GRV-${random}`;
+
+        }
+
+
+        /* =====================================
+           SUMMARY
+        ===================================== */
+
+        function updateSummary() {
+
+            document.getElementById(
+                "feedbackCount"
+            ).textContent =
+                feedbacks.length;
+
+
+            const open =
+                grievances.filter(
+                    item =>
+                        item.status === "Open"
+                        ||
+                        item.status ===
+                        "In Progress"
+                ).length;
+
+
+            const resolved =
+                grievances.filter(
+                    item =>
+                        item.status ===
+                        "Resolved"
+                ).length;
+
+
+            document.getElementById(
+                "openGrievanceCount"
+            ).textContent =
+                open;
+
+
+            document.getElementById(
+                "resolvedCount"
+            ).textContent =
+                resolved;
+
+        }
+
+
+        /* =====================================
+           FEEDBACK
+        ===================================== */
+
+        document
+            .getElementById("feedbackForm")
+            .addEventListener(
+                "submit",
+                event => {
+
+                    event.preventDefault();
+
+
+                    const type =
+                        document.getElementById(
+                            "feedbackType"
+                        ).value;
+
+
+                    const rating =
+                        document.querySelector(
+                            'input[name="rating"]:checked'
+                        );
+
+
+                    const message =
+                        document.getElementById(
+                            "feedbackMessage"
+                        ).value.trim();
+
+
+                    if (
+                        !type ||
+                        !rating ||
+                        !message
+                    ) {
+
+                        alert(
+                            "Please complete all feedback fields."
+                        );
+
+                        return;
+
+                    }
+
+
+                    feedbacks.push({
+
+                        id:
+                            Date.now(),
+
+                        student:
+                            currentUser?.name ||
+                            "Student",
+
+                        type,
+
+                        rating:
+                            Number(
+                                rating.value
+                            ),
+
+                        message,
+
+                        date:
+                            new Date()
+                                .toISOString()
+
+                    });
+
+
+                    saveFeedbacks();
+
+                    updateSummary();
+
+
+                    document
+                        .getElementById(
+                            "feedbackForm"
+                        )
+                        .reset();
+
+
+                    showModal(
+                        "Feedback Submitted",
+                        "Thank you for your feedback. Your response has been saved successfully in this prototype."
+                    );
+
+                }
+            );
+
+
+        /* =====================================
+           GRIEVANCE
+        ===================================== */
+
+        document
+            .getElementById("grievanceForm")
+            .addEventListener(
+                "submit",
+                event => {
+
+                    event.preventDefault();
+
+
+                    const category =
+                        document.getElementById(
+                            "grievanceCategory"
+                        ).value;
+
+
+                    const subject =
+                        document.getElementById(
+                            "grievanceSubject"
+                        ).value.trim();
+
+
+                    const description =
+                        document.getElementById(
+                            "grievanceDescription"
+                        ).value.trim();
+
+
+                    if (
+                        !category ||
+                        !subject ||
+                        !description
+                    ) {
+
+                        alert(
+                            "Please complete all grievance fields."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const ticketId =
+                        generateTicketId();
+
+
+                    grievances.unshift({
+
+                        id:
+                            ticketId,
+
+                        category,
+
+                        subject,
+
+                        description,
+
+                        status:
+                            "Open",
+
+                        date:
+                            new Date()
+                                .toISOString(),
+
+                        student:
+                            currentUser?.name ||
+                            "Student"
+
+                    });
+
+
+                    saveGrievances();
+
+                    updateSummary();
+
+                    renderGrievances();
+
+
+                    document
+                        .getElementById(
+                            "grievanceForm"
+                        )
+                        .reset();
+
+
+                    showModal(
+                        "Grievance Submitted",
+                        `Your grievance has been registered with ticket ID ${ticketId}. Keep this ID for future tracking.`
+                    );
+
+                }
+            );
+
+
+        /* =====================================
+           GRIEVANCE LIST
+        ===================================== */
+
+        function getStatusClass(status) {
+
+            if (
+                status === "In Progress"
+            ) {
+                return "status-progress";
+            }
+
+
+            if (
+                status === "Resolved"
+            ) {
+                return "status-resolved";
+            }
+
+
+            if (
+                status === "Closed"
+            ) {
+                return "status-closed";
+            }
+
+
+            return "status-open";
+
+        }
+
+
+        function renderGrievances() {
+
+            const container =
+                document.getElementById(
+                    "ticketList"
+                );
+
+
+            if (!grievances.length) {
+
+                container.innerHTML = `
+
+                    <div class="ticket-empty">
+
+                        <strong>
+                            No grievances submitted.
+                        </strong>
+
+                        <p>
+                            Your submitted grievances will
+                            appear here with their tracking ID.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                grievances.map(
+                    item => `
+
+                        <article
+                            class="ticket-card"
+                        >
+
+                            <div class="ticket-top">
+
+                                <div>
+
+                                    <div class="ticket-id">
+                                        ${item.id}
+                                    </div>
+
+                                    <div class="ticket-title">
+                                        ${item.subject}
+                                    </div>
+
+                                    <div class="ticket-date">
+                                        ${formatDate(item.date)}
+                                        •
+                                        ${item.category}
+                                    </div>
+
+                                </div>
+
+
+                                <span
+                                    class="
+                                        ticket-status
+                                        ${getStatusClass(
+                                            item.status
+                                        )}
+                                    "
+                                >
+                                    ${item.status}
+                                </span>
+
+                            </div>
+
+
+                            <div class="ticket-description">
+                                ${item.description}
+                            </div>
+
+                        </article>
+
+                    `
+                ).join("");
+
+        }
+
+
+        /* =====================================
+           MODAL
+        ===================================== */
+
+        function showModal(
+            title,
+            message
+        ) {
+
+            document.getElementById(
+                "modalTitle"
+            ).textContent =
+                title;
+
+
+            document.getElementById(
+                "modalMessage"
+            ).textContent =
+                message;
+
+
+            document
+                .getElementById(
+                    "supportModal"
+                )
+                .classList.add(
+                    "show"
+                );
+
+        }
+
+
+        document
+            .getElementById("modalClose")
+            .addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .getElementById(
+                            "supportModal"
+                        )
+                        .classList.remove(
+                            "show"
+                        );
+
+                }
+            );
+
+
+        document
+            .getElementById("supportModal")
+            .addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target.id ===
+                        "supportModal"
+                    ) {
+
+                        event.currentTarget
+                            .classList.remove(
+                                "show"
+                            );
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================
+           LOGOUT
+        ===================================== */
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutBtn) {
+
+            logoutBtn.addEventListener(
+                "click",
+                () => {
+
+                    localStorage.removeItem(
+                        "bitCampusSession"
+                    );
+
+                    sessionStorage.removeItem(
+                        "bitCampusSession"
+                    );
+
+                    window.location.href =
+                        "../login.html";
+
+                }
+            );
+
+        }
+if (!loader) {
+                    return;
+                }
+
+
+                setTimeout(
+                    () => {
+
+                        loader.style.opacity =
+                            "0";
+
+                        loader.style.visibility =
+                            "hidden";
+
+                        loader.style.pointerEvents =
+                            "none";
+
+
+                        setTimeout(
+                            () => {
+
+                                loader.style.display =
+                                    "none";
+
+                            },
+                            350
+                        );
+
+                    },
+                    500
+                );
+
+            
+        
+
+
+        /* =====================================
+           INITIALIZE
+        ===================================== */
+
+        renderGrievances();
+        updateSummary();
+
+    </script>
+
+</body>
+</html>

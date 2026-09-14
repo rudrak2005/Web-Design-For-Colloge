@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Notices & News | BitCampus</title>
+
+  <link rel="stylesheet" href="../css/pages.css" />
+
+  <style>
+    .notice-toolbar {
+      display: grid;
+      grid-template-columns: 1fr 210px 160px;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .notice-search,
+    .notice-filter {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid #28231f;
+      background: #fff4d6;
+      color: #28231f;
+      font: inherit;
+      outline: none;
+      box-shadow: 4px 4px 0 #28231f;
+    }
+
+    .notice-search:focus,
+    .notice-filter:focus {
+      box-shadow: 6px 6px 0 #28231f;
+      transform: translate(-1px, -1px);
+    }
+
+    .notice-reset {
+      border: 2px solid #28231f;
+      background: #28231f;
+      color: #fff4d6;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #4b3625;
+    }
+
+    .notice-reset:hover {
+      background: #4b3625;
+    }
+
+    .notice-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .notice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .notice-card {
+      position: relative;
+      background: #fff4d6;
+      border: 2px solid #28231f;
+      box-shadow: 5px 5px 0 #28231f;
+      padding: 20px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      overflow: hidden;
+    }
+
+    .notice-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 #28231f;
+    }
+
+    .notice-card.unread {
+      border-left: 8px solid #d76b61;
+    }
+
+    .notice-card.priority {
+      background: #fff0ec;
+    }
+
+    .notice-card.exam {
+      background: #f2ecff;
+    }
+
+    .notice-card.event {
+      background: #effff3;
+    }
+
+    .notice-card.academic {
+      background: #fff9e4;
+    }
+
+    .notice-pin {
+      position: absolute;
+      right: 18px;
+      top: 15px;
+      font-size: 18px;
+    }
+
+    .notice-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-right: 35px;
+    }
+
+    .notice-badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border: 1px solid #28231f;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 900;
+      background: #e2b84b;
+    }
+
+    .notice-badge.exam {
+      background: #b7a9d6;
+    }
+
+    .notice-badge.event {
+      background: #9fd6b5;
+    }
+
+    .notice-badge.alert {
+      background: #e7a7b7;
+    }
+
+    .notice-date {
+      font-size: 11px;
+      opacity: 0.65;
+      font-weight: 700;
+    }
+
+    .notice-title {
+      font-size: 20px;
+      font-weight: 900;
+      margin: 12px 0 8px;
+      line-height: 1.2;
+    }
+
+    .notice-summary {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.82;
+    }
+
+    .notice-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px dashed #28231f;
+    }
+
+    .notice-source {
+      font-size: 11px;
+      font-weight: 800;
+      opacity: 0.65;
+    }
+
+    .notice-read-status {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .notice-read-status.unread-text {
+      color: #9a3027;
+    }
+
+    .notice-read-status.read-text {
+      color: #23623d;
+    }
+
+    .alerts-panel {
+      background: #28231f;
+      color: #fff4d6;
+      border: 2px solid #28231f;
+      box-shadow: 6px 6px 0 #4b3625;
+    }
+
+    .alerts-head {
+      padding: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .alerts-head .eyebrow {
+      color: #e2b84b;
+    }
+
+    .alerts-head h2 {
+      margin: 5px 0 0;
+    }
+
+    .alert-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .alert-item {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .alert-item:last-child {
+      border-bottom: 0;
+    }
+
+    .alert-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #fff4d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      float: left;
+      margin-right: 11px;
+      font-weight: 900;
+    }
+
+    .alert-item h4 {
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .alert-item p {
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: 0.78;
+    }
+
+    .alert-time {
+      display: block;
+      margin-top: 7px;
+      font-size: 10px;
+      opacity: 0.55;
+    }
+
+    .notice-empty {
+      padding: 50px 20px;
+      border: 2px dashed #28231f;
+      background: #f2e4c4;
+      text-align: center;
+    }
+
+    .notice-empty h3 {
+      font-size: 20px;
+      margin-bottom: 7px;
+    }
+
+    .notice-empty p {
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    .notice-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(40, 35, 31, 0.75);
+      padding: 20px;
+    }
+
+    .notice-modal-overlay.show {
+      display: flex;
+    }
+
+    .notice-modal {
+      width: min(720px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      background: #fff4d6;
+      color: #28231f;
+      border: 3px solid #28231f;
+      box-shadow: 9px 9px 0 #000;
+      padding: 28px;
+      position: relative;
+    }
+
+    .notice-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border: 2px solid #28231f;
+      background: #e7a7b7;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .notice-modal-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .notice-modal h2 {
+      max-width: 90%;
+      margin-bottom: 15px;
+      font-size: 29px;
+      line-height: 1.2;
+    }
+
+    .notice-modal-body {
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .notice-modal-source {
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px dashed #28231f;
+      font-size: 12px;
+      font-weight: 800;
+      opacity: 0.7;
+    }
+
+    .notice-summary-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .notice-summary-item {
+      border: 2px solid #28231f;
+      padding: 15px;
+      background: #fff4d6;
+      box-shadow: 4px 4px 0 #28231f;
+    }
+
+    .notice-summary-item:nth-child(2) {
+      background: #e7a7b7;
+    }
+
+    .notice-summary-item:nth-child(3) {
+      background: #9fd6b5;
+    }
+
+    .notice-summary-label {
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 900;
+      opacity: 0.7;
+      letter-spacing: 1px;
+    }
+
+    .notice-summary-value {
+      font-size: 25px;
+      font-weight: 900;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 1050px) {
+      .notice-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .alerts-panel {
+        order: -1;
+      }
+
+      .notice-toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .notice-reset {
+        min-height: 46px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .notice-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .notice-summary-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .notice-modal {
+        padding: 20px;
+      }
+
+      .notice-modal h2 {
+        font-size: 23px;
+      }
+    }
+
+    /* =====================================
+   FINAL BITCAMPUS PAGE LAYOUT FIX
+===================================== */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    width: 100% !important;
+    min-height: 100% !important;
+
+    overflow-x: hidden !important;
+
+    background: #f2e4c4 !important;
+    color: #28231f !important;
+}
+
+
+/* =====================================
+   APP SHELL
+===================================== */
+
+.dashboard-shell {
+    display: flex !important;
+
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    position: relative !important;
+}
+
+
+/* =====================================
+   SIDEBAR
+===================================== */
+
+.sidebar {
+    position: fixed !important;
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 250px !important;
+    min-width: 250px !important;
+
+    height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 18px 12px !important;
+
+    box-sizing: border-box !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    z-index: 500 !important;
+
+    background: #f2e4c4 !important;
+
+    border-right: 2px solid #28231f !important;
+}
+
+
+/* =====================================
+   SIDEBAR CONTENT
+===================================== */
+
+.sidebar *,
+.sidebar-nav,
+.brand {
+    box-sizing: border-box !important;
+}
+
+.sidebar-nav {
+    width: 100% !important;
+}
+
+.page-nav-link {
+    display: flex !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box !important;
+
+    white-space: nowrap !important;
+
+    margin: 4px 0 !important;
+}
+
+.page-nav-link.active {
+    width: 100% !important;
+}
+
+
+/* =====================================
+   MAIN
+===================================== */
+
+.main-content {
+    display: block !important;
+
+    width: calc(100% - 250px) !important;
+    min-width: 0 !important;
+
+    margin-left: 250px !important;
+
+    padding: 30px 34px 50px !important;
+
+    box-sizing: border-box !important;
+
+    position: relative !important;
+
+    left: auto !important;
+    top: auto !important;
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.page-header {
+    position: relative !important;
+
+    display: flex !important;
+
+    width: 100% !important;
+
+    min-height: auto !important;
+
+    margin: 0 0 28px !important;
+
+    padding: 0 !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    gap: 20px !important;
+}
+
+.page-header h1 {
+    margin: 5px 0 8px !important;
+}
+
+
+/* =====================================
+   PANELS
+===================================== */
+
+.panel {
+    position: relative !important;
+
+    width: 100% !important;
+
+    margin: 0 0 22px !important;
+}
+
+
+/* =====================================
+   NOTICE SUMMARY
+===================================== */
+
+.notice-summary-bar {
+    width: 100% !important;
+
+    margin: 0 0 24px !important;
+}
+
+
+/* =====================================
+   NOTICE LAYOUT
+===================================== */
+
+.notice-layout {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(280px, 1fr) !important;
+
+    gap: 24px !important;
+
+    align-items: start !important;
+}
+
+
+/* =====================================
+   NOTICE LIST
+===================================== */
+
+.notice-list {
+    width: 100% !important;
+}
+
+.notice-card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================
+   ALERTS
+===================================== */
+
+.alerts-panel {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================
+   LOADER
+===================================== */
+
+#pageLoader {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    z-index: 999999 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+
+    background: rgba(40, 35, 31, 0.94) !important;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease !important;
+}
+
+#pageLoader.hidden {
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        position: relative !important;
+
+        width: 100% !important;
+        min-width: 0 !important;
+
+        height: auto !important;
+
+        border-right: none !important;
+        border-bottom: 2px solid #28231f !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+
+        margin-left: 0 !important;
+
+        padding: 22px 16px 40px !important;
+    }
+
+    .dashboard-shell {
+        flex-direction: column !important;
+    }
+
+    .page-header {
+        flex-direction: column !important;
+
+        align-items: flex-start !important;
+    }
+
+    .notice-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .notice-summary-bar {
+        grid-template-columns: 1fr !important;
+    }
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading campus notices...</div>
+  </div>
+
+  <div class="dashboard-shell">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">BC</div>
+        <div>
+          <div class="brand-name">BitCampus</div>
+          <div class="brand-tagline">Campus OS</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a href="./dashboard.html" class="page-nav-link">
+          <span class="page-nav-icon">⌂</span>
+          Dashboard
+        </a>
+
+       <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+        <a href="./academics.html" class="page-nav-link">
+          <span class="page-nav-icon">◈</span>
+          Academics
+        </a>
+
+        <a href="./courses.html" class="page-nav-link">
+          <span class="page-nav-icon">▦</span>
+          Courses
+        </a>
+
+        <a href="./attendance.html" class="page-nav-link">
+          <span class="page-nav-icon">◉</span>
+          Attendance
+        </a>
+
+        <a href="./assignments.html" class="page-nav-link">
+          <span class="page-nav-icon">☷</span>
+          Assignments
+        </a>
+
+        <a href="./timetable.html" class="page-nav-link">
+          <span class="page-nav-icon">▤</span>
+          Timetable
+        </a>
+
+        <a href="./results.html" class="page-nav-link">
+          <span class="page-nav-icon">🏆</span>
+          Results
+        </a>
+
+        <a href="./fees.html" class="page-nav-link">
+          <span class="page-nav-icon">₹</span>
+          Fees
+        </a>
+
+        <a href="./registration.html" class="page-nav-link">
+          <span class="page-nav-icon">◫</span>
+          Registration
+        </a>
+
+        <a href="./library.html" class="page-nav-link">
+          <span class="page-nav-icon">📚</span>
+          Library
+        </a>
+
+        <a href="./notices.html" class="page-nav-link active">
+          <span class="page-nav-icon">▣</span>
+          Notices & News
+        </a>
+
+        <a href="#" class="page-nav-link">
+          <span class="page-nav-icon">!</span>
+          Alerts
+        </a>
+
+        <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+       <a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+       
+
+        <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+
+        <button id="logoutBtn" class="page-nav-link logout-link">
+          <span class="page-nav-icon">↪</span>
+          Logout
+        </button>
+
+      </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+      <header class="page-header">
+
+        <div>
+          <div class="eyebrow">BITCAMPUS / NOTICE BOARD</div>
+
+          <h1>Notices & News</h1>
+
+          <p class="page-subtitle">
+            Everything important happening around your campus.
+          </p>
+        </div>
+
+        <div class="student-mini-card">
+          <div class="student-mini-avatar">RK</div>
+
+          <div>
+            <strong data-student-name>Student</strong>
+            <small>B.Tech CSE</small>
+          </div>
+        </div>
+
+      </header>
+
+      <section class="notice-summary-bar">
+
+        <div class="notice-summary-item">
+          <div class="notice-summary-label">
+            Total Notices
+          </div>
+
+          <div class="notice-summary-value"
+               id="totalNotices">
+            0
+          </div>
+        </div>
+
+        <div class="notice-summary-item">
+          <div class="notice-summary-label">
+            Unread
+          </div>
+
+          <div class="notice-summary-value"
+               id="unreadNotices">
+            0
+          </div>
+        </div>
+
+        <div class="notice-summary-item">
+          <div class="notice-summary-label">
+            Important
+          </div>
+
+          <div class="notice-summary-value"
+               id="importantNotices">
+            0
+          </div>
+        </div>
+
+      </section>
+
+      <section class="panel">
+
+        <div class="section-heading">
+
+          <div>
+            <div class="eyebrow">
+              CAMPUS FEED
+            </div>
+
+            <h2>Find a Notice</h2>
+          </div>
+
+        </div>
+
+        <div class="notice-toolbar">
+
+          <input
+            type="text"
+            id="noticeSearch"
+            class="notice-search"
+            placeholder="Search notices, exams, events..."
+          />
+
+          <select
+            id="noticeFilter"
+            class="notice-filter"
+          >
+            <option value="all">All Notices</option>
+            <option value="academic">Academic</option>
+            <option value="exam">Examination</option>
+            <option value="event">Events</option>
+            <option value="alert">Important Alerts</option>
+          </select>
+
+          <button
+            id="resetNoticeFilter"
+            class="notice-reset"
+          >
+            Reset Filters
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="notice-layout">
+
+        <div>
+
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">
+                NOTICE BOARD / 2026
+              </div>
+
+              <h2>Latest Campus Updates</h2>
+            </div>
+          </div>
+
+          <div
+            class="notice-list"
+            id="noticeList"
+          ></div>
+
+        </div>
+
+        <aside class="alerts-panel">
+
+          <div class="alerts-head">
+
+            <div class="eyebrow">
+              LIVE SIGNALS
+            </div>
+
+            <h2>Quick Alerts</h2>
+
+          </div>
+
+          <div class="alert-list">
+
+            <div class="alert-item">
+
+              <div class="alert-icon">!</div>
+
+              <h4>Attendance Reminder</h4>
+
+              <p>
+                Students below 75% attendance should
+                check their attendance before registration.
+              </p>
+
+              <span class="alert-time">
+                Today • 09:10 AM
+              </span>
+
+            </div>
+
+            <div class="alert-item">
+
+              <div class="alert-icon">₹</div>
+
+              <h4>Fee Deadline</h4>
+
+              <p>
+                Second semester installment payment
+                window closes soon.
+              </p>
+
+              <span class="alert-time">
+                Today • 08:20 AM
+              </span>
+
+            </div>
+
+            <div class="alert-item">
+
+              <div class="alert-icon">E</div>
+
+              <h4>Exam Registration</h4>
+
+              <p>
+                Verify subjects and examination
+                registration details before submission.
+              </p>
+
+              <span class="alert-time">
+                Yesterday • 05:30 PM
+              </span>
+
+            </div>
+
+            <div class="alert-item">
+
+              <div class="alert-icon">L</div>
+
+              <h4>Library Return</h4>
+
+              <p>
+                Remember to return borrowed books before
+                their due dates.
+              </p>
+
+              <span class="alert-time">
+                Yesterday • 02:15 PM
+              </span>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- NOTICE MODAL -->
+
+  <div
+    class="notice-modal-overlay"
+    id="noticeModalOverlay"
+  >
+
+    <div class="notice-modal">
+
+      <button
+        class="notice-modal-close"
+        id="closeNoticeModal"
+      >
+        ×
+      </button>
+
+      <div
+        class="notice-modal-meta"
+        id="modalMeta"
+      ></div>
+
+      <h2 id="modalTitle">
+        Notice Title
+      </h2>
+
+      <div
+        class="notice-modal-body"
+        id="modalBody"
+      ></div>
+
+      <div
+        class="notice-modal-source"
+        id="modalSource"
+      ></div>
+
+    </div>
+
+  </div>
+
+  
+
+  <script>
+
+    const NOTICES = [
+
+      {
+        id: 1,
+        category: "exam",
+        categoryLabel: "Examination",
+        title: "Mid-Semester Examination Schedule Released",
+        date: "2026-09-12",
+        source: "Examination Cell",
+        priority: true,
+        summary:
+          "The university has released the Mid-Semester Examination schedule for Semester 3 students.",
+        body:
+          "Students of Semester 3 are requested to check their examination schedule carefully. Carry your valid student ID card and reach the examination hall at least 20 minutes before the reporting time. Any changes to room allocation will be published through the official notice board.",
+      },
+
+      {
+        id: 2,
+        category: "academic",
+        categoryLabel: "Academic",
+        title: "Semester 3 Academic Registration Window",
+        date: "2026-09-10",
+        source: "Academic Section",
+        priority: true,
+        summary:
+          "Academic registration for Semester 3 is open from 01 September to 25 September 2026.",
+        body:
+          "Students must complete their academic registration within the defined registration window. Verify personal information, course selection and registered subjects before final submission.",
+      },
+
+      {
+        id: 3,
+        category: "event",
+        categoryLabel: "Event",
+        title: "BitCampus Tech Fest 2026",
+        date: "2026-09-08",
+        source: "Student Activity Cell",
+        priority: false,
+        summary:
+          "Registration is now open for coding, robotics, UI/UX and project showcase events.",
+        body:
+          "BitCampus Tech Fest 2026 will feature coding challenges, robotics demonstrations, UI/UX competitions and student project showcases. Students can participate individually or as a team.",
+      },
+
+      {
+        id: 4,
+        category: "alert",
+        categoryLabel: "Important Alert",
+        title: "Scholarship Document Verification",
+        date: "2026-09-07",
+        source: "Scholarship Cell",
+        priority: true,
+        summary:
+          "Students applying for scholarship assistance must verify their submitted documents.",
+        body:
+          "Students who have applied for scholarship support should verify the accuracy of their submitted documents. Missing or incorrect information may delay application processing.",
+      },
+
+      {
+        id: 5,
+        category: "academic",
+        categoryLabel: "Academic",
+        title: "Internal Assessment Marks Updated",
+        date: "2026-09-05",
+        source: "Department Office",
+        priority: false,
+        summary:
+          "Internal assessment marks have been updated on the student portal.",
+        body:
+          "Students can review their internal assessment marks through the academic section. Any discrepancy should be reported to the concerned faculty within the permitted correction period.",
+      },
+
+      {
+        id: 6,
+        category: "event",
+        categoryLabel: "Event",
+        title: "Placement Preparation Workshop",
+        date: "2026-09-03",
+        source: "Training & Placement Cell",
+        priority: false,
+        summary:
+          "A resume building and technical interview preparation workshop will be conducted this week.",
+        body:
+          "The workshop will cover resume structure, project presentation, coding interview preparation and common technical interview questions.",
+      },
+
+      {
+        id: 7,
+        category: "alert",
+        categoryLabel: "Important Alert",
+        title: "Campus ID Card Verification",
+        date: "2026-09-01",
+        source: "Administration",
+        priority: false,
+        summary:
+          "Students are requested to verify their campus identity information.",
+        body:
+          "Please ensure that your name, student ID, course and photograph details are correct in the student portal. Report incorrect details to the administration office.",
+      }
+
+    ];
+
+    const READ_KEY = "bitCampusReadNotices";
+
+    let readNotices =
+      JSON.parse(
+        localStorage.getItem(READ_KEY) || "[]"
+      );
+
+    function saveReadNotices() {
+
+      localStorage.setItem(
+        READ_KEY,
+        JSON.stringify(readNotices)
+      );
+
+    }
+
+    function formatNoticeDate(dateString) {
+
+      const date = new Date(dateString);
+
+      return date.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+
+    }
+
+    function getFilteredNotices() {
+
+      const search =
+        document
+          .getElementById("noticeSearch")
+          .value
+          .trim()
+          .toLowerCase();
+
+      const category =
+        document
+          .getElementById("noticeFilter")
+          .value;
+
+      return NOTICES.filter(notice => {
+
+        const matchesSearch =
+          notice.title
+            .toLowerCase()
+            .includes(search) ||
+          notice.summary
+            .toLowerCase()
+            .includes(search) ||
+          notice.categoryLabel
+            .toLowerCase()
+            .includes(search);
+
+        const matchesCategory =
+          category === "all" ||
+          notice.category === category;
+
+        return matchesSearch && matchesCategory;
+
+      });
+
+    }
+
+    function renderSummary() {
+
+      document.getElementById(
+        "totalNotices"
+      ).textContent = NOTICES.length;
+
+      document.getElementById(
+        "unreadNotices"
+      ).textContent =
+        NOTICES.filter(
+          notice =>
+            !readNotices.includes(notice.id)
+        ).length;
+
+      document.getElementById(
+        "importantNotices"
+      ).textContent =
+        NOTICES.filter(
+          notice => notice.priority
+        ).length;
+
+    }
+
+    function getBadgeClass(category) {
+
+      if (category === "exam") {
+        return "exam";
+      }
+
+      if (category === "event") {
+        return "event";
+      }
+
+      if (category === "alert") {
+        return "alert";
+      }
+
+      return "";
+
+    }
+
+    function renderNotices() {
+
+      const list =
+        document.getElementById("noticeList");
+
+      const filtered =
+        getFilteredNotices();
+
+      if (!filtered.length) {
+
+        list.innerHTML = `
+          <div class="notice-empty">
+            <h3>No notices found</h3>
+            <p>
+              Try another search term or category.
+            </p>
+          </div>
+        `;
+
+        return;
+
+      }
+
+      list.innerHTML =
+        filtered.map(notice => {
+
+          const isRead =
+            readNotices.includes(notice.id);
+
+          return `
+            <article
+              class="
+                notice-card
+                ${notice.category}
+                ${notice.priority ? "priority" : ""}
+                ${!isRead ? "unread" : ""}
+              "
+              onclick="openNotice(${notice.id})"
+            >
+
+              ${
+                notice.priority
+                  ? `<div class="notice-pin">📌</div>`
+                  : ""
+              }
+
+              <div class="notice-top">
+
+                <span
+                  class="
+                    notice-badge
+                    ${getBadgeClass(notice.category)}
+                  "
+                >
+                  ${notice.categoryLabel}
+                </span>
+
+                <span class="notice-date">
+                  ${formatNoticeDate(notice.date)}
+                </span>
+
+              </div>
+
+              <div class="notice-title">
+                ${notice.title}
+              </div>
+
+              <div class="notice-summary">
+                ${notice.summary}
+              </div>
+
+              <div class="notice-footer">
+
+                <span class="notice-source">
+                  ${notice.source}
+                </span>
+
+                <span
+                  class="
+                    notice-read-status
+                    ${
+                      isRead
+                        ? "read-text"
+                        : "unread-text"
+                    }
+                  "
+                >
+                  ${
+                    isRead
+                      ? "✓ READ"
+                      : "● UNREAD"
+                  }
+                </span>
+
+              </div>
+
+            </article>
+          `;
+
+        }).join("");
+
+    }
+
+    function openNotice(id) {
+
+      const notice =
+        NOTICES.find(
+          item => item.id === id
+        );
+
+      if (!notice) return;
+
+      if (!readNotices.includes(id)) {
+
+        readNotices.push(id);
+
+        saveReadNotices();
+
+        renderSummary();
+        renderNotices();
+
+      }
+
+      document.getElementById(
+        "modalMeta"
+      ).innerHTML = `
+        <span class="notice-badge ${getBadgeClass(notice.category)}">
+          ${notice.categoryLabel}
+        </span>
+
+        <span class="notice-date">
+          ${formatNoticeDate(notice.date)}
+        </span>
+      `;
+
+      document.getElementById(
+        "modalTitle"
+      ).textContent = notice.title;
+
+      document.getElementById(
+        "modalBody"
+      ).textContent = notice.body;
+
+      document.getElementById(
+        "modalSource"
+      ).textContent =
+        `Published by: ${notice.source}`;
+
+      document
+        .getElementById("noticeModalOverlay")
+        .classList.add("show");
+
+    }
+
+    function closeNoticeModal() {
+
+      document
+        .getElementById("noticeModalOverlay")
+        .classList.remove("show");
+
+    }
+
+    document
+      .getElementById("noticeSearch")
+      .addEventListener(
+        "input",
+        renderNotices
+      );
+
+    document
+      .getElementById("noticeFilter")
+      .addEventListener(
+        "change",
+        renderNotices
+      );
+
+    document
+      .getElementById("resetNoticeFilter")
+      .addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "noticeSearch"
+          ).value = "";
+
+          document.getElementById(
+            "noticeFilter"
+          ).value = "all";
+
+          renderNotices();
+
+        }
+      );
+
+    document
+      .getElementById("closeNoticeModal")
+      .addEventListener(
+        "click",
+        closeNoticeModal
+      );
+
+    document
+      .getElementById("noticeModalOverlay")
+      .addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target.id ===
+            "noticeModalOverlay"
+          ) {
+            closeNoticeModal();
+          }
+
+        }
+      );
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Escape") {
+          closeNoticeModal();
+        }
+
+      }
+    );
+
+    renderSummary();
+    renderNotices();
+
+  </script>
+<script>
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener("click", function () {
+
+        localStorage.removeItem("bitCampusSession");
+        sessionStorage.removeItem("bitCampusSession");
+
+        window.location.href =
+            "../login.html";
+
+    });
+
+}
+</script>
+<a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+</body>
+</html>

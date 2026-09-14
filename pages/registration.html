@@ -1,0 +1,3176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BitCampus — Registration</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/pages.css"
+    >
+
+    <style>
+
+        /* =================================
+           REGISTRATION STATUS
+        ================================= */
+
+        .registration-status {
+
+            margin-top: 14px;
+
+            padding: 16px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            background:
+                var(--mint);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+
+        }
+
+
+        .registration-status-info span {
+
+            display: block;
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .registration-status-info strong {
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-family:
+                Georgia, serif;
+
+            font-size: 19px;
+
+        }
+
+
+        .registration-status-info p {
+
+            margin-top: 3px;
+
+            color:
+                #5d6e62;
+
+            font-size: 8px;
+
+        }
+
+
+        .status-badge {
+
+            padding:
+                7px 10px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper-light);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =================================
+           REGISTRATION LAYOUT
+        ================================= */
+
+        .registration-layout {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr .32fr;
+
+            gap:
+                14px;
+
+            margin-top:
+                14px;
+
+        }
+
+
+        .registration-card {
+
+            padding:
+                22px;
+
+            background:
+                var(--paper);
+
+            border:
+                3px solid var(--border);
+
+            box-shadow:
+                6px 7px 0 rgba(0,0,0,.15);
+
+        }
+
+
+        /* =================================
+           STEPPER
+        ================================= */
+
+        .registration-steps {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap:
+                5px;
+
+            margin-bottom:
+                23px;
+
+        }
+
+
+        .step {
+
+            position:
+                relative;
+
+            padding:
+                10px 5px;
+
+            text-align:
+                center;
+
+            border:
+                1px solid #98866d;
+
+            background:
+                var(--paper-light);
+
+            font-size:
+                7px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .step-number {
+
+            width:
+                22px;
+
+            height:
+                22px;
+
+            margin:
+                0 auto 5px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                50%;
+
+            background:
+                var(--paper);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .step.active {
+
+            background:
+                var(--pink);
+
+        }
+
+
+        .step.active .step-number {
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+        }
+
+
+        .step.completed {
+
+            background:
+                var(--mint-light);
+
+        }
+
+
+        /* =================================
+           FORM STEP
+        ================================= */
+
+        .form-step {
+
+            display:
+                none;
+
+        }
+
+
+        .form-step.active {
+
+            display:
+                block;
+
+        }
+
+
+        .form-step-title {
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                23px;
+
+        }
+
+
+        .form-step-subtitle {
+
+            margin-top:
+                5px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =================================
+           FORM GRID
+        ================================= */
+
+        .registration-form-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                12px;
+
+            margin-top:
+                20px;
+
+        }
+
+
+        .registration-field {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+        }
+
+
+        .registration-field.full {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        .registration-field label {
+
+            margin-bottom:
+                6px;
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .registration-field input,
+        .registration-field select,
+        .registration-field textarea {
+
+            width:
+                100%;
+
+            min-height:
+                42px;
+
+            padding:
+                9px 10px;
+
+            border:
+                1px solid var(--border);
+
+            outline:
+                none;
+
+            background:
+                #fff8e7;
+
+            color:
+                var(--ink);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .registration-field textarea {
+
+            min-height:
+                80px;
+
+            resize:
+                vertical;
+
+        }
+
+
+        .registration-field input:focus,
+        .registration-field select:focus,
+        .registration-field textarea:focus {
+
+            box-shadow:
+                3px 3px 0 rgba(229,165,184,.6);
+
+        }
+
+
+        /* =================================
+           COURSE CHOICE
+        ================================= */
+
+        .course-choice-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                10px;
+
+            margin-top:
+                18px;
+
+        }
+
+
+        .course-choice {
+
+            position:
+                relative;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .course-choice input {
+
+            position:
+                absolute;
+
+            opacity:
+                0;
+
+        }
+
+
+        .course-choice-content {
+
+            padding:
+                14px;
+
+            min-height:
+                80px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper-light);
+
+            transition:
+                .2s;
+
+        }
+
+
+        .course-choice input:checked +
+        .course-choice-content {
+
+            background:
+                var(--pink);
+
+            box-shadow:
+                3px 4px 0 rgba(0,0,0,.12);
+
+        }
+
+
+        .course-choice-content strong {
+
+            display:
+                block;
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                13px;
+
+        }
+
+
+        .course-choice-content span {
+
+            display:
+                block;
+
+            margin-top:
+                4px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        /* =================================
+           SUBJECT CHECKBOXES
+        ================================= */
+
+        .subject-selection {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                8px;
+
+            margin-top:
+                18px;
+
+        }
+
+
+        .subject-option {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                8px;
+
+            padding:
+                10px;
+
+            border:
+                1px solid #9f8e75;
+
+            background:
+                var(--paper-light);
+
+        }
+
+
+        .subject-option input {
+
+            accent-color:
+                var(--ink);
+
+        }
+
+
+        .subject-option span {
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =================================
+           DOCUMENT UPLOAD
+        ================================= */
+
+        .upload-area {
+
+            margin-top:
+                18px;
+
+            padding:
+                30px 20px;
+
+            text-align:
+                center;
+
+            border:
+                2px dashed #8e7d65;
+
+            background:
+                rgba(255,255,255,.22);
+
+        }
+
+
+        .upload-icon {
+
+            font-size:
+                34px;
+
+        }
+
+
+        .upload-area h3 {
+
+            margin-top:
+                8px;
+
+            font-family:
+                Georgia, serif;
+
+        }
+
+
+        .upload-area p {
+
+            margin-top:
+                5px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .file-input {
+
+            margin-top:
+                12px;
+
+            font-size:
+                9px;
+
+        }
+
+
+        .selected-file {
+
+            margin-top:
+                10px;
+
+            color:
+                #557562;
+
+            font-size:
+                9px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =================================
+           REVIEW
+        ================================= */
+
+        .review-list {
+
+            margin-top:
+                18px;
+
+        }
+
+
+        .review-row {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                150px 1fr;
+
+            gap:
+                10px;
+
+            padding:
+                10px 0;
+
+            border-bottom:
+                1px dashed #aa9b83;
+
+        }
+
+
+        .review-row span {
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .review-row strong {
+
+            font-size:
+                9px;
+
+        }
+
+
+        .review-subjects {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                6px;
+
+        }
+
+
+        .review-subject {
+
+            padding:
+                5px 7px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--mint-light);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =================================
+           NAVIGATION BUTTONS
+        ================================= */
+
+        .form-navigation {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            margin-top:
+                24px;
+
+            padding-top:
+                16px;
+
+            border-top:
+                1px dashed #aa9b83;
+
+        }
+
+
+        .form-nav-btn {
+
+            min-width:
+                110px;
+
+            height:
+                42px;
+
+            padding:
+                0 14px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper-light);
+
+            color:
+                var(--ink);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .form-nav-btn.primary {
+
+            background:
+                var(--ink);
+
+            color:
+                var(--paper-light);
+
+        }
+
+
+        .form-nav-btn:disabled {
+
+            opacity:
+                .4;
+
+            cursor:
+                not-allowed;
+
+        }
+
+
+        /* =================================
+           SIDE LINKS
+        ================================= */
+
+        .links-card {
+
+            padding:
+                18px;
+
+            align-self:
+                start;
+
+            background:
+                var(--paper-light);
+
+            border:
+                2px solid var(--border);
+
+            box-shadow:
+                5px 6px 0 rgba(0,0,0,.14);
+
+        }
+
+
+        .links-card h2 {
+
+            font-family:
+                Georgia, serif;
+
+            font-size:
+                19px;
+
+        }
+
+
+        .links-card p {
+
+            margin-top:
+                4px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        .registration-links {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                8px;
+
+            margin-top:
+                15px;
+
+        }
+
+
+        .registration-link {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                8px;
+
+            padding:
+                10px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper);
+
+            font-size:
+                8px;
+
+            transition:
+                .2s;
+
+        }
+
+
+        .registration-link:hover {
+
+            background:
+                var(--pink-light);
+
+            transform:
+                translateX(3px);
+
+        }
+
+
+        .link-type {
+
+            padding:
+                4px 5px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--mint);
+
+            font-size:
+                6px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =================================
+           SUCCESS
+        ================================= */
+
+        .submission-success {
+
+            display:
+                none;
+
+            padding:
+                30px 20px;
+
+            text-align:
+                center;
+
+            background:
+                var(--mint-light);
+
+            border:
+                2px solid var(--border);
+
+        }
+
+
+        .submission-success.show {
+
+            display:
+                block;
+
+        }
+
+
+        .success-icon {
+
+            font-size:
+                45px;
+
+        }
+
+
+        .submission-success h2 {
+
+            margin-top:
+                10px;
+
+            font-family:
+                Georgia, serif;
+
+        }
+
+
+        .submission-success p {
+
+            margin-top:
+                6px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .registration-id {
+
+            display:
+                inline-block;
+
+            margin-top:
+                14px;
+
+            padding:
+                9px 13px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                var(--paper-light);
+
+            font-family:
+                monospace;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1000px) {
+
+            .registration-layout {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .registration-form-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .registration-field.full {
+
+                grid-column:
+                    auto;
+
+            }
+
+
+            .course-choice-grid,
+            .subject-selection {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .registration-steps {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .step {
+
+                display:
+                    flex;
+
+                align-items:
+                    center;
+
+                gap:
+                    8px;
+
+                text-align:
+                    left;
+
+            }
+
+
+            .step-number {
+
+                margin:
+                    0;
+
+                flex-shrink:
+                    0;
+
+            }
+
+
+            .review-row {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    3px;
+
+            }
+
+
+            .registration-status {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         LOADER
+    ================================== -->
+
+    <div
+        class="page-loader"
+        id="pageLoader"
+    >
+
+        <div class="loader-content">
+
+            <div class="loader-circle"></div>
+
+            <strong>
+                BITCAMPUS
+            </strong>
+
+            <span data-loader-text>
+                Loading registration...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="page-app">
+
+
+        <!-- =================================
+             SIDEBAR
+        ================================== -->
+
+        <aside
+            class="page-sidebar"
+            id="pageSidebar"
+        >
+
+            <div class="page-brand">
+
+                <div class="page-brand-mark">
+                    B
+                </div>
+
+                <div>
+
+                    <strong>
+                        BitCampus
+                    </strong>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="page-navigation">
+
+                <p class="page-nav-title">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="./dashboard.html"
+                    data-page-link="Dashboard"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ⌂
+                    </span>
+                    Dashboard
+                </a>
+
+
+               <a
+    href="./profile.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">◈</span>
+    Student Profile
+</a>
+
+
+                <a
+                    href="./academics.html"
+                    data-page-link="Academics"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ▤
+                    </span>
+                    Academics
+                </a>
+
+
+                <a
+                    href="./courses.html"
+                    data-page-link="Courses"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ▦
+                    </span>
+                    Courses
+                </a>
+
+
+                <a
+                    href="./attendance.html"
+                    data-page-link="Attendance"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ◉
+                    </span>
+                    Attendance
+                </a>
+
+
+                <a
+                    href="./assignments.html"
+                    data-page-link="Assignments"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ☷
+                    </span>
+                    Assignments
+                </a>
+
+
+                <a
+                    href="./timetable.html"
+                    data-page-link="Timetable"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ▦
+                    </span>
+                    Timetable
+                </a>
+
+
+                <p class="page-nav-title">
+                    CAMPUS
+                </p>
+
+
+                <a
+                    href="./results.html"
+                    data-page-link="Results"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        🏆
+                    </span>
+                    Results
+                </a>
+
+
+                <a
+                    href="./fees.html"
+                    data-page-link="Fees"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ₹
+                    </span>
+                    Fees
+                </a>
+
+
+                <a
+                    href="./registration.html"
+                    data-page-link="Registration"
+                    class="page-nav-link active"
+                >
+                    <span class="page-nav-icon">
+                        ◫
+                    </span>
+                    Registration
+                </a>
+
+
+                <a
+                    href="#"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ▣
+                    </span>
+                    Library
+                </a>
+
+
+                <a
+                    href="#"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        📢
+                    </span>
+                    Notices & News
+                </a>
+
+
+                <a
+                    href="#"
+                    class="page-nav-link"
+                >
+                    <span class="page-nav-icon">
+                        ⚠
+                    </span>
+                    Alerts
+                </a>
+
+
+                <a
+    href="./placement.html"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">↗</span>
+    Placement
+</a>
+
+
+              <a
+    href="./support.html#feedback"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">★</span>
+    Feedback
+</a>
+
+<a
+    href="./support.html#grievance"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">?</span>
+    Grievance
+</a>
+
+
+               <a
+    href="./support.html#links"
+    class="page-nav-link"
+>
+    <span class="page-nav-icon">🔗</span>
+    Important Links
+</a>
+            </nav>
+
+
+            <button
+                class="page-logout"
+                id="pageLogout"
+            >
+                ↪ Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================
+             MAIN
+        ================================== -->
+
+        <main class="page-main">
+
+
+            <header class="page-topbar">
+
+                <div class="page-top-left">
+
+                    <button
+                        class="page-menu"
+                        id="pageMenu"
+                    >
+                        ☰
+                    </button>
+
+
+                    <div class="page-breadcrumb">
+
+                        <span>
+                            BitCampus
+                        </span>
+
+                        <b>/</b>
+
+                        <strong>
+                            Registration
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <input
+                    class="page-search"
+                    type="search"
+                    placeholder="Search registration..."
+                >
+
+
+                <div class="page-top-right">
+
+                    <button class="page-top-icon">
+                        🔔
+                    </button>
+
+                    <button class="page-top-icon">
+                        ☀
+                    </button>
+
+
+                    <div class="page-user">
+
+                        <div class="page-avatar">
+                            R
+                        </div>
+
+                        <div>
+
+                            <strong data-student-name>
+                                Rudraksh Kumar
+                            </strong>
+
+                            <span>
+                                B.Tech CSE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================
+                 CONTENT
+            ================================== -->
+
+            <section class="page-content">
+
+
+                <section class="page-title-card">
+
+                    <span class="page-label">
+                        SEMESTER REGISTRATION
+                    </span>
+
+                    <h1>
+                        Registration
+                    </h1>
+
+                    <p>
+                        Complete your semester registration
+                        and review your academic information.
+                    </p>
+
+                </section>
+
+
+                <!-- STATUS -->
+
+                <section
+                    class="registration-status"
+                >
+
+                    <div
+                        class="registration-status-info"
+                    >
+
+                        <span>
+                            CURRENT REGISTRATION
+                        </span>
+
+                        <strong>
+                            Semester 3 — 2026
+                        </strong>
+
+                        <p>
+                            Registration window:
+                            01 Sep – 25 Sep 2026
+                        </p>
+
+                    </div>
+
+
+                    <span class="status-badge">
+                        NOT SUBMITTED
+                    </span>
+
+                </section>
+
+
+                <!-- MAIN -->
+
+                <section
+                    class="registration-layout"
+                >
+
+
+                    <!-- FORM -->
+
+                    <article
+                        class="registration-card"
+                    >
+
+
+                        <!-- STEPS -->
+
+                        <div
+                            class="registration-steps"
+                            id="registrationSteps"
+                        >
+
+                            <div
+                                class="step active"
+                                data-step="1"
+                            >
+
+                                <div class="step-number">
+                                    1
+                                </div>
+
+                                Personal
+
+                            </div>
+
+
+                            <div
+                                class="step"
+                                data-step="2"
+                            >
+
+                                <div class="step-number">
+                                    2
+                                </div>
+
+                                Course
+
+                            </div>
+
+
+                            <div
+                                class="step"
+                                data-step="3"
+                            >
+
+                                <div class="step-number">
+                                    3
+                                </div>
+
+                                Subjects
+
+                            </div>
+
+
+                            <div
+                                class="step"
+                                data-step="4"
+                            >
+
+                                <div class="step-number">
+                                    4
+                                </div>
+
+                                Documents
+
+                            </div>
+
+
+                            <div
+                                class="step"
+                                data-step="5"
+                            >
+
+                                <div class="step-number">
+                                    5
+                                </div>
+
+                                Review
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =========================
+                             STEP 1
+                        ========================== -->
+
+                        <section
+                            class="form-step active"
+                            data-form-step="1"
+                        >
+
+                            <h2 class="form-step-title">
+                                Personal Information
+                            </h2>
+
+                            <p class="form-step-subtitle">
+                                Confirm your student information.
+                            </p>
+
+
+                            <div
+                                class="registration-form-grid"
+                            >
+
+
+                                <div class="registration-field">
+
+                                    <label>
+                                        Full Name
+                                    </label>
+
+                                    <input
+                                        id="fullName"
+                                        type="text"
+                                        value="Rudraksh Kumar"
+                                    >
+
+                                </div>
+
+
+                                <div class="registration-field">
+
+                                    <label>
+                                        Student ID
+                                    </label>
+
+                                    <input
+                                        id="studentId"
+                                        type="text"
+                                        value="2026CSE001"
+                                    >
+
+                                </div>
+
+
+                                <div class="registration-field">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input
+                                        id="studentEmail"
+                                        type="email"
+                                        value="student@bitcampus.com"
+                                    >
+
+                                </div>
+
+
+                                <div class="registration-field">
+
+                                    <label>
+                                        Phone
+                                    </label>
+
+                                    <input
+                                        id="studentPhone"
+                                        type="tel"
+                                        placeholder="+91 XXXXX XXXXX"
+                                    >
+
+                                </div>
+
+
+                                <div class="registration-field">
+
+                                    <label>
+                                        Semester
+                                    </label>
+
+                                    <select
+                                        id="semester"
+                                    >
+
+                                        <option>
+                                            Semester 3
+                                        </option>
+
+                                        <option>
+                                            Semester 4
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="registration-field">
+
+                                    <label>
+                                        Section
+                                    </label>
+
+                                    <select
+                                        id="section"
+                                    >
+
+                                        <option>
+                                            Section A
+                                        </option>
+
+                                        <option>
+                                            Section B
+                                        </option>
+
+                                        <option>
+                                            Section C
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div
+                                    class="registration-field full"
+                                >
+
+                                    <label>
+                                        Address
+                                    </label>
+
+                                    <textarea
+                                        id="address"
+                                        placeholder="Enter current address"
+                                    ></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =========================
+                             STEP 2
+                        ========================== -->
+
+                        <section
+                            class="form-step"
+                            data-form-step="2"
+                        >
+
+                            <h2 class="form-step-title">
+                                Course Selection
+                            </h2>
+
+                            <p class="form-step-subtitle">
+                                Select your academic programme.
+                            </p>
+
+
+                            <div
+                                class="course-choice-grid"
+                            >
+
+
+                                <label
+                                    class="course-choice"
+                                >
+
+                                    <input
+                                        type="radio"
+                                        name="course"
+                                        value="B.Tech CSE"
+                                        checked
+                                    >
+
+                                    <div
+                                        class="course-choice-content"
+                                    >
+
+                                        <strong>
+                                            B.Tech CSE
+                                        </strong>
+
+                                        <span>
+                                            Computer Science
+                                            Engineering
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                                <label
+                                    class="course-choice"
+                                >
+
+                                    <input
+                                        type="radio"
+                                        name="course"
+                                        value="B.Tech IT"
+                                    >
+
+                                    <div
+                                        class="course-choice-content"
+                                    >
+
+                                        <strong>
+                                            B.Tech IT
+                                        </strong>
+
+                                        <span>
+                                            Information
+                                            Technology
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                                <label
+                                    class="course-choice"
+                                >
+
+                                    <input
+                                        type="radio"
+                                        name="course"
+                                        value="B.Tech ECE"
+                                    >
+
+                                    <div
+                                        class="course-choice-content"
+                                    >
+
+                                        <strong>
+                                            B.Tech ECE
+                                        </strong>
+
+                                        <span>
+                                            Electronics &
+                                            Communication
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                                <label
+                                    class="course-choice"
+                                >
+
+                                    <input
+                                        type="radio"
+                                        name="course"
+                                        value="B.Tech Mechanical"
+                                    >
+
+                                    <div
+                                        class="course-choice-content"
+                                    >
+
+                                        <strong>
+                                            B.Tech Mechanical
+                                        </strong>
+
+                                        <span>
+                                            Mechanical
+                                            Engineering
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =========================
+                             STEP 3
+                        ========================== -->
+
+                        <section
+                            class="form-step"
+                            data-form-step="3"
+                        >
+
+                            <h2 class="form-step-title">
+                                Subject Selection
+                            </h2>
+
+                            <p class="form-step-subtitle">
+                                Choose the subjects for this semester.
+                            </p>
+
+
+                            <div
+                                class="subject-selection"
+                                id="subjectSelection"
+                            >
+
+                                <label class="subject-option">
+
+                                    <input
+                                        type="checkbox"
+                                        value="Data Structures"
+                                        checked
+                                    >
+
+                                    <span>
+                                        Data Structures
+                                    </span>
+
+                                </label>
+
+
+                                <label class="subject-option">
+
+                                    <input
+                                        type="checkbox"
+                                        value="DBMS"
+                                        checked
+                                    >
+
+                                    <span>
+                                        DBMS
+                                    </span>
+
+                                </label>
+
+
+                                <label class="subject-option">
+
+                                    <input
+                                        type="checkbox"
+                                        value="Operating Systems"
+                                        checked
+                                    >
+
+                                    <span>
+                                        Operating Systems
+                                    </span>
+
+                                </label>
+
+
+                                <label class="subject-option">
+
+                                    <input
+                                        type="checkbox"
+                                        value="Computer Networks"
+                                        checked
+                                    >
+
+                                    <span>
+                                        Computer Networks
+                                    </span>
+
+                                </label>
+
+
+                                <label class="subject-option">
+
+                                    <input
+                                        type="checkbox"
+                                        value="Mathematics III"
+                                        checked
+                                    >
+
+                                    <span>
+                                        Mathematics III
+                                    </span>
+
+                                </label>
+
+
+                                <label class="subject-option">
+
+                                    <input
+                                        type="checkbox"
+                                        value="Web Development"
+                                        checked
+                                    >
+
+                                    <span>
+                                        Web Development
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =========================
+                             STEP 4
+                        ========================== -->
+
+                        <section
+                            class="form-step"
+                            data-form-step="4"
+                        >
+
+                            <h2 class="form-step-title">
+                                Documents
+                            </h2>
+
+                            <p class="form-step-subtitle">
+                                Upload required documents.
+                            </p>
+
+
+                            <div class="upload-area">
+
+                                <div class="upload-icon">
+                                    📎
+                                </div>
+
+                                <h3>
+                                    Attach your documents
+                                </h3>
+
+                                <p>
+                                    This is a frontend upload
+                                    interface. Files are not
+                                    sent to a server yet.
+                                </p>
+
+
+                                <input
+                                    class="file-input"
+                                    type="file"
+                                    id="documentUpload"
+                                    multiple
+                                >
+
+
+                                <div
+                                    class="selected-file"
+                                    id="selectedFiles"
+                                >
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =========================
+                             STEP 5
+                        ========================== -->
+
+                        <section
+                            class="form-step"
+                            data-form-step="5"
+                        >
+
+                            <h2 class="form-step-title">
+                                Review Registration
+                            </h2>
+
+                            <p class="form-step-subtitle">
+                                Check your details before submitting.
+                            </p>
+
+
+                            <div
+                                class="review-list"
+                                id="reviewList"
+                            >
+                            </div>
+
+                        </section>
+
+
+                        <!-- SUCCESS -->
+
+                        <section
+                            class="submission-success"
+                            id="submissionSuccess"
+                        >
+
+                            <div class="success-icon">
+                                ✅
+                            </div>
+
+                            <h2>
+                                Registration Submitted
+                            </h2>
+
+                            <p>
+                                Your semester registration
+                                has been saved in this prototype.
+                            </p>
+
+                            <span
+                                class="registration-id"
+                                id="registrationId"
+                            >
+                                BIT-REG-000000
+                            </span>
+
+                        </section>
+
+
+                        <!-- NAVIGATION -->
+
+                        <div
+                            class="form-navigation"
+                            id="formNavigation"
+                        >
+
+                            <button
+                                class="form-nav-btn"
+                                id="previousBtn"
+                                disabled
+                            >
+                                ← PREVIOUS
+                            </button>
+
+
+                            <button
+                                class="form-nav-btn primary"
+                                id="nextBtn"
+                            >
+                                NEXT →
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- =================================
+                         REGISTRATION LINKS
+                    ================================== -->
+
+                    <aside class="links-card">
+
+                        <span class="card-kicker">
+                            CAMPUS SERVICES
+                        </span>
+
+                        <h2>
+                            Registration Links
+                        </h2>
+
+                        <p>
+                            Other forms and campus services.
+                        </p>
+
+
+                        <div class="registration-links">
+
+
+                            <a
+                                href="#"
+                                class="registration-link"
+                            >
+
+                                <span>
+                                    Exam Registration
+                                </span>
+
+                                <span class="link-type">
+                                    EXAM
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="registration-link"
+                            >
+
+                                <span>
+                                    Hostel Registration
+                                </span>
+
+                                <span class="link-type">
+                                    HOSTEL
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="registration-link"
+                            >
+
+                                <span>
+                                    Scholarship Form
+                                </span>
+
+                                <span class="link-type">
+                                    AID
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="registration-link"
+                            >
+
+                                <span>
+                                    Internship Registration
+                                </span>
+
+                                <span class="link-type">
+                                    CAREER
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="registration-link"
+                            >
+
+                                <span>
+                                    Library Membership
+                                </span>
+
+                                <span class="link-type">
+                                    LIB
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="#"
+                                class="registration-link"
+                            >
+
+                                <span>
+                                    ID Card Request
+                                </span>
+
+                                <span class="link-type">
+                                    ID
+                                </span>
+
+                            </a>
+
+
+                        </div>
+
+                    </aside>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/pages.js"></script>
+
+
+    <script>
+
+        /* =================================
+           REGISTRATION STATE
+        ================================= */
+
+        const STORAGE_KEY =
+            "bitCampusRegistration";
+
+
+        let currentStep = 1;
+
+        const totalSteps = 5;
+
+
+        /* =================================
+           ELEMENTS
+        ================================= */
+
+        const steps =
+            document.querySelectorAll(
+                ".step"
+            );
+
+        const formSteps =
+            document.querySelectorAll(
+                ".form-step"
+            );
+
+        const previousBtn =
+            document.getElementById(
+                "previousBtn"
+            );
+
+        const nextBtn =
+            document.getElementById(
+                "nextBtn"
+            );
+
+        const formNavigation =
+            document.getElementById(
+                "formNavigation"
+            );
+
+        const submissionSuccess =
+            document.getElementById(
+                "submissionSuccess"
+            );
+
+        const registrationId =
+            document.getElementById(
+                "registrationId"
+            );
+
+        const documentUpload =
+            document.getElementById(
+                "documentUpload"
+            );
+
+        const selectedFiles =
+            document.getElementById(
+                "selectedFiles"
+            );
+
+        const reviewList =
+            document.getElementById(
+                "reviewList"
+            );
+
+
+        /* =================================
+           LOAD SAVED REGISTRATION
+        ================================= */
+
+        const savedRegistration =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+
+        if (savedRegistration) {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        savedRegistration
+                    );
+
+
+                if (
+                    data.submitted === true
+                ) {
+
+                    showSubmittedState(
+                        data.registrationId
+                    );
+
+                }
+
+            } catch {
+
+                localStorage.removeItem(
+                    STORAGE_KEY
+                );
+
+            }
+
+        }
+
+
+        /* =================================
+           UPDATE STEPPER
+        ================================= */
+
+        function updateStepper() {
+
+            steps.forEach(
+                step => {
+
+                    const number =
+                        Number(
+                            step.dataset.step
+                        );
+
+
+                    step.classList.remove(
+                        "active"
+                    );
+
+                    step.classList.remove(
+                        "completed"
+                    );
+
+
+                    if (
+                        number ===
+                        currentStep
+                    ) {
+
+                        step.classList.add(
+                            "active"
+                        );
+
+                    }
+
+
+                    if (
+                        number <
+                        currentStep
+                    ) {
+
+                        step.classList.add(
+                            "completed"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            formSteps.forEach(
+                step => {
+
+                    const number =
+                        Number(
+                            step.dataset.formStep
+                        );
+
+
+                    step.classList.toggle(
+                        "active",
+                        number ===
+                        currentStep
+                    );
+
+                }
+            );
+
+
+            previousBtn.disabled =
+                currentStep === 1;
+
+
+            if (
+                currentStep ===
+                totalSteps
+            ) {
+
+                nextBtn.textContent =
+                    "SUBMIT REGISTRATION";
+
+            } else {
+
+                nextBtn.textContent =
+                    "NEXT →";
+
+            }
+
+        }
+
+
+        /* =================================
+           GET SELECTED SUBJECTS
+        ================================= */
+
+        function getSelectedSubjects() {
+
+            return [
+                ...document.querySelectorAll(
+                    "#subjectSelection input:checked"
+                )
+            ]
+            .map(
+                checkbox =>
+                    checkbox.value
+            );
+
+        }
+
+
+        /* =================================
+           COLLECT DATA
+        ================================= */
+
+        function collectRegistrationData() {
+
+            const selectedCourse =
+                document.querySelector(
+                    'input[name="course"]:checked'
+                );
+
+
+            return {
+
+                fullName:
+                    document.getElementById(
+                        "fullName"
+                    ).value.trim(),
+
+                studentId:
+                    document.getElementById(
+                        "studentId"
+                    ).value.trim(),
+
+                email:
+                    document.getElementById(
+                        "studentEmail"
+                    ).value.trim(),
+
+                phone:
+                    document.getElementById(
+                        "studentPhone"
+                    ).value.trim(),
+
+                semester:
+                    document.getElementById(
+                        "semester"
+                    ).value,
+
+                section:
+                    document.getElementById(
+                        "section"
+                    ).value,
+
+                address:
+                    document.getElementById(
+                        "address"
+                    ).value.trim(),
+
+                course:
+                    selectedCourse
+                        ? selectedCourse.value
+                        : "",
+
+                subjects:
+                    getSelectedSubjects(),
+
+                files:
+                    [
+                        ...documentUpload.files
+                    ].map(
+                        file =>
+                            file.name
+                    )
+
+            };
+
+        }
+
+
+        /* =================================
+           VALIDATION
+        ================================= */
+
+        function validateStep(
+            step
+        ) {
+
+            if (
+                step === 1
+            ) {
+
+                const name =
+                    document.getElementById(
+                        "fullName"
+                    ).value.trim();
+
+                const id =
+                    document.getElementById(
+                        "studentId"
+                    ).value.trim();
+
+                const email =
+                    document.getElementById(
+                        "studentEmail"
+                    ).value.trim();
+
+
+                if (
+                    !name ||
+                    !id ||
+                    !email
+                ) {
+
+                    alert(
+                        "Please fill the required student information."
+                    );
+
+                    return false;
+
+                }
+
+
+                if (
+                    !email.includes("@")
+                ) {
+
+                    alert(
+                        "Please enter a valid email."
+                    );
+
+                    return false;
+
+                }
+
+            }
+
+
+            if (
+                step === 3
+            ) {
+
+                const subjects =
+                    getSelectedSubjects();
+
+
+                if (
+                    subjects.length === 0
+                ) {
+
+                    alert(
+                        "Please select at least one subject."
+                    );
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
+        }
+
+
+        /* =================================
+           BUILD REVIEW
+        ================================= */
+
+        function buildReview() {
+
+            const data =
+                collectRegistrationData();
+
+
+            reviewList.innerHTML = `
+
+                <div class="review-row">
+
+                    <span>
+                        Student
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            data.fullName
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Student ID
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            data.studentId
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Email
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            data.email
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Programme
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            data.course
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Semester
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            data.semester
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Section
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            data.section
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Subjects
+                    </span>
+
+                    <div class="review-subjects">
+
+                        ${
+                            data.subjects
+                                .map(
+                                    subject => `
+                                        <span
+                                            class="review-subject"
+                                        >
+                                            ${escapeHtml(
+                                                subject
+                                            )}
+                                        </span>
+                                    `
+                                )
+                                .join("")
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="review-row">
+
+                    <span>
+                        Documents
+                    </span>
+
+                    <strong>
+                        ${
+                            data.files.length
+                                ? `${data.files.length} file(s) selected`
+                                : "No files selected"
+                        }
+                    </strong>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* =================================
+           ESCAPE
+        ================================= */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =================================
+           FILE UPLOAD UI
+        ================================= */
+
+        documentUpload.addEventListener(
+            "change",
+            () => {
+
+                const files =
+                    [
+                        ...documentUpload.files
+                    ];
+
+
+                if (
+                    files.length === 0
+                ) {
+
+                    selectedFiles.textContent =
+                        "";
+
+                    return;
+
+                }
+
+
+                selectedFiles.textContent =
+                    files
+                        .map(
+                            file =>
+                                `✓ ${file.name}`
+                        )
+                        .join(" • ");
+
+            }
+        );
+
+
+        /* =================================
+           NEXT
+        ================================= */
+
+        nextBtn.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    !validateStep(
+                        currentStep
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    currentStep <
+                    totalSteps
+                ) {
+
+                    currentStep++;
+
+
+                    if (
+                        currentStep ===
+                        totalSteps
+                    ) {
+
+                        buildReview();
+
+                    }
+
+
+                    updateStepper();
+
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+
+                    return;
+
+                }
+
+
+                submitRegistration();
+
+            }
+        );
+
+
+        /* =================================
+           PREVIOUS
+        ================================= */
+
+        previousBtn.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    currentStep <= 1
+                ) {
+
+                    return;
+
+                }
+
+
+                currentStep--;
+
+                updateStepper();
+
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+        /* =================================
+           SUBMIT
+        ================================= */
+
+        function submitRegistration() {
+
+            const data =
+                collectRegistrationData();
+
+
+            const generatedId =
+                `BIT-REG-${Date.now()
+                    .toString()
+                    .slice(-6)}`;
+
+
+            const registration = {
+
+                ...data,
+
+                submitted:
+                    true,
+
+                registrationId:
+                    generatedId,
+
+                submittedAt:
+                    new Date()
+                        .toISOString()
+
+            };
+
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    registration
+                )
+            );
+
+
+            registrationId.textContent =
+                generatedId;
+
+
+            document
+                .querySelectorAll(
+                    ".form-step"
+                )
+                .forEach(
+                    step =>
+                        step.classList.remove(
+                            "active"
+                        )
+                );
+
+
+            registrationSuccess.classList.add(
+                "show"
+            );
+
+
+            formNavigation.style.display =
+                "none";
+
+
+            steps.forEach(
+                step => {
+
+                    step.classList.remove(
+                        "active"
+                    );
+
+                    step.classList.add(
+                        "completed"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =================================
+           SUBMITTED STATE
+        ================================= */
+
+        function showSubmittedState(
+            id
+        ) {
+
+            currentStep =
+                totalSteps;
+
+
+            document
+                .querySelectorAll(
+                    ".form-step"
+                )
+                .forEach(
+                    step =>
+                        step.classList.remove(
+                            "active"
+                        )
+                );
+
+
+            registrationSuccess.classList.add(
+                "show"
+            );
+
+
+            formNavigation.style.display =
+                "none";
+
+
+            registrationId.textContent =
+                id;
+
+
+            steps.forEach(
+                step => {
+
+                    step.classList.remove(
+                        "active"
+                    );
+
+                    step.classList.add(
+                        "completed"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =================================
+           INITIAL
+        ================================= */
+
+        updateStepper();
+
+    </script>
+
+</body>
+
+</html>
