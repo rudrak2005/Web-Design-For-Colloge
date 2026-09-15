@@ -86,9 +86,7 @@ if (logoutBtn) {
 }
 
 
-/* =====================================
-   SIDEBAR
-===================================== */
+
 
 /* =====================================
    MOBILE SIDEBAR
@@ -96,44 +94,94 @@ if (logoutBtn) {
 
 const menuBtn = document.getElementById("menuBtn");
 const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-let sidebarOverlay = document.getElementById("sidebarOverlay");
 
-if (!sidebarOverlay) {
-    sidebarOverlay = document.createElement("div");
-    sidebarOverlay.id = "sidebarOverlay";
-    sidebarOverlay.className = "sidebar-overlay";
-    document.body.appendChild(sidebarOverlay);
+function openSidebar() {
+
+    if (!sidebar) return;
+
+    sidebar.classList.add("open");
+
+    if (sidebarOverlay) {
+        sidebarOverlay.classList.add("show");
+    }
+
+    document.body.classList.add("sidebar-open");
 }
 
-if (menuBtn && sidebar) {
 
-    const toggleSidebar = () => {
-        sidebar.classList.toggle("open");
-        sidebarOverlay.classList.toggle("show");
-        document.body.classList.toggle("sidebar-open");
-    };
+function closeSidebar() {
 
-    menuBtn.addEventListener("click", (event) => {
+    if (!sidebar) return;
+
+    sidebar.classList.remove("open");
+
+    if (sidebarOverlay) {
+        sidebarOverlay.classList.remove("show");
+    }
+
+    document.body.classList.remove("sidebar-open");
+}
+
+
+function toggleSidebar() {
+
+    if (!sidebar) return;
+
+    if (sidebar.classList.contains("open")) {
+        closeSidebar();
+    } else {
+        openSidebar();
+    }
+
+}
+
+
+/* Hamburger */
+if (menuBtn) {
+
+    menuBtn.type = "button";
+
+    menuBtn.addEventListener("click", function (event) {
+
         event.preventDefault();
         event.stopPropagation();
+
         toggleSidebar();
+
     });
 
-    sidebarOverlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        sidebarOverlay.classList.remove("show");
-        document.body.classList.remove("sidebar-open");
-    });
-
-    sidebar.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-            sidebar.classList.remove("open");
-            sidebarOverlay.classList.remove("show");
-            document.body.classList.remove("sidebar-open");
-        });
-    });
 }
+
+
+/* Overlay */
+if (sidebarOverlay) {
+
+    sidebarOverlay.addEventListener("click", function () {
+
+        closeSidebar();
+
+    });
+
+}
+
+
+/* Close after selecting a page */
+if (sidebar) {
+
+    sidebar.querySelectorAll("a").forEach(function (link) {
+
+        link.addEventListener("click", function () {
+
+            closeSidebar();
+
+        });
+
+    });
+
+}
+
 
 
 /* =====================================
