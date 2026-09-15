@@ -2946,3 +2946,91 @@ td:first-child {
         margin-left: 0;
     }
 }
+/* ========================================
+   MOBILE SIDEBAR
+======================================== */
+
+.sidebar-overlay {
+    display: none;
+}
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: min(280px, 82vw);
+
+        transform: translateX(-105%);
+
+        transition:
+            transform 0.28s ease;
+
+        z-index: 2000;
+
+        pointer-events: none;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+    .menu-btn {
+        display: flex;
+
+        width: 44px;
+        height: 44px;
+
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        background: transparent;
+
+        color: var(--paper);
+
+        font-size: 28px;
+
+        cursor: pointer;
+
+        position: relative;
+        z-index: 2200;
+
+        touch-action: manipulation;
+    }
+
+    .sidebar-overlay {
+        display: block;
+
+        position: fixed;
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.5);
+
+        opacity: 0;
+        visibility: hidden;
+
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease;
+
+        z-index: 1900;
+    }
+
+    .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+}
