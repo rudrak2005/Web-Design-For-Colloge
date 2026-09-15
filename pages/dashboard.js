@@ -90,21 +90,49 @@ if (logoutBtn) {
    SIDEBAR
 ===================================== */
 
-const menuBtn =
-    document.getElementById("menuBtn");
+/* =====================================
+   MOBILE SIDEBAR
+===================================== */
 
-const sidebar =
-    document.getElementById("sidebar");
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
 
+let sidebarOverlay = document.getElementById("sidebarOverlay");
+
+if (!sidebarOverlay) {
+    sidebarOverlay = document.createElement("div");
+    sidebarOverlay.id = "sidebarOverlay";
+    sidebarOverlay.className = "sidebar-overlay";
+    document.body.appendChild(sidebarOverlay);
+}
 
 if (menuBtn && sidebar) {
 
-    menuBtn.addEventListener("click", () => {
-
+    const toggleSidebar = () => {
         sidebar.classList.toggle("open");
+        sidebarOverlay.classList.toggle("show");
+        document.body.classList.toggle("sidebar-open");
+    };
 
+    menuBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleSidebar();
     });
 
+    sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("show");
+        document.body.classList.remove("sidebar-open");
+    });
+
+    sidebar.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            sidebarOverlay.classList.remove("show");
+            document.body.classList.remove("sidebar-open");
+        });
+    });
 }
 
 
