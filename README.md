@@ -14,15 +14,16 @@ BitCampus is currently deployed on Vercel as a static frontend prototype.
 
 ### 🚀 Primary Demo — Recommended
 
-**Live production-style demo:**  
-https://web-design-for-colloge-pke7-git-main-100-time-code-run.vercel.app/
+**Live demo:**  
+https://bit-campus.netlify.app/
 
 This is the **main BitCampus demo link** recommended for project presentations, portfolio sharing, and general testing.
 
 ### 🔗 Alternate Demo
 
 **Alternate Vercel deployment:**  
-https://web-design-for-colloge-pke7-1du704g2e-100-time-code-run.vercel.app/
+
+https://web-design-for-colloge.vercel.app
 
 This deployment can be used as a **backup/alternate preview** when the primary demo is unavailable or when comparing deployments.
 
