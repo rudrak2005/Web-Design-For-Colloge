@@ -1,309 +1,316 @@
-/* =====================================
-   BITCAMPUS TEMPORARY AUTH
-===================================== */
+/* ============================================================================
+   BITCAMPUS AUTHENTICATION & REGISTRATION CONTROLLER
+   Full Real Authentication & Account Creation for Student, Faculty & Master
+============================================================================ */
 
-const USERS = [
-    {
-        email: "student@bitcampus.com",
-        password: "123456",
-        name: "Rudraksh Kumar",
-        course: "B.Tech CSE",
-        semester: "Semester 3"
-    },
-    {
-        email: "rudraksh@bitcampus.com",
-        password: "bitcampus123",
-        name: "Rudraksh Kumar",
-        course: "B.Tech CSE",
-        semester: "Semester 3"
+// State
+let currentMode = "signin"; // "signin" | "register"
+let currentRole = "student"; // "student" | "faculty" | "master"
+
+// Elements - Tabs & Role Switcher
+const tabSignIn = document.getElementById("tabSignIn");
+const tabRegister = document.getElementById("tabRegister");
+const switchToRegisterBtn = document.getElementById("switchToRegisterBtn");
+const switchToSignInBtn = document.getElementById("switchToSignInBtn");
+
+const rolePills = document.querySelectorAll(".role-pill");
+const portalLabel = document.getElementById("portalLabel");
+const formHeading = document.getElementById("formHeading");
+const formSubheading = document.getElementById("formSubheading");
+
+// Forms
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+
+// Role Field Containers in Register Form
+const studentFieldsContainer = document.getElementById("studentFieldsContainer");
+const facultyFieldsContainer = document.getElementById("facultyFieldsContainer");
+const masterFieldsContainer = document.getElementById("masterFieldsContainer");
+
+// Toggle Sign In vs Register Tabs
+function setMode(mode) {
+    currentMode = mode;
+    if (mode === "signin") {
+        tabSignIn.classList.add("active");
+        tabRegister.classList.remove("active");
+        loginForm.style.display = "block";
+        registerForm.style.display = "none";
+        formHeading.textContent = "Welcome Back";
+        formSubheading.textContent = "Sign in to continue to your academic workspace.";
+    } else {
+        tabRegister.classList.add("active");
+        tabSignIn.classList.remove("active");
+        loginForm.style.display = "none";
+        registerForm.style.display = "block";
+        formHeading.textContent = "Create Real Account";
+        formSubheading.textContent = `Register your official ${currentRole.toUpperCase()} credentials.`;
     }
-];
+    clearAllErrors();
+}
 
+if (tabSignIn) tabSignIn.addEventListener("click", () => setMode("signin"));
+if (tabRegister) tabRegister.addEventListener("click", () => setMode("register"));
+if (switchToRegisterBtn) switchToRegisterBtn.addEventListener("click", () => setMode("register"));
+if (switchToSignInBtn) switchToSignInBtn.addEventListener("click", () => setMode("signin"));
 
-/* =====================================
-   ELEMENTS
-===================================== */
+// Role Selector Pills
+rolePills.forEach(pill => {
+    pill.addEventListener("click", () => {
+        rolePills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+        currentRole = pill.dataset.role;
 
-const form = document.getElementById("loginForm");
-const emailInput = document.getElementById("email");
+        // Update Labels
+        if (currentRole === "student") {
+            portalLabel.textContent = "STUDENT ACCESS";
+            document.getElementById("emailLabel").textContent = "Student Email";
+            document.getElementById("email").placeholder = "student@bitcampus.com";
+            if (studentFieldsContainer) studentFieldsContainer.style.display = "block";
+            if (facultyFieldsContainer) facultyFieldsContainer.style.display = "none";
+            if (masterFieldsContainer) masterFieldsContainer.style.display = "none";
+        } else if (currentRole === "faculty") {
+            portalLabel.textContent = "FACULTY PORTAL";
+            document.getElementById("emailLabel").textContent = "Faculty Email / Staff ID";
+            document.getElementById("email").placeholder = "faculty@bitcampus.com";
+            if (studentFieldsContainer) studentFieldsContainer.style.display = "none";
+            if (facultyFieldsContainer) facultyFieldsContainer.style.display = "block";
+            if (masterFieldsContainer) masterFieldsContainer.style.display = "none";
+        } else if (currentRole === "master") {
+            portalLabel.textContent = "MASTER / HOD COMMAND";
+            document.getElementById("emailLabel").textContent = "Administrator Email";
+            document.getElementById("email").placeholder = "hod@bitcampus.com";
+            if (studentFieldsContainer) studentFieldsContainer.style.display = "none";
+            if (facultyFieldsContainer) facultyFieldsContainer.style.display = "none";
+            if (masterFieldsContainer) masterFieldsContainer.style.display = "block";
+        }
+
+        if (currentMode === "register") {
+            formSubheading.textContent = `Register your official ${currentRole.toUpperCase()} credentials.`;
+        }
+        clearAllErrors();
+    });
+});
+
+// Password Toggle Button
+const togglePassword = document.getElementById("togglePassword");
 const passwordInput = document.getElementById("password");
-const rememberInput = document.getElementById("remember");
-
-const loginBtn = document.getElementById("loginBtn");
-const loginText = document.getElementById("loginText");
-
-const message = document.getElementById("message");
-
-const emailError = document.getElementById("emailError");
-const passwordError = document.getElementById("passwordError");
-
-const togglePassword =
-    document.getElementById("togglePassword");
-
-const demoBtn =
-    document.getElementById("demoBtn");
-
-const forgotBtn =
-    document.getElementById("forgotBtn");
-
-
-/* =====================================
-   PASSWORD SHOW / HIDE
-===================================== */
-
-if (togglePassword) {
-
+if (togglePassword && passwordInput) {
     togglePassword.addEventListener("click", () => {
-
         if (passwordInput.type === "password") {
-
             passwordInput.type = "text";
             togglePassword.textContent = "🙈";
-
         } else {
-
             passwordInput.type = "password";
             togglePassword.textContent = "👁";
-
         }
-
     });
-
 }
 
-
-/* =====================================
-   CLEAR ERRORS
-===================================== */
-
-function clearErrors() {
-
-    emailError.textContent = "";
-    passwordError.textContent = "";
-
-    message.textContent = "";
-    message.className = "message";
-
+function clearAllErrors() {
+    document.querySelectorAll(".error").forEach(el => el.textContent = "");
+    const loginMsg = document.getElementById("loginMessage");
+    const regMsg = document.getElementById("registerMessage");
+    if (loginMsg) { loginMsg.textContent = ""; loginMsg.className = "message"; }
+    if (regMsg) { regMsg.textContent = ""; regMsg.className = "message"; }
 }
 
+// ============================================================================
+// 1. REAL SIGN IN SUBMISSION
+// ============================================================================
+if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearAllErrors();
 
-/* =====================================
-   VALIDATION
-===================================== */
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const remember = document.getElementById("remember")?.checked || true;
+        const messageElem = document.getElementById("loginMessage");
+        const loginBtn = document.getElementById("loginBtn");
+        const loginText = document.getElementById("loginText");
 
-function validateForm() {
-
-    clearErrors();
-
-    let valid = true;
-
-    const email =
-        emailInput.value.trim();
-
-    const password =
-        passwordInput.value.trim();
-
-
-    if (!email) {
-
-        emailError.textContent =
-            "Email is required.";
-
-        valid = false;
-
-    }
-
-
-    if (!password) {
-
-        passwordError.textContent =
-            "Password is required.";
-
-        valid = false;
-
-    }
-
-
-    return valid;
-}
-
-
-/* =====================================
-   FIND USER
-===================================== */
-
-function findUser(email, password) {
-
-    return USERS.find(user =>
-
-        user.email.toLowerCase() ===
-        email.toLowerCase() &&
-
-        user.password === password
-
-    );
-
-}
-
-
-/* =====================================
-   SAVE SESSION
-===================================== */
-
-function saveSession(user) {
-
-    const session = {
-
-        loggedIn: true,
-
-        email: user.email,
-
-        name: user.name,
-
-        course: user.course,
-
-        semester: user.semester,
-
-        loginTime: new Date().toISOString()
-
-    };
-
-
-    localStorage.removeItem("bitCampusSession");
-    sessionStorage.removeItem("bitCampusSession");
-
-
-    const storage =
-        rememberInput.checked
-            ? localStorage
-            : sessionStorage;
-
-
-    storage.setItem(
-        "bitCampusSession",
-        JSON.stringify(session)
-    );
-
-}
-
-
-/* =====================================
-   LOGIN
-===================================== */
-
-if (form) {
-
-    form.addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-
-        if (!validateForm()) {
+        if (!email) {
+            document.getElementById("emailError").textContent = "Email is required.";
             return;
         }
-
-
-        const email =
-            emailInput.value.trim();
-
-        const password =
-            passwordInput.value.trim();
-
-
-        const user =
-            findUser(
-                email,
-                password
-            );
-
-
-        if (!user) {
-
-            message.textContent =
-                "Invalid email or password.";
-
-            message.className =
-                "message error";
-
+        if (!password) {
+            document.getElementById("passwordError").textContent = "Password is required.";
             return;
         }
-
-
-        /* Save session */
-
-        saveSession(user);
-
-
-        /* Loading state */
 
         loginBtn.disabled = true;
         loginBtn.classList.add("loading");
+        if (loginText) loginText.textContent = "AUTHENTICATING...";
 
+        try {
+            const res = await bitFetch("/api/auth/login", {
+                method: "POST",
+                body: JSON.stringify({ email, password })
+            });
 
-        message.textContent =
-            "Login successful.";
+            if (res && res.success) {
+                BitCampusAuth.setSession(res.token, res.user, remember);
+                messageElem.textContent = res.message || "Login successful! Redirecting...";
+                messageElem.className = "message success";
 
-        message.className =
-            "message success";
-
-
-        /*
-         * Small delay so user sees
-         * loading animation.
-         */
-
-        setTimeout(() => {
-
-            window.location.replace(
-                "../pages/dashboard.html"
-            );
-
-        }, 800);
-
+                setTimeout(() => {
+                    window.location.replace(res.redirectUrl || "/pages/dashboard.html");
+                }, 600);
+            } else {
+                throw new Error(res.message || "Invalid credentials.");
+            }
+        } catch (err) {
+            messageElem.textContent = err.message || "Incorrect email or password.";
+            messageElem.className = "message error";
+            loginBtn.disabled = false;
+            loginBtn.classList.remove("loading");
+            if (loginText) loginText.textContent = "SIGN IN →";
+        }
     });
-
 }
 
+// ============================================================================
+// 2. REAL REGISTRATION SUBMISSION
+// ============================================================================
+if (registerForm) {
+    registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearAllErrors();
 
-/* =====================================
-   DEMO LOGIN
-===================================== */
+        const full_name = document.getElementById("regFullName").value.trim();
+        const email = document.getElementById("regEmail").value.trim();
+        const phone = document.getElementById("regPhone").value.trim();
+        const password = document.getElementById("regPassword").value;
+        const confirmPassword = document.getElementById("regConfirmPassword").value;
+        const messageElem = document.getElementById("registerMessage");
+        const registerBtn = document.getElementById("registerBtn");
+        const registerText = document.getElementById("registerText");
 
-if (demoBtn) {
+        let isValid = true;
 
-    demoBtn.addEventListener("click", () => {
+        if (!full_name) {
+            document.getElementById("regNameError").textContent = "Full Name is required.";
+            isValid = false;
+        }
 
-        emailInput.value =
-            "student@bitcampus.com";
+        if (!email) {
+            document.getElementById("regEmailError").textContent = "Valid Email is required.";
+            isValid = false;
+        }
 
-        passwordInput.value =
-            "123456";
+        if (!password || password.length < 6) {
+            document.getElementById("regPassError").textContent = "Password must be at least 6 characters.";
+            isValid = false;
+        }
 
-        rememberInput.checked =
-            true;
+        if (password !== confirmPassword) {
+            document.getElementById("regConfirmError").textContent = "Passwords do not match.";
+            isValid = false;
+        }
 
+        // Role-specific validation & payload preparation
+        const payload = {
+            role: currentRole,
+            full_name,
+            email,
+            phone,
+            password
+        };
 
-        form.requestSubmit();
+        if (currentRole === "student") {
+            const roll_number = document.getElementById("regRollNo").value.trim();
+            const department_code = document.getElementById("regStudentDept").value;
+            const semester = document.getElementById("regSemester").value;
 
+            if (!roll_number) {
+                document.getElementById("regRollError").textContent = "Roll / Enrollment number is required.";
+                isValid = false;
+            }
+
+            payload.roll_number = roll_number;
+            payload.department_code = department_code;
+            payload.semester = semester;
+
+        } else if (currentRole === "faculty") {
+            const employee_id = document.getElementById("regEmpId").value.trim();
+            const department_code = document.getElementById("regFacultyDept").value;
+            const designation = document.getElementById("regDesignation").value;
+            const specialization = document.getElementById("regSpecialization").value.trim();
+
+            if (!employee_id) {
+                document.getElementById("regEmpError").textContent = "Employee ID is required.";
+                isValid = false;
+            }
+
+            payload.employee_id = employee_id;
+            payload.department_code = department_code;
+            payload.designation = designation;
+            payload.specialization = specialization;
+
+        } else if (currentRole === "master") {
+            const master_code = document.getElementById("regMasterCode").value.trim();
+            if (!master_code) {
+                document.getElementById("regMasterError").textContent = "Security Passcode is required for Master / HOD creation.";
+                isValid = false;
+            }
+            payload.master_code = master_code;
+        }
+
+        if (!isValid) return;
+
+        registerBtn.disabled = true;
+        registerBtn.classList.add("loading");
+        if (registerText) registerText.textContent = "CREATING ACCOUNT...";
+
+        try {
+            const res = await bitFetch("/api/auth/register", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            });
+
+            if (res && res.success) {
+                BitCampusAuth.setSession(res.token, res.user, true);
+                messageElem.textContent = res.message || "Account created successfully! Loading your portal...";
+                messageElem.className = "message success";
+
+                setTimeout(() => {
+                    window.location.replace(res.redirectUrl || "/pages/dashboard.html");
+                }, 800);
+            } else {
+                throw new Error(res.message || "Registration failed.");
+            }
+        } catch (err) {
+            messageElem.textContent = err.message || "Failed to register account.";
+            messageElem.className = "message error";
+            registerBtn.disabled = false;
+            registerBtn.classList.remove("loading");
+            if (registerText) registerText.textContent = "CREATE ACCOUNT →";
+        }
     });
-
 }
 
-
-/* =====================================
-   FORGOT PASSWORD
-===================================== */
-
+// Forgot Password link
+const forgotBtn = document.getElementById("forgotBtn");
 if (forgotBtn) {
+    forgotBtn.addEventListener("click", async () => {
+        const email = document.getElementById("email").value.trim();
+        const messageElem = document.getElementById("loginMessage");
+        if (!email) {
+            messageElem.textContent = "Please enter your campus email above to initiate password recovery.";
+            messageElem.className = "message error";
+            return;
+        }
 
-    forgotBtn.addEventListener("click", () => {
-
-        message.textContent =
-            "Password recovery will be added later.";
-
-        message.className =
-            "message error";
-
+        try {
+            const res = await bitFetch("/api/auth/reset-password", {
+                method: "POST",
+                body: JSON.stringify({ email })
+            });
+            messageElem.textContent = res.message || "Password recovery initiated.";
+            messageElem.className = "message success";
+        } catch (e) {
+            messageElem.textContent = e.message || "Password reset instructions dispatched if account exists.";
+            messageElem.className = "message success";
+        }
     });
-
 }

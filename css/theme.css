@@ -1,0 +1,252 @@
+/* ============================================================================
+   BITCAMPUS THEME SYSTEM (css/theme.css)
+   Clean, Fast, Static Aesthetics — Dark & Light Theme Color Tokens
+   (Animations & Motion Completely Disabled as Requested)
+============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   1. COLOR TOKENS: LIGHT VS DARK
+---------------------------------------------------------------------------- */
+
+/* DARK THEME PALETTE */
+[data-theme="dark"] {
+    --ink: #f8f1de !important;
+    --ink-light: #c9bea7 !important;
+    --paper: #1f1a16 !important;
+    --paper-light: #29221c !important;
+    --paper-dark: #16120f !important;
+
+    --border: #574839 !important;
+    --muted: #a69680 !important;
+
+    --pink: #d86884 !important;
+    --pink-light: #3a2027 !important;
+
+    --mint: #5bb37e !important;
+    --mint-light: #1b3626 !important;
+
+    --lavender: #9987cb !important;
+    --lavender-light: #2c253d !important;
+
+    --yellow: #e4bc54 !important;
+    --yellow-light: #3f3419 !important;
+
+    --card-shadow: 4px 4px 0 #120f0d;
+    --card-shadow-hover: 4px 4px 0 #120f0d;
+}
+
+/* LIGHT THEME PALETTE (Default) */
+[data-theme="light"], :root:not([data-theme="dark"]) {
+    --card-shadow: 4px 4px 0 #28231f;
+    --card-shadow-hover: 4px 4px 0 #28231f;
+}
+
+/* ----------------------------------------------------------------------------
+   2. DARK THEME ELEMENT OVERRIDES
+---------------------------------------------------------------------------- */
+html[data-theme="dark"],
+body[data-theme="dark"] {
+    background: #14110e !important;
+    color: var(--ink) !important;
+}
+
+[data-theme="dark"] .dashboard-shell,
+[data-theme="dark"] .page-app,
+[data-theme="dark"] .faculty-container,
+[data-theme="dark"] .master-container {
+    background: #14110e !important;
+}
+
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .page-sidebar,
+[data-theme="dark"] .portal-sidebar {
+    background: #1c1713 !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .page-main,
+[data-theme="dark"] .dashboard-main,
+[data-theme="dark"] .main-viewport {
+    background: #241d18 !important;
+    color: var(--ink) !important;
+}
+
+[data-theme="dark"] .top-bar,
+[data-theme="dark"] .page-header,
+[data-theme="dark"] .header,
+[data-theme="dark"] .topbar {
+    background: #1c1713 !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .section-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .smart-card,
+[data-theme="dark"] .profile-card-main,
+[data-theme="dark"] .hero-paper,
+[data-theme="dark"] .time-card,
+[data-theme="dark"] .card,
+[data-theme="dark"] .panel-card,
+[data-theme="dark"] .recommendation-panel,
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .alert-box {
+    background: #2b231c !important;
+    border-color: var(--border) !important;
+    color: var(--ink) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+[data-theme="dark"] .hero-photo {
+    background: #362c23 !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .hero-note {
+    background: #231c16 !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .hero-tags span {
+    background: #382d22 !important;
+    border-color: var(--border) !important;
+    color: var(--yellow) !important;
+}
+
+[data-theme="dark"] .stat-card.mint {
+    background: #1e3325 !important;
+    border-color: #3b5f47 !important;
+}
+
+[data-theme="dark"] .stat-card.pink {
+    background: #381f28 !important;
+    border-color: #643745 !important;
+}
+
+[data-theme="dark"] .stat-card.lavender {
+    background: #282138 !important;
+    border-color: #4b3d68 !important;
+}
+
+[data-theme="dark"] .stat-card.yellow {
+    background: #38301b !important;
+    border-color: #6a5a32 !important;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: #181410 !important;
+    color: #f7f1e1 !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+    border-color: var(--yellow) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(228, 188, 84, 0.25) !important;
+}
+
+[data-theme="dark"] table {
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] th {
+    background: #1a1511 !important;
+    color: var(--yellow) !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] td {
+    border-color: var(--border) !important;
+    color: var(--ink) !important;
+}
+
+[data-theme="dark"] tr:hover td {
+    background: rgba(228, 188, 84, 0.06) !important;
+}
+
+[data-theme="dark"] .page-nav-link,
+[data-theme="dark"] .nav-link,
+[data-theme="dark"] .nav-btn {
+    color: var(--ink-light) !important;
+}
+
+[data-theme="dark"] .page-nav-link:hover,
+[data-theme="dark"] .page-nav-link.active,
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .nav-link.active,
+[data-theme="dark"] .nav-btn:hover,
+[data-theme="dark"] .nav-btn.active {
+    background: #332920 !important;
+    color: var(--yellow) !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .top-icon {
+    background: #2a221b !important;
+    color: var(--yellow) !important;
+    border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .quick-link,
+[data-theme="dark"] .action-chip {
+    background: #2d241d !important;
+    border-color: var(--border) !important;
+    color: var(--ink) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   3. DISABLE ALL ANIMATIONS AND MOTION (Fast, Clean, Static Mode)
+---------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Ensure active panels display cleanly without animation */
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Fast navigation: eliminate blocking page-loader delays across all pages */
+.page-loader {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Ensure modals display cleanly */
+.modal-overlay {
+    display: none;
+}
+
+.modal-overlay.open,
+.modal-overlay.show {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+/* Maintain mobile sidebar drawer functionality */
+@media (max-width: 900px) {
+    .sidebar,
+    .page-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open,
+    .page-sidebar.open {
+        transform: translateX(0) !important;
+    }
+}

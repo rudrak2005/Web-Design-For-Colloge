@@ -7,6 +7,7 @@
   <title>Notifications | BitCampus</title>
 
   <link rel="stylesheet" href="../css/pages.css" />
+  <link rel="stylesheet" href="../css/theme.css" />
 
   <style>
     .notification-summary {
@@ -430,16 +431,19 @@
 
       <header class="page-header">
 
-        <div>
-          <div class="eyebrow">
-            BITCAMPUS / SMART SIGNALS
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <button id="pageMenuBtn" class="mobile-menu-toggle" aria-label="Toggle navigation" style="display: none;">☰</button>
+          <div>
+            <div class="eyebrow">
+              BITCAMPUS / SMART SIGNALS
+            </div>
+
+            <h1>Notifications</h1>
+
+            <p class="page-subtitle">
+              Important things that need your attention.
+            </p>
           </div>
-
-          <h1>Notifications</h1>
-
-          <p class="page-subtitle">
-            Important things that need your attention.
-          </p>
         </div>
 
         <div class="student-mini-card">
@@ -1372,6 +1376,36 @@
     renderSummary();
     renderNotifications();
 
+    async function loadServerNotifications() {
+      try {
+        const rawSession = localStorage.getItem("bitCampusSession") || sessionStorage.getItem("bitCampusSession");
+        if (!rawSession) return;
+        const session = JSON.parse(rawSession);
+        const res = await fetch('/api/student/notifications', {
+          headers: { 'Authorization': `Bearer ${session.token}` }
+        });
+        const json = await res.json();
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          json.data.forEach(item => {
+            notifications.unshift({
+              id: item.id || `srv-${Math.random()}`,
+              title: item.title,
+              message: item.message,
+              type: item.type === 'danger' ? 'attendance' : item.type === 'warning' ? 'assignment' : 'academic',
+              priority: item.priority === 'urgent' ? 'urgent' : item.priority === 'high' ? 'high' : 'normal',
+              source: 'Campus Academic Authority',
+              date: new Date().toISOString().split('T')[0]
+            });
+          });
+          renderSummary();
+          renderNotifications();
+        }
+      } catch (e) {
+        console.error('Server notifications fetch error:', e);
+      }
+    }
+    loadServerNotifications();
+
   </script>
 
   <script>
@@ -1416,6 +1450,9 @@ if (logoutBtn) {
 
 }
 </script>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/pages.js"></script>
 
 </body>
 </html>

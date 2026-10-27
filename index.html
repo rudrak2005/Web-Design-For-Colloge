@@ -68,9 +68,26 @@
     </div>
 
     <script>
-        setTimeout(() => {
-            window.location.href = "./login.html";
-        }, 1400);
+        (function() {
+            try {
+                const token = localStorage.getItem('bitcampus_token');
+                const userStr = localStorage.getItem('bitcampus_user');
+                if (token && userStr) {
+                    const user = JSON.parse(userStr);
+                    if (user && user.role === 'faculty') {
+                        window.location.replace('./pages/faculty-dashboard.html');
+                        return;
+                    } else if (user && user.role === 'master') {
+                        window.location.replace('./pages/master-dashboard.html');
+                        return;
+                    } else {
+                        window.location.replace('./pages/dashboard.html');
+                        return;
+                    }
+                }
+            } catch (e) {}
+            window.location.replace('./login.html');
+        })();
     </script>
 
 </body>

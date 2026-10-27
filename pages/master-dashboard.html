@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitCampus — Master / HOD Portal</title>
+    <link rel="stylesheet" href="../css/master.css">
+    <link rel="stylesheet" href="../css/theme.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- =====================================================================
+         SIDEBAR NAVIGATION
+    ====================================================================== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-mark">👑</div>
+            <div class="brand-copy">
+                <strong>BitCampus</strong>
+                <span>Master / HOD Portal</span>
+            </div>
+        </div>
+
+        <span class="role-badge">Super Admin • Full Access</span>
+
+        <p class="nav-section-title">Administrative Modules</p>
+        <ul class="nav-list">
+            <li>
+                <button class="nav-btn active" data-panel="overview">
+                    <span class="nav-icon">⌂</span>
+                    <span>Command Overview</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" data-panel="students">
+                    <span class="nav-icon">🎓</span>
+                    <span>Student Management</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" data-panel="faculty">
+                    <span class="nav-icon">👨‍🏫</span>
+                    <span>Faculty Management</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" data-panel="academics">
+                    <span class="nav-icon">🏛️</span>
+                    <span>Depts & Courses</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" data-panel="attendance">
+                    <span class="nav-icon">📋</span>
+                    <span>Attendance & Defaulters</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" data-panel="broadcasts">
+                    <span class="nav-icon">📢</span>
+                    <span>Campus Broadcasts</span>
+                </button>
+            </li>
+            <li>
+                <button class="nav-btn" data-panel="audit">
+                    <span class="nav-icon">🔒</span>
+                    <span>Audit Trail & Security</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <p style="font-size: 11px; color: var(--ink-light); margin-bottom: 8px;">
+                Administrator: <strong>Dr. Rajesh Sharma</strong>
+            </p>
+            <div style="font-size: 10px; color: var(--ruby); font-weight: bold; margin-bottom: 12px;">
+                All Role Boundaries Bypassed
+            </div>
+            <button class="btn-logout" id="logoutBtn" style="width: 100%;">
+                SIGN OUT ⎋
+            </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================================
+         MAIN WRAPPER
+    ====================================================================== -->
+    <div class="main-wrapper">
+
+        <!-- Top Header Bar -->
+        <header class="top-bar">
+            <div class="top-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+                <div class="top-title" id="pageTitle">Master Command Center</div>
+            </div>
+
+            <div class="top-right">
+                <div class="clock-box">
+                    <span class="clock-time" id="clockTime">--:--</span>
+                    <span id="clockDate" style="color: var(--ink-light);">Loading date...</span>
+                </div>
+                <div class="user-pill">
+                    <span>👑</span>
+                    <span id="adminNameDisplay">Dr. Rajesh Sharma (HOD)</span>
+                </div>
+                <button class="btn-logout" data-logout-btn>Sign Out</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+
+            <!-- Global Alert Box -->
+            <div class="alert-box" id="globalAlert"></div>
+
+            <!-- =============================================================
+                 PANEL 1: COMMAND OVERVIEW
+            ============================================================== -->
+            <section class="panel active" id="panel-overview">
+                <div class="master-banner">
+                    <div>
+                        <h1 id="welcomeGreeting">Campus Administration & HOD Hub</h1>
+                        <p>Complete super-administrator authority over departments, faculty appointments, student records, academic grading, and security logs.</p>
+                    </div>
+                    <div>
+                        <span class="status-badge active" style="padding: 6px 12px; font-size: 12px;">RLS Active • Cloud PostgreSQL</span>
+                    </div>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card gold">
+                        <span class="label">Total Students</span>
+                        <div class="value" id="statTotalStudents">--</div>
+                        <span class="hint">Enrolled across departments</span>
+                    </div>
+
+                    <div class="stat-card ruby">
+                        <span class="label">Total Faculty</span>
+                        <div class="value" id="statTotalFaculty">--</div>
+                        <span class="hint">Active instructional staff</span>
+                    </div>
+
+                    <div class="stat-card emerald">
+                        <span class="label">Active Courses</span>
+                        <div class="value" id="statTotalCourses">--</div>
+                        <span class="hint">Curricula & subjects offered</span>
+                    </div>
+
+                    <div class="stat-card dark">
+                        <span class="label">Campus Attendance</span>
+                        <div class="value" id="statCampusAttendance">--%</div>
+                        <span class="hint">Overall student presence</span>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="action-bar">
+                    <button class="btn-action primary" id="triggerAddStudentModal">
+                        <span>➕</span> Enroll New Student
+                    </button>
+                    <button class="btn-action" id="triggerAddFacultyModal">
+                        <span>➕</span> Register Faculty Member
+                    </button>
+                    <button class="btn-action" id="triggerAddDeptModal">
+                        <span>🏛️</span> Create Department
+                    </button>
+                    <button class="btn-action" id="triggerAddCourseModal">
+                        <span>📖</span> Add New Course
+                    </button>
+                    <button class="btn-action dark" onclick="masterSwitchTab('broadcasts')">
+                        <span>📢</span> Broadcast Campus Notice
+                    </button>
+                </div>
+
+                <!-- Overview Quick Table: Recent Students -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Enrolled Students Snapshot</h2>
+                        <button class="btn-action" onclick="masterSwitchTab('students')">View All Students →</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll Number</th>
+                                    <th>Student Name</th>
+                                    <th>Department</th>
+                                    <th>Semester</th>
+                                    <th>CGPA</th>
+                                    <th>Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overviewStudentsTable">
+                                <tr><td colspan="6" style="text-align: center;">Loading student roster...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 PANEL 2: STUDENT MANAGEMENT
+            ============================================================== -->
+            <section class="panel" id="panel-students">
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Student Directory & Records</h2>
+                        <button class="btn-action primary" id="openAddStudentBtn">
+                            ➕ Enroll New Student
+                        </button>
+                    </div>
+
+                    <!-- Search & Filter Bar -->
+                    <div class="search-bar-row">
+                        <input type="text" id="studentSearchInput" class="search-input" placeholder="🔍 Search by Roll No, Name, or Email...">
+                        <select id="studentDeptFilter" class="filter-select">
+                            <option value="all">All Departments</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="MECH">MECH</option>
+                        </select>
+                        <select id="studentSemFilter" class="filter-select">
+                            <option value="all">All Semesters</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll Number</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Dept</th>
+                                    <th>Sem</th>
+                                    <th>CGPA</th>
+                                    <th>Attendance</th>
+                                    <th style="min-width: 140px;">Admin Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fullStudentsTable">
+                                <tr><td colspan="8" style="text-align: center;">Loading students...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 PANEL 3: FACULTY MANAGEMENT
+            ============================================================== -->
+            <section class="panel" id="panel-faculty">
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Faculty Roster & Appointments</h2>
+                        <button class="btn-action primary" id="openAddFacultyBtn">
+                            ➕ Register New Faculty
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Faculty Name</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Specialization</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fullFacultyTable">
+                                <tr><td colspan="7" style="text-align: center;">Loading faculty...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 PANEL 4: DEPARTMENTS & COURSES
+            ============================================================== -->
+            <section class="panel" id="panel-academics">
+                <!-- Departments -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Academic Departments</h2>
+                        <button class="btn-action primary" id="openAddDeptBtn">
+                            ➕ Add Department
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Department Name</th>
+                                    <th>Head of Department (HOD)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="departmentsTable">
+                                <tr><td colspan="3" style="text-align: center;">Loading departments...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Courses -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Curriculum Courses & Faculty Assignments</h2>
+                        <button class="btn-action primary" id="openAddCourseBtn">
+                            ➕ Create Course
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Course Title</th>
+                                    <th>Semester</th>
+                                    <th>Credits</th>
+                                    <th>Assigned Faculty</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coursesTable">
+                                <tr><td colspan="6" style="text-align: center;">Loading courses...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 PANEL 5: ATTENDANCE & DEFAULTERS
+            ============================================================== -->
+            <section class="panel" id="panel-attendance">
+                <!-- Defaulters -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Attendance Defaulters List (&lt; 75%)</h2>
+                        <span class="status-badge defaulter" id="defaulterCountBadge">0 Defaulters</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--ink-light); margin-bottom: 15px;">
+                        Students with less than 75% attendance are ineligible for semester exams without formal medical or dean clearance.
+                    </p>
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll Number</th>
+                                    <th>Student Name</th>
+                                    <th>Department</th>
+                                    <th>Semester</th>
+                                    <th>Attendance</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="defaultersTable">
+                                <tr><td colspan="6" style="text-align: center;">Checking attendance data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Recent Attendance Logs -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Recent Attendance Logs</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Student ID</th>
+                                    <th>Course ID</th>
+                                    <th>Status</th>
+                                    <th>Faculty Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentAttendanceTable">
+                                <tr><td colspan="5" style="text-align: center;">Loading attendance logs...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 PANEL 6: CAMPUS BROADCASTS
+            ============================================================== -->
+            <section class="panel" id="panel-broadcasts">
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Issue Official College Broadcast</h2>
+                    </div>
+                    <form id="masterBroadcastForm">
+                        <div class="form-row">
+                            <div class="form-field" style="flex: 2;">
+                                <label for="broadcastTitle">Notice Title</label>
+                                <input type="text" id="broadcastTitle" placeholder="e.g. Schedule for University Examinations & Admit Card Collection" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="broadcastAudience">Audience</label>
+                                <select id="broadcastAudience">
+                                    <option value="all">Entire Campus (All Users)</option>
+                                    <option value="students">Students Only</option>
+                                    <option value="faculty">Faculty Only</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="broadcastPriority">Priority</label>
+                                <select id="broadcastPriority">
+                                    <option value="high">High Priority</option>
+                                    <option value="urgent">Urgent Alert</option>
+                                    <option value="normal">Normal Announcement</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-field" style="margin-bottom: 15px;">
+                            <label for="broadcastContent">Official Notice Statement</label>
+                            <textarea id="broadcastContent" rows="5" placeholder="Enter complete administrative notice..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-action primary">
+                            📢 Publish College Broadcast
+                        </button>
+                    </form>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>Published Notices</h2>
+                    </div>
+                    <div id="masterNoticesList">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- =============================================================
+                 PANEL 7: AUDIT TRAIL & SECURITY
+            ============================================================== -->
+            <section class="panel" id="panel-audit">
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h2>System Audit Log & Administrative Trail</h2>
+                        <button class="btn-action" id="refreshAuditBtn">🔄 Refresh Logs</button>
+                    </div>
+                    <p style="font-size: 13px; color: var(--ink-light); margin-bottom: 15px;">
+                        Immutable log of logins, grade modifications, attendance updates, and role promotions.
+                    </p>
+                    <div class="table-responsive">
+                        <table class="bit-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Actor</th>
+                                    <th>Action</th>
+                                    <th>Target Entity</th>
+                                    <th>Details / Audit Payload</th>
+                                    <th>Origin IP</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditLogsTable">
+                                <tr><td colspan="6" style="text-align: center;">Loading audit records...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- =========================================================================
+     MODALS
+========================================================================== -->
+
+<!-- 1. ADD STUDENT MODAL -->
+<div class="modal-overlay" id="addStudentModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Enroll New Student</h3>
+            <button class="modal-close" data-close-modal>&times;</button>
+        </div>
+        <form id="addStudentForm">
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newRollNo">Roll / Enrollment No</label>
+                    <input type="text" id="newRollNo" placeholder="e.g. BIT-2024-CS-099" required>
+                </div>
+                <div class="form-field">
+                    <label for="newStudentName">Full Name</label>
+                    <input type="text" id="newStudentName" placeholder="e.g. Ananya Sen" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newStudentEmail">Email Address</label>
+                    <input type="email" id="newStudentEmail" placeholder="e.g. ananya@bitcampus.com" required>
+                </div>
+                <div class="form-field">
+                    <label for="newStudentDept">Department</label>
+                    <select id="newStudentDept">
+                        <option value="CSE">Computer Science & Engineering</option>
+                        <option value="ECE">Electronics & Communication</option>
+                        <option value="MECH">Mechanical Engineering</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newStudentSem">Semester</label>
+                    <input type="number" id="newStudentSem" value="1" min="1" max="8" required>
+                </div>
+                <div class="form-field">
+                    <label for="newStudentCgpa">Starting CGPA</label>
+                    <input type="number" id="newStudentCgpa" value="8.0" step="0.01" min="0" max="10">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+                <button type="button" class="btn-action" data-close-modal>Cancel</button>
+                <button type="submit" class="btn-action primary">Enroll Student</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 2. EDIT STUDENT MODAL -->
+<div class="modal-overlay" id="editStudentModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Edit Student Record</h3>
+            <button class="modal-close" data-close-modal>&times;</button>
+        </div>
+        <form id="editStudentForm">
+            <input type="hidden" id="editStudentId">
+            <div class="form-field" style="margin-bottom: 12px;">
+                <label for="editStudentName">Student Name</label>
+                <input type="text" id="editStudentName" required>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="editStudentSem">Semester</label>
+                    <input type="number" id="editStudentSem" min="1" max="8" required>
+                </div>
+                <div class="form-field">
+                    <label for="editStudentCgpa">CGPA</label>
+                    <input type="number" id="editStudentCgpa" step="0.01" min="0" max="10">
+                </div>
+                <div class="form-field">
+                    <label for="editStudentAtt">Attendance %</label>
+                    <input type="number" id="editStudentAtt" step="0.1" min="0" max="100">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+                <button type="button" class="btn-action" data-close-modal>Cancel</button>
+                <button type="submit" class="btn-action primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 3. ADD FACULTY MODAL -->
+<div class="modal-overlay" id="addFacultyModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Register New Faculty Member</h3>
+            <button class="modal-close" data-close-modal>&times;</button>
+        </div>
+        <form id="addFacultyForm">
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newFacId">Employee ID</label>
+                    <input type="text" id="newFacId" placeholder="e.g. FAC-CSE-105" required>
+                </div>
+                <div class="form-field">
+                    <label for="newFacName">Full Name</label>
+                    <input type="text" id="newFacName" placeholder="e.g. Prof. Rohit Mehta" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newFacEmail">Email</label>
+                    <input type="email" id="newFacEmail" placeholder="e.g. rmehta@bitcampus.com" required>
+                </div>
+                <div class="form-field">
+                    <label for="newFacDept">Department</label>
+                    <select id="newFacDept">
+                        <option value="CSE">Computer Science & Engineering</option>
+                        <option value="ECE">Electronics & Communication</option>
+                        <option value="MECH">Mechanical Engineering</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newFacDesignation">Designation</label>
+                    <input type="text" id="newFacDesignation" value="Assistant Professor">
+                </div>
+                <div class="form-field">
+                    <label for="newFacSpec">Specialization</label>
+                    <input type="text" id="newFacSpec" placeholder="e.g. Artificial Intelligence, Networks">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+                <button type="button" class="btn-action" data-close-modal>Cancel</button>
+                <button type="submit" class="btn-action primary">Register Faculty</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 4. ADD DEPARTMENT MODAL -->
+<div class="modal-overlay" id="addDeptModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Create Academic Department</h3>
+            <button class="modal-close" data-close-modal>&times;</button>
+        </div>
+        <form id="addDeptForm">
+            <div class="form-field" style="margin-bottom: 12px;">
+                <label for="newDeptCode">Department Code</label>
+                <input type="text" id="newDeptCode" placeholder="e.g. AI-DS, CIVIL" required>
+            </div>
+            <div class="form-field" style="margin-bottom: 12px;">
+                <label for="newDeptName">Department Name</label>
+                <input type="text" id="newDeptName" placeholder="e.g. Artificial Intelligence & Data Science" required>
+            </div>
+            <div class="form-field" style="margin-bottom: 16px;">
+                <label for="newDeptHod">HOD Name</label>
+                <input type="text" id="newDeptHod" placeholder="e.g. Dr. Priya Das">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" class="btn-action" data-close-modal>Cancel</button>
+                <button type="submit" class="btn-action primary">Create Department</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 5. ADD COURSE MODAL -->
+<div class="modal-overlay" id="addCourseModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Add New Curriculum Course</h3>
+            <button class="modal-close" data-close-modal>&times;</button>
+        </div>
+        <form id="addCourseForm">
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newCourseCode">Course Code</label>
+                    <input type="text" id="newCourseCode" placeholder="e.g. CS401" required>
+                </div>
+                <div class="form-field">
+                    <label for="newCourseCredits">Credits</label>
+                    <input type="number" id="newCourseCredits" value="4" min="1" max="6" required>
+                </div>
+            </div>
+            <div class="form-field" style="margin-bottom: 12px;">
+                <label for="newCourseTitle">Course Title</label>
+                <input type="text" id="newCourseTitle" placeholder="e.g. Machine Learning & Neural Networks" required>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="newCourseSem">Semester</label>
+                    <input type="number" id="newCourseSem" value="4" min="1" max="8" required>
+                </div>
+                <div class="form-field">
+                    <label for="newCourseFaculty">Assigned Faculty Name</label>
+                    <input type="text" id="newCourseFaculty" placeholder="e.g. Prof. Vikram Sen">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+                <button type="button" class="btn-action" data-close-modal>Cancel</button>
+                <button type="submit" class="btn-action primary">Create Course</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/master.js"></script>
+</body>
+</html>

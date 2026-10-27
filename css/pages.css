@@ -1,3 +1,5 @@
+@import url("theme.css");
+
 :root {
     --ink: #26221e;
     --paper: #efe1bc;
@@ -47,95 +49,145 @@ a {
 }
 
 /* =================================
-   PAGE APP
+   PAGE & DASHBOARD APP SHELL
 ================================= */
 
+.dashboard-shell,
 .page-app {
     min-height: 100vh;
     display: flex;
+    width: 100%;
+    background: #28231f;
+    position: relative;
 }
 
 /* =================================
-   SIDEBAR
+   SIDEBAR (Universal for all pages)
 ================================= */
 
+.sidebar,
 .page-sidebar {
-    width: 245px;
-
+    width: 250px;
+    min-width: 250px;
+    height: 100vh;
     position: fixed;
-    inset: 0 auto 0 0;
-
+    top: 0;
+    left: 0;
     z-index: 1000;
-
-    padding: 20px 14px;
-
+    padding: 18px 12px;
     display: flex;
     flex-direction: column;
-
-    background:
-        linear-gradient(
-            rgba(239,225,188,.98),
-            rgba(230,215,174,.98)
-        );
-
+    background: #f2e4c4;
     border-right: 3px solid var(--border);
-
     overflow-y: auto;
+    box-sizing: border-box;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.main-content,
+.page-main,
+.dashboard-main {
+    margin-left: 250px;
+    flex: 1;
+    min-height: 100vh;
+    padding: 24px 30px;
+    background: var(--paper-light);
+    box-sizing: border-box;
+    width: calc(100% - 250px);
+}
+
+.brand,
 .page-brand {
     display: flex;
     align-items: center;
     gap: 10px;
-
-    padding:
-        8px 9px 18px;
-
-    border-bottom:
-        2px dashed
-        rgba(38,34,30,.35);
+    padding: 8px 9px 18px;
+    border-bottom: 2px dashed rgba(38,34,30,.35);
 }
 
+.brand-mark,
 .page-brand-mark {
     width: 42px;
     height: 42px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: var(--ink);
     color: var(--paper);
-
     border-radius: 6px;
-
     font-size: 20px;
     font-weight: 900;
 }
 
-.page-brand strong {
+.brand strong,
+.page-brand strong,
+.brand-name {
     display: block;
-
     font-family: Georgia, serif;
     font-size: 19px;
+    font-weight: bold;
 }
 
-.page-brand span {
+.brand span,
+.page-brand span,
+.brand-tagline {
     display: block;
-
     margin-top: 2px;
-
     font-size: 9px;
     letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--muted);
 }
 
 /* =================================
    NAV
 ================================= */
 
+.sidebar-nav,
 .page-navigation {
     margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    list-style: none;
 }
+
+.page-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid transparent;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+}
+
+.page-nav-link:hover {
+    background: var(--paper-dark);
+    border-color: var(--border);
+    transform: translateX(2px);
+}
+
+.page-nav-link.active,
+.page-nav-link[aria-current="page"] {
+    background: var(--ink);
+    color: var(--paper-light);
+    border-color: var(--ink);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+}
+
+.page-nav-icon {
+    font-size: 15px;
+    width: 20px;
+    text-align: center;
+}
+
 
 .page-nav-title {
     margin:
@@ -1192,5 +1244,139 @@ a {
         display: none;
     }
 }
+
+/* ============================================================================
+   RESPONSIVE MOBILE SIDEBAR & LAYOUT (Pages, Notifications, Attendance, etc.)
+============================================================================ */
+@media (max-width: 900px) {
+    .dashboard-shell {
+        flex-direction: column !important;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 260px !important;
+        z-index: 1000 !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 4px 0 25px rgba(0,0,0,0.5) !important;
+    }
+
+    .sidebar.open {
+        transform: translateX(0) !important;
+    }
+
+    .page-main,
+    .main-shell,
+    .dashboard-main,
+    .content-area,
+    main {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 14px !important;
+    }
+
+    .mobile-header-bar {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--paper);
+        border-bottom: 2px solid var(--border);
+        padding: 10px 14px;
+        margin-bottom: 15px;
+        position: sticky;
+        top: 0;
+        z-index: 90;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+        cursor: pointer;
+        background: var(--paper-dark);
+        border: 2px solid var(--border);
+        box-shadow: 2px 2px 0 var(--border);
+        color: var(--ink);
+    }
+
+    /* Fix Notifications on small display */
+    .notification-summary {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+
+    .notification-toolbar {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    .notification-item {
+        padding: 14px !important;
+    }
+
+    .notification-title {
+        font-size: 16px !important;
+    }
+
+    .notification-top {
+        padding-right: 0 !important;
+    }
+
+    .smart-engine-head {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .engine-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .notification-summary {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ============================================================================
+   RESPONSIVE MOBILE SIDEBAR DRAWER (max-width: 900px)
+============================================================================ */
+@media (max-width: 900px) {
+    .sidebar,
+    .page-sidebar {
+        transform: translateX(-100%) !important;
+        box-shadow: none;
+        z-index: 10000;
+        width: 270px;
+    }
+
+    .sidebar.open,
+    .page-sidebar.open {
+        transform: translateX(0) !important;
+        box-shadow: 8px 0 25px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    .main-content,
+    .page-main,
+    .dashboard-main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 16px 14px !important;
+    }
+
+    #pageMenuBtn,
+    .mobile-menu-toggle {
+        display: inline-flex !important;
+    }
+}
+
+
 
 

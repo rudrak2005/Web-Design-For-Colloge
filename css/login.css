@@ -927,3 +927,192 @@ body {
     }
 
 }
+
+/* =========================
+   ROLE SELECTOR & DEMO GROUP
+========================= */
+.role-selector {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    background: rgba(41, 36, 31, 0.08);
+    padding: 4px;
+    border: 2px solid var(--ink);
+}
+
+.role-pill {
+    flex: 1;
+    padding: 8px 6px;
+    font-size: 11px;
+    font-family: inherit;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.role-pill:hover {
+    background: rgba(223, 180, 85, 0.3);
+}
+
+.role-pill.active {
+    background: var(--ink);
+    color: var(--paper-light);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.demo-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.demo-grid .demo-btn {
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.demo-btn-student {
+    border-left: 6px solid #6e8d76 !important;
+}
+
+.demo-btn-faculty {
+    border-left: 6px solid #dfb455 !important;
+}
+
+.demo-btn-master {
+    border-left: 6px solid #b94b42 !important;
+}
+
+.demo-grid .demo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 2px 3px 0 var(--ink);
+}
+
+/* =====================================
+   AUTH MODE TABS (Sign In vs Register)
+===================================== */
+.auth-mode-tabs {
+    display: flex;
+    margin-bottom: 16px;
+    border: 2px solid var(--ink);
+    background: rgba(41, 36, 31, 0.08);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.auth-tab:hover {
+    background: rgba(223, 180, 85, 0.35);
+}
+
+.auth-tab.active {
+    background: var(--ink);
+    color: var(--paper-light);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    .form-row-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+.form-group select {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+    border: 2px solid var(--ink);
+    background: var(--paper-light);
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--ink);
+    outline: none;
+}
+
+.form-group select:focus {
+    background: #fff;
+    border-color: #000;
+}
+
+.auth-switch-text {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: var(--ink);
+}
+
+.auth-switch-link {
+    background: none;
+    border: none;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #8b342e;
+    font-size: 12.5px;
+    margin-left: 5px;
+}
+
+.auth-switch-link:hover {
+    color: var(--ink);
+}
+
+/* ============================================================================
+   CLEAN & STATIC STYLES (No animations/motion)
+============================================================================ */
+.login-card {
+    opacity: 1;
+    transform: none;
+}
+
+.retro-intro {
+    opacity: 1;
+    transform: none;
+}
+
+.mini-card:hover {
+    box-shadow: 3px 3px 0 #28231f;
+}
+
+.role-pill:hover,
+.auth-tab:hover {
+    background: #e8ded2;
+}
+
+.submit-btn:hover {
+    box-shadow: 3px 3px 0 #000;
+}
+
+
+

@@ -22,15 +22,17 @@
         href="../css/dashboard.css"
     >
     <link
-    rel="stylesheet"
-    href="../css/dashboard-ai.css"
->
-
-<link
-    rel="stylesheet"
-    href="../css/bitai.css"
->
-
+        rel="stylesheet"
+        href="../css/dashboard-ai.css"
+    >
+    <link
+        rel="stylesheet"
+        href="../css/bitai.css"
+    >
+    <link
+        rel="stylesheet"
+        href="../css/theme.css"
+    >
 </head>
 
 
@@ -101,7 +103,7 @@
 
 
                 <a
-                    href="#"
+                    href="./dashboard.html"
                     class="nav-link active"
                 >
 
@@ -142,10 +144,10 @@
 <a
     href="./courses.html"
     data-page-link="Courses"
-    class="page-nav-link"
+    class="nav-link"
 >
-    <span class="page-nav-icon">▦</span>
-    Courses
+    <span class="nav-icon">▦</span>
+    <span>Courses</span>
 </a>
 
 <a
@@ -268,9 +270,9 @@
   <span>Notices & News</span>
 </a>
 
-<a href="#" class="nav-link">
-  <span class="nav-icon">!</span>
-  <span>Alerts</span>
+<a href="./notifications.html" data-page-link="Notifications" class="nav-link">
+  <span class="nav-icon">🔔</span>
+  <span>Notifications</span>
 </a>
 
                <a
@@ -312,16 +314,9 @@
     <span>Important Links</span>
 </a>
 
-
-
-
-
-
-
-
-
                 <a
-                    href="#"
+                    href="./profile.html#editSection"
+                    data-page-link="Settings"
                     class="nav-link"
                 >
 
@@ -431,21 +426,25 @@
 
                 <div class="topbar-right">
 
-                    <button
+                    <a
+                        href="./notifications.html"
                         class="top-icon"
                         title="Notifications"
+                        style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;"
                     >
                         🔔
                         <span class="notification-dot"></span>
-                    </button>
+                    </a>
 
 
-                    <button
+                    <a
+                        href="./notices.html"
                         class="top-icon"
-                        title="Messages"
+                        title="Messages & Notices"
+                        style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;"
                     >
                         ✉
-                    </button>
+                    </a>
 
 
                     <button
@@ -457,7 +456,12 @@
                     </button>
 
 
-                    <div class="profile-mini">
+                    <a
+                        href="./profile.html"
+                        class="profile-mini"
+                        title="View My Profile"
+                        style="text-decoration:none; color:inherit; display:flex; align-items:center; cursor:pointer;"
+                    >
 
                         <div class="profile-avatar">
                             R
@@ -475,7 +479,7 @@
 
                         </div>
 
-                    </div>
+                    </a>
 
                 </div>
 
@@ -884,7 +888,7 @@
 
                     <div class="quick-links">
 
-                        <a href="#" class="quick-link">
+                        <a href="./library.html" class="quick-link">
 
                             <span>
                                 📚
@@ -897,7 +901,7 @@
                         </a>
 
 
-                        <a href="#" class="quick-link">
+                        <a href="./profile.html#admitCard" class="quick-link">
 
                             <span>
                                 🎫
@@ -910,7 +914,7 @@
                         </a>
 
 
-                        <a href="#" class="quick-link">
+                        <a href="./placement.html" class="quick-link">
 
                             <span>
                                 💼
@@ -923,7 +927,7 @@
                         </a>
 
 
-                        <a href="#" class="quick-link">
+                        <a href="./results.html" class="quick-link">
 
                             <span>
                                 🏆
@@ -965,7 +969,7 @@
 
                             </div>
 
-                            <a href="#">
+                            <a href="./timetable.html">
                                 View All →
                             </a>
 
@@ -1087,7 +1091,7 @@
 
                             </div>
 
-                            <a href="#">
+                            <a href="./notices.html">
                                 View All →
                             </a>
 
@@ -1938,6 +1942,8 @@ document.addEventListener(
 <script src="../js/smart.js"></script>
 <script src="../js/bitai.js"></script>
 <script src="../js/dashboard-ai.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/api.js"></script>
 <script src="../js/dashboard.js"></script>
 </body>
 

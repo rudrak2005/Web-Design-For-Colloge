@@ -2,276 +2,406 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="BitCampus Smart Student Portal"
-    >
-
-    <title>BitCampus — Login</title>
-
-    <link
-        rel="stylesheet"
-        href="./css/login.css"
-    >
-
+    <meta name="description" content="BitCampus Portal - Student, Faculty & Master Authentication">
+    <title>BitCampus — Portal Access</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./css/theme.css">
 </head>
 
 <body>
+    <!-- Floating Theme Toggle for Login Page -->
+    <div style="position: fixed; top: 18px; right: 22px; z-index: 10000;">
+        <button id="themeBtn" class="top-icon theme-toggle-btn" title="Toggle Dark / Light Theme" style="padding: 8px 14px; font-size: 16px; background: var(--paper-light); border: 2px solid #28231f; box-shadow: 3px 3px 0 #28231f; cursor: pointer; border-radius: 4px; font-weight: bold; transition: transform 0.2s ease;">
+            🌙
+        </button>
+    </div>
 
     <main class="login-page">
 
-        <!-- LEFT SIDE -->
-
+        <!-- LEFT RETRO INTRO -->
         <section class="retro-intro">
 
             <div class="brand">
-
-                <div class="brand-mark">
-                    B
-                </div>
-
+                <div class="brand-mark">B</div>
                 <div>
                     <h1>BitCampus</h1>
-                    <span>Student Portal</span>
+                    <span>Unified Campus OS</span>
                 </div>
-
             </div>
 
-
             <div class="intro-content">
-
                 <span class="eyebrow">
-                    EST. 2026 • DIGITAL CAMPUS
+                    AUTHENTICATION & ROLE GATEWAY
                 </span>
 
                 <h2>
                     Learn.
-                    <span>Track.</span>
-                    Grow.
+                    <span>Manage.</span>
+                    Govern.
                 </h2>
 
                 <p>
-                    One place for your academics,
-                    attendance, courses, assignments,
-                    results and campus life.
+                    A unified digital portal connecting students, academic faculty, and department administration on a single, secure platform.
                 </p>
-
             </div>
 
-
-            <!-- RETRO CARDS -->
-
+            <!-- RETRO STATS CARDS -->
             <div class="mini-stats">
-
                 <div class="mini-card">
-                    <strong>82%</strong>
-                    <span>Attendance</span>
+                    <strong>100%</strong>
+                    <span>Live Cloud DB</span>
                 </div>
 
                 <div class="mini-card">
-                    <strong>8.2</strong>
-                    <span>CGPA</span>
+                    <strong>3</strong>
+                    <span>Portal Roles</span>
                 </div>
 
                 <div class="mini-card">
-                    <strong>12</strong>
-                    <span>Study Streak</span>
+                    <strong>RBAC</strong>
+                    <span>Security Active</span>
                 </div>
-
             </div>
-
 
             <div class="paper-note">
-                “Knowledge today,
-                possibilities tomorrow.”
+                “Discipline in academics, excellence in leadership.”
             </div>
 
-
             <div class="intro-footer">
-                LEARN • TRACK • GROW • BELONG
+                STUDENT • FACULTY • MASTER / HOD • SECURE
             </div>
 
         </section>
 
-
-        <!-- RIGHT SIDE -->
-
+        <!-- RIGHT FORM AREA -->
         <section class="login-area">
 
             <div class="login-card">
 
-                <div class="paper-label">
+                <!-- SIGN IN / REGISTER TABS -->
+                <div class="auth-mode-tabs">
+                    <button type="button" class="auth-tab active" id="tabSignIn">
+                        Sign In
+                    </button>
+                    <button type="button" class="auth-tab" id="tabRegister">
+                        Create Account
+                    </button>
+                </div>
+
+                <!-- ROLE SELECTOR PILLS -->
+                <div class="role-selector" id="roleSelector">
+                    <button type="button" class="role-pill active" data-role="student">🎓 Student</button>
+                    <button type="button" class="role-pill" data-role="faculty">👨‍🏫 Faculty</button>
+                    <button type="button" class="role-pill" data-role="master">👑 Master / HOD</button>
+                </div>
+
+                <div class="paper-label" id="portalLabel">
                     STUDENT ACCESS
                 </div>
 
                 <div class="login-heading">
-
-                    <h2>
+                    <h2 id="formHeading">
                         Welcome Back
                     </h2>
-
-                    <p>
-                        Sign in to continue to
-                        your campus.
+                    <p id="formSubheading">
+                        Sign in to continue to your academic workspace.
                     </p>
-
                 </div>
 
-
-                <form
-                    id="loginForm"
-                    novalidate
-                >
+                <!-- =========================================================
+                     FORM 1: SIGN IN FORM
+                ========================================================== -->
+                <form id="loginForm" novalidate>
 
                     <!-- EMAIL -->
-
                     <div class="form-group">
-
-                        <label for="email">
-                            Student Email
+                        <label for="email" id="emailLabel">
+                            Campus Email
                         </label>
-
                         <div class="input-box">
-
                             <span>✉</span>
-
                             <input
                                 type="email"
                                 id="email"
                                 placeholder="student@bitcampus.com"
                                 autocomplete="username"
+                                required
                             >
-
                         </div>
-
-                        <small
-                            id="emailError"
-                            class="error"
-                        ></small>
-
+                        <small id="emailError" class="error"></small>
                     </div>
 
-
                     <!-- PASSWORD -->
-
                     <div class="form-group">
-
                         <div class="password-head">
-
-                            <label for="password">
-                                Password
-                            </label>
-
-                            <button
-                                type="button"
-                                id="forgotBtn"
-                            >
-                                Forgot?
-                            </button>
-
+                            <label for="password">Password</label>
+                            <button type="button" id="forgotBtn">Forgot?</button>
                         </div>
-
                         <div class="input-box">
-
                             <span>🔒</span>
-
                             <input
                                 type="password"
                                 id="password"
-                                placeholder="Enter password"
+                                placeholder="Enter your password"
                                 autocomplete="current-password"
+                                required
                             >
-
-                            <button
-                                type="button"
-                                id="togglePassword"
-                                class="eye-btn"
-                            >
-                                👁
-                            </button>
-
+                            <button type="button" id="togglePassword" class="eye-btn">👁</button>
                         </div>
-
-                        <small
-                            id="passwordError"
-                            class="error"
-                        ></small>
-
+                        <small id="passwordError" class="error"></small>
                     </div>
-
 
                     <!-- REMEMBER -->
-
                     <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="remember"
-                        >
-
-                        <span>
-                            Remember me
-                        </span>
-
+                        <input type="checkbox" id="remember" checked>
+                        <span>Keep me signed in</span>
                     </label>
 
-
                     <!-- MESSAGE -->
+                    <div id="loginMessage" class="message"></div>
 
-                    <div
-                        id="message"
-                        class="message"
-                    ></div>
-
-
-                    <!-- LOGIN -->
-
-                    <button
-                        type="submit"
-                        id="loginBtn"
-                        class="login-btn"
-                    >
-
-                        <span id="loginText">
-                            LOGIN →
-                        </span>
-
-                        <span
-                            id="loginLoader"
-                            class="button-loader"
-                        ></span>
-
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" id="loginBtn" class="login-btn">
+                        <span id="loginText">SIGN IN →</span>
+                        <span id="loginLoader" class="button-loader"></span>
                     </button>
 
-
-                    <div class="or">
-                        <span>OR</span>
+                    <div class="auth-switch-text">
+                        Don't have an account?
+                        <button type="button" class="auth-switch-link" id="switchToRegisterBtn">
+                            Register New Account
+                        </button>
                     </div>
-
-
-                    <!-- DEMO -->
-
-                    <button
-                        type="button"
-                        id="demoBtn"
-                        class="demo-btn"
-                    >
-                        Continue with Demo Account
-                    </button>
 
                 </form>
 
+                <!-- =========================================================
+                     FORM 2: REGISTRATION FORM (Hidden by default)
+                ========================================================== -->
+                <form id="registerForm" style="display: none;" novalidate>
+
+                    <!-- FULL NAME -->
+                    <div class="form-group">
+                        <label for="regFullName">Full Name</label>
+                        <div class="input-box">
+                            <span>👤</span>
+                            <input
+                                type="text"
+                                id="regFullName"
+                                placeholder="e.g. Rudraksh Kumar"
+                                required
+                            >
+                        </div>
+                        <small id="regNameError" class="error"></small>
+                    </div>
+
+                    <!-- EMAIL & PHONE -->
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="regEmail">Email Address</label>
+                            <div class="input-box">
+                                <span>✉</span>
+                                <input
+                                    type="email"
+                                    id="regEmail"
+                                    placeholder="you@bitcampus.com"
+                                    required
+                                >
+                            </div>
+                            <small id="regEmailError" class="error"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regPhone">Phone (Optional)</label>
+                            <div class="input-box">
+                                <span>📞</span>
+                                <input
+                                    type="tel"
+                                    id="regPhone"
+                                    placeholder="+91 9876543210"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STUDENT SPECIFIC FIELDS -->
+                    <div id="studentFieldsContainer">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="regRollNo">Roll / Enrollment No</label>
+                                <div class="input-box">
+                                    <span>🆔</span>
+                                    <input
+                                        type="text"
+                                        id="regRollNo"
+                                        placeholder="e.g. BIT-2024-CS-042"
+                                    >
+                                </div>
+                                <small id="regRollError" class="error"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regStudentDept">Department</label>
+                                <select id="regStudentDept">
+                                    <option value="CSE">Computer Science & Engineering</option>
+                                    <option value="ECE">Electronics & Communication</option>
+                                    <option value="MECH">Mechanical Engineering</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regSemester">Semester</label>
+                            <select id="regSemester">
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3" selected>Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- FACULTY SPECIFIC FIELDS -->
+                    <div id="facultyFieldsContainer" style="display: none;">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="regEmpId">Employee ID</label>
+                                <div class="input-box">
+                                    <span>👔</span>
+                                    <input
+                                        type="text"
+                                        id="regEmpId"
+                                        placeholder="e.g. FAC-CSE-105"
+                                    >
+                                </div>
+                                <small id="regEmpError" class="error"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regFacultyDept">Department</label>
+                                <select id="regFacultyDept">
+                                    <option value="CSE">Computer Science & Engineering</option>
+                                    <option value="ECE">Electronics & Communication</option>
+                                    <option value="MECH">Mechanical Engineering</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="regDesignation">Designation</label>
+                                <select id="regDesignation">
+                                    <option value="Assistant Professor">Assistant Professor</option>
+                                    <option value="Associate Professor">Associate Professor</option>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Visiting Lecturer">Visiting Lecturer</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regSpecialization">Specialization</label>
+                                <div class="input-box">
+                                    <span>🔬</span>
+                                    <input
+                                        type="text"
+                                        id="regSpecialization"
+                                        placeholder="e.g. Artificial Intelligence"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MASTER / HOD SPECIFIC FIELDS -->
+                    <div id="masterFieldsContainer" style="display: none;">
+                        <div class="form-group">
+                            <label for="regMasterDept">Governing Department</label>
+                            <select id="regMasterDept">
+                                <option value="CSE">Computer Science & Engineering</option>
+                                <option value="ECE">Electronics & Communication</option>
+                                <option value="MECH">Mechanical Engineering</option>
+                                <option value="ALL">All Departments (Dean / Director)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regMasterCode">Institutional Security Passcode</label>
+                            <div class="input-box">
+                                <span>🔑</span>
+                                <input
+                                    type="password"
+                                    id="regMasterCode"
+                                    placeholder="Enter administrative master passcode"
+                                >
+                            </div>
+                            <small style="font-size: 11px; color: var(--ink-light); margin-top: 3px; display: block;">
+                                Passcode required to authorize Master / HOD privileges (Default: <code>BITCAMPUS_MASTER_2026</code>).
+                            </small>
+                            <small id="regMasterError" class="error"></small>
+                        </div>
+                    </div>
+
+                    <!-- PASSWORDS -->
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="regPassword">Password (min 6)</label>
+                            <div class="input-box">
+                                <span>🔒</span>
+                                <input
+                                    type="password"
+                                    id="regPassword"
+                                    placeholder="Create password"
+                                    required
+                                >
+                            </div>
+                            <small id="regPassError" class="error"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regConfirmPassword">Confirm Password</label>
+                            <div class="input-box">
+                                <span>🔒</span>
+                                <input
+                                    type="password"
+                                    id="regConfirmPassword"
+                                    placeholder="Re-enter password"
+                                    required
+                                >
+                            </div>
+                            <small id="regConfirmError" class="error"></small>
+                        </div>
+                    </div>
+
+                    <!-- MESSAGE -->
+                    <div id="registerMessage" class="message"></div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" id="registerBtn" class="login-btn">
+                        <span id="registerText">CREATE ACCOUNT →</span>
+                        <span id="registerLoader" class="button-loader"></span>
+                    </button>
+
+                    <div class="auth-switch-text">
+                        Already have an account?
+                        <button type="button" class="auth-switch-link" id="switchToSignInBtn">
+                            Sign In Here
+                        </button>
+                    </div>
+
+                </form>
 
                 <div class="security">
-                    🔒 Temporary demo authentication
+                    🔒 Connected to Supabase Cloud PostgreSQL • Protected with Bcrypt & JWT
                 </div>
 
                 <div class="login-footer">
-                    BitCampus Student Portal • 2026
+                    BitCampus Unified Portal • Student • Faculty • Master / HOD
                 </div>
 
             </div>
@@ -280,6 +410,8 @@
 
     </main>
 
+    <script src="./js/theme.js"></script>
+    <script src="./js/api.js"></script>
     <script src="./js/auth.js"></script>
 
 </body>
