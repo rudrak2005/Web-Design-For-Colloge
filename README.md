@@ -787,12 +787,20 @@ git push origin main
 
 ## Deployment
 
-BitCampus is currently a static frontend project and can be deployed using static hosting such as:
+The frontend can be deployed as a static site, with the Express API hosted separately:
 
 - Vercel
 - Netlify
 - GitHub Pages
 - Cloudflare Pages
+
+### Vercel frontend with Render API
+
+The root `vercel.json` proxies `/api/*` and `/health` requests to the Render service at `https://web-design-for-colloge.onrender.com`. This lets the frontend keep using same-origin API URLs while the Express server runs on Render.
+
+In Vercel, import the repository, use the repository root as the Root Directory, and choose the **Other** framework preset. No build command is required for the static HTML/CSS/JavaScript frontend. After deployment, verify `/` and `/api/health`.
+
+If the Render service URL changes, update the proxy destinations in `vercel.json` and redeploy Vercel.
 
 ### Current Vercel Deployment
 
