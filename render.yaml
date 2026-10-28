@@ -3,6 +3,7 @@ services:
     name: bitcampus-portal
     runtime: node
     plan: free
+    rootDir: backend
     buildCommand: npm install
     startCommand: npm start
     envVars:

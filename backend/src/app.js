@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-const { isConfigured } = require('./config/supabase');
+const { isDatabaseConfigured } = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/auth.routes');
@@ -78,7 +78,7 @@ app.get('/health', (req, res) => {
         service: 'BitCampus Academic Portal API',
         version: '1.0.0',
         timestamp: new Date().toISOString(),
-        database: isConfigured ? 'Supabase PostgreSQL Cloud' : 'In-Memory Demo Engine',
+        database: isDatabaseConfigured ? 'Supabase PostgreSQL configured' : 'DATABASE_URL not configured',
         rolesSupported: ['student', 'faculty', 'master']
     });
 });
@@ -87,7 +87,7 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'online',
         service: 'BitCampus API',
-        database: isConfigured ? 'Supabase PostgreSQL' : 'In-Memory Demo Engine'
+        database: isDatabaseConfigured ? 'Supabase PostgreSQL configured' : 'DATABASE_URL not configured'
     });
 });
 
@@ -97,9 +97,34 @@ app.use('/api/student', studentRoutes);
 app.use('/api/faculty', facultyRoutes);
 app.use('/api/master', masterRoutes);
 
-// Serve Frontend Static Files (from project root)
-const frontendPath = path.join(__dirname, '..');
-app.use(express.static(frontendPath));
+// Root Endpoint (Ideal for Render service health checks and status)
+app.get('/', (req, res) => {
+    res.json({
+        status: 'online',
+        service: 'BitCampus Backend API',
+        version: '1.0.0',
+        timestamp: new Date().toISOString(),
+        database: isDatabaseConfigured ? 'Supabase PostgreSQL configured' : 'DATABASE_URL not configured',
+        endpoints: {
+            health: '/health',
+            auth: '/api/auth',
+            student: '/api/student',
+            faculty: '/api/faculty',
+            master: '/api/master'
+        }
+    });
+});
+
+// Optionally serve Frontend Static Files if frontend folder is present locally
+const fs = require('fs');
+const siblingFrontendPath = path.join(__dirname, '../../frontend');
+const localFrontendPath = path.join(__dirname, '../frontend');
+
+if (fs.existsSync(siblingFrontendPath)) {
+    app.use(express.static(siblingFrontendPath));
+} else if (fs.existsSync(localFrontendPath)) {
+    app.use(express.static(localFrontendPath));
+}
 
 // API 404 Fallback
 app.all('/api/*', (req, res) => {
@@ -119,7 +144,7 @@ if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, async () => {
         console.log(`=======================================================`);
         console.log(`🚀 BitCampus Server is running on http://localhost:${PORT}`);
-        console.log(`📡 Database: Supabase PostgreSQL (Connected)`);
+        console.log(`📡 Database: ${isDatabaseConfigured ? 'PostgreSQL connection string configured' : 'DATABASE_URL is not configured'}`);
         console.log(`🎓 Student Portal: http://localhost:${PORT}/pages/dashboard.html`);
         console.log(`👨‍🏫 Faculty Portal: http://localhost:${PORT}/pages/faculty-dashboard.html`);
         console.log(`👑 Master / HOD Portal: http://localhost:${PORT}/pages/master-dashboard.html`);
@@ -134,4 +159,3 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 module.exports = app;
-

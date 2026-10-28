@@ -1,35 +1,22 @@
 {
-  "name": "bitcampus-portal",
+  "name": "bitcampus-workspace",
   "version": "1.0.0",
-  "description": "BitCampus - Student, Faculty, and Master/HOD Unified Campus Portal",
-  "main": "src/app.js",
+  "private": true,
+  "description": "BitCampus Workspace (Frontend for Vercel, Backend for Render)",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "npm start --prefix backend",
+    "dev": "npm run dev --prefix backend",
+    "backend:dev": "npm run dev --prefix backend",
+    "backend:start": "npm start --prefix backend",
+    "frontend:serve": "npx serve frontend -l 5000",
+    "test:backend": "npm run test:api --prefix backend"
   },
   "keywords": [
     "bitcampus",
-    "student-portal",
-    "faculty-portal",
-    "admin-portal",
-    "supabase",
-    "express"
+    "monorepo",
+    "vercel",
+    "render"
   ],
   "author": "BitCampus Team",
-  "license": "ISC",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "express-rate-limit": "^7.5.0",
-    "helmet": "^8.0.0",
-    "jsonwebtoken": "^9.0.3",
-    "morgan": "^1.10.0",
-    "pg": "^8.23.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
-  }
+  "license": "ISC"
 }

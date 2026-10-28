@@ -3,18 +3,27 @@
  * Handles Bearer token, role guards, error alerts, and unified fetch calls
  */
 
+// Backend API Configuration
+// When on Vercel, requests to /api/* proxy automatically to Render via vercel.json rewrites.
+// You can also override the backend URL globally by setting window.BITCAMPUS_API_URL.
+const DEFAULT_RENDER_API = 'https://web-design-for-colloge.onrender.com';
+
 const API_CONFIG = {
     baseURL: (typeof window !== 'undefined' && window.location.origin) ? window.location.origin : 'http://localhost:3000'
 };
 
-// Handle local live servers, file preview, or explicit backend URL
 if (typeof window !== 'undefined') {
     if (window.BITCAMPUS_API_URL) {
         API_CONFIG.baseURL = window.BITCAMPUS_API_URL.replace(/\/$/, '');
-    } else if (window.location.protocol === 'file:' || window.location.port === '5500' || window.location.port === '5501') {
+    } else if (
+        window.location.protocol === 'file:' || 
+        (window.location.hostname === 'localhost' && window.location.port !== '3000') ||
+        (window.location.hostname === '127.0.0.1' && window.location.port !== '3000')
+    ) {
+        // Local decoupled frontend development (e.g. port 5000, 5500, 5173) connecting to local backend
         API_CONFIG.baseURL = 'http://localhost:3000';
     } else {
-        // Same-origin relative host (works on Render, localhost:3000, and custom domains)
+        // When deployed on Vercel, relative origin routes /api/* to Render via vercel.json rewrites
         API_CONFIG.baseURL = window.location.origin;
     }
 }

@@ -23,7 +23,7 @@ if (isConfigured) {
         } else {
             supabaseAdminClient = supabaseClient;
         }
-        console.log('✅ [Supabase] Connected successfully to Cloud PostgreSQL:', supabaseUrl);
+        console.log('✅ [Supabase] Client configured for project:', supabaseUrl);
     } catch (err) {
         console.error('⚠️ [Supabase] Connection error:', err.message);
     }

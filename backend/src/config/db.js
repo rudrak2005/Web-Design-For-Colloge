@@ -2,10 +2,10 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-const connectionString = process.env.DATABASE_URL || process.env.SUPABASE_SECRET_KEY;
+const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
-    connectionString,
+    ...(connectionString ? { connectionString } : {}),
     ssl: {
         rejectUnauthorized: false
     },
@@ -18,10 +18,17 @@ pool.on('error', (err) => {
     console.error('Unexpected database client error on idle client:', err.message);
 });
 
+function assertDatabaseConfigured() {
+    if (!connectionString) {
+        throw new Error('DATABASE_URL is not configured. Set it to the Supabase PostgreSQL connection string; do not use the Supabase API secret key.');
+    }
+}
+
 /**
  * Initialize PostgreSQL tables if they don't exist yet
  */
 async function initDb() {
+    assertDatabaseConfigured();
     const client = await pool.connect();
     try {
         console.log('🔄 Initializing Database schema on Supabase PostgreSQL...');
@@ -229,15 +236,19 @@ async function initDb() {
         }
 
         console.log('✅ Database schema and records initialized successfully on Supabase PostgreSQL!');
-    } catch (err) {
-        console.error('❌ Database initialization error:', err.message);
     } finally {
         client.release();
     }
 }
 
+function query(text, params) {
+    assertDatabaseConfigured();
+    return pool.query(text, params);
+}
+
 module.exports = {
     pool,
-    query: (text, params) => pool.query(text, params),
+    query,
+    isDatabaseConfigured: Boolean(connectionString),
     initDb
 };

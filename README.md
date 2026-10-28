@@ -794,13 +794,28 @@ The frontend can be deployed as a static site, with the Express API hosted separ
 - GitHub Pages
 - Cloudflare Pages
 
-### Vercel frontend with Render API
+### Decoupled Deployment: Frontend on Vercel & Backend on Render
 
-The root `vercel.json` proxies `/api/*` and `/health` requests to the Render service at `https://web-design-for-colloge.onrender.com`. This lets the frontend keep using same-origin API URLs while the Express server runs on Render.
+The project is structured into two clean directories:
+- **`frontend/`**: Static client portal (HTML, CSS, Vanilla JS) ready for **Vercel**.
+- **`backend/`**: Node.js/Express API connected to Supabase PostgreSQL ready for **Render**.
 
-In Vercel, import the repository, use the repository root as the Root Directory, and choose the **Other** framework preset. No build command is required for the static HTML/CSS/JavaScript frontend. After deployment, verify `/` and `/api/health`.
+#### 1. Deploy Frontend on Vercel
+1. Import repository on [Vercel](https://vercel.com).
+2. Set **Root Directory** to `frontend`.
+3. Framework Preset: **Other**.
+4. Deploy! `frontend/vercel.json` automatically proxies `/api/*` and `/health` requests to Render at `https://web-design-for-colloge.onrender.com`.
 
-If the Render service URL changes, update the proxy destinations in `vercel.json` and redeploy Vercel.
+#### 2. Deploy Backend on Render
+1. Create a **Web Service** on [Render](https://render.com).
+2. Set **Root Directory** to `backend`.
+3. Build Command: `npm install`, Start Command: `npm start`.
+4. Add Environment Variables:
+   - `DATABASE_URL`: Supabase PostgreSQL **Session pooler** connection string (IPv4).
+   - `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`
+   - `JWT_SECRET`, `MASTER_CODE`
+   - `FRONTEND_ORIGINS`: `*` (or your Vercel URL)
+5. Deploy! Health endpoint available at `/health` and status at `/`.
 
 ### Current Vercel Deployment
 
