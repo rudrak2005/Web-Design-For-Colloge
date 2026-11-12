@@ -23,7 +23,7 @@ This is the **main BitCampus demo link** recommended for project presentations, 
 
 **Alternate Vercel deployment:**  
 
-https://web-design-for-colloge.vercel.app
+
 
 This deployment can be used as a **backup/alternate preview** when the primary demo is unavailable or when comparing deployments.
 
